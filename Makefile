@@ -5,34 +5,43 @@
 
 NAME = minirt
 
+SRC_DIR = src/
+SRC = $(addprefix $(SRC_DIR), main.c camera.c)
+
 LIBFT = libft/libft.a
-LIBFTDIR = ./libft
-LIBMLXDIR = ./minilibx-linux
-SRC = main.c events.c draw.c
-OBJ = $(SRC:%.c=%.o)
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+MLX42 = MLX42/build/libmlx42.a
+
+OBJ_DIR = obj/
+OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRC:.c=.o)))
+
+CFLAGS = -Wall -Wextra -Werror -I includes/ -I MLX42/include -I . -Ofast
+
+MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFTDIR) -lft -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+$(NAME): $(OBJ_DIR) $(OBJ) $(MLX42) $(LIBFT)
+	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
 
-#For linux - Have libmlx.a in LIBMLXDIR, and xorg, libxect-dev and libbsd-dev installed.
-linux: $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFTDIR) -lft -L$(LIBMLXDIR) -lmlx -lX11 -lXext -o $(NAME)
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
+
+$(MLX42):
+	cmake MLX42/ -B MLX42/build && make -C MLX42/build -j4
 
 $(LIBFT):
-	make -C $(LIBFTDIR)
+	make -C libft/
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	cc $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf *.o
-	@make -C $(LIBFTDIR) clean
+	rm -rf $(OBJ_DIR)
+	rm -rf MLX42/build
 
 fclean: clean
-	@rm -f $(NAME)
-	@rm -f $(LIBFT)
-	
+	rm -rf $(NAME)
+
 re: fclean all
 
 .phony:: all clean fclean re
