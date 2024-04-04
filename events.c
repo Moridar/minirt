@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/04 13:49:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:08:51 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,5 @@ int	mouse_hook(int button, int x, int y, t_data *data)
 		ft_printf("Mouse 5 clicked\n");
 	if (button == 4)
 		ft_printf("Mouse 4 clicked\n");
-	return (0);
-}
-
-int	render_next_frame(t_data *data)
-{
-	draw(data);
 	return (0);
 }

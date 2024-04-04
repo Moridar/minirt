@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/04 14:02:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:24:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,14 @@ static void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 static void	set_pixel(t_data *data, int x, int y)
 {
 	int	color;
+	int	red;
+	int	green;
+	int	blue;
 
-	color = 0xFFFFFF;
+	red = x * 255 / data->width;
+	green = y * 255 / data->height;
+	blue = 0;
+	color = (red << 16) + (green << 8) + blue;
 	if (x >= 0 && x < data->width && y >= 0 && y < data->height)
 		my_mlx_pixel_put(data, x, y, color);
 }

@@ -43,7 +43,6 @@ enum
 void	draw(t_data *data);
 int		keydown(int keycode, t_data *data);
 int		mouse_hook(int button, int x, int y, t_data *data);
-int		render_next_frame(t_data *data);
 int		destroy(t_data *data);
 
 #endif

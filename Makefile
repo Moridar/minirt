@@ -8,7 +8,7 @@ NAME = minirt
 LIBFT = libft/libft.a
 LIBFTDIR = ./libft
 LIBMLXDIR = ./minilibx-linux
-SRC = main.c events.c set.c
+SRC = main.c events.c draw.c
 OBJ = $(SRC:%.c=%.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror

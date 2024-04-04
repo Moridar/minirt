@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/04 13:49:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:33:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	print_msg(int msgno)
 	return (msgno);
 }
 
-static void	f_init(t_data *data)
+static void	data_init(t_data *data)
 {
 	if (!data)
 		exit(print_msg(4));
@@ -37,8 +37,6 @@ static void	f_init(t_data *data)
 	mlx_hook(data->win, ON_DESTROY, 0, destroy, data);
 	mlx_hook(data->win, ON_KEYDOWN, 0, keydown, data);
 	mlx_mouse_hook(data->win, mouse_hook, data);
-	mlx_loop_hook(data->mlx, render_next_frame, data);
-	print_msg(3);
 }
 
 int	main(int argc, char *argv[])
@@ -47,7 +45,8 @@ int	main(int argc, char *argv[])
 
 	if (argc && argv[0])
 		ft_printf("MiniRT\n");
-	f_init(&data);
+	data_init(&data);
+	draw(&data);
 	mlx_loop(data.mlx);
-	return (print_msg(1));
+	return (0);
 }
