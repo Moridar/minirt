@@ -13,7 +13,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "minilibx-linux/mlx.h"
 # include "libft/libft.h"
 
 typedef struct s_data
@@ -29,7 +28,7 @@ typedef struct s_data
 	int		height;
 }				t_data;
 
-enum
+enum keys
 {
 	ON_KEYDOWN = 2,
 	ON_KEYUP = 3,
