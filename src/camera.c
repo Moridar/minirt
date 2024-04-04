@@ -6,19 +6,12 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/04 19:52:45 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/04 19:56:50 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-typedef struct s_camera
-{
-	int width;
-	int height;
-	float distance;
-	t_ray *rays;
-}	t_camera;
+#include "libft/libft.h"
+#include <stdio.h>
 
 typedef struct s_vector3
 {
@@ -33,6 +26,13 @@ typedef struct s_ray
 	t_vector3 dir;
 } t_ray;
 
+typedef struct s_camera
+{
+	int width;
+	int height;
+	float distance;
+	t_ray *rays;
+}	t_camera;
 
 t_ray *create_rays(int width, int height, float distance)
 {
@@ -41,6 +41,7 @@ t_ray *create_rays(int width, int height, float distance)
 	int y;
 
 	rays = ft_calloc(width * height, sizeof(t_ray));
+	y = 0;
 	while (y < height)
 	{
 		x = 0;
