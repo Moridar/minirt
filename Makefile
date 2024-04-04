@@ -18,7 +18,8 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFTDIR) -lft -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
-bsyva: $(OBJ) $(LIBFT)
+#For linux - Have libmlx.a in LIBMLXDIR, and xorg, libxect-dev and libbsd-dev installed.
+linux: $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFTDIR) -lft -L$(LIBMLXDIR) -lmlx -lX11 -lXext -o $(NAME)
 
 $(LIBFT):
