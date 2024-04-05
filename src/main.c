@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/05 15:21:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:39:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	data_init(t_data *data)
 		exit(print_msg(3));
 	data->width = 800;
 	data->height = 600;
-	data->mlx = mlx_init(data->width, data->height, "MiniRT", 0);
+	data->mlx = mlx_init(data->width, data->height, "MiniRT", 1);
 	if (!data->mlx)
 		exit(print_msg(4));
 	data->img = mlx_new_image(data->mlx, data->width, data->height);

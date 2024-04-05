@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/05 15:16:06 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:42:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ static void	set_pixel(t_data *data, int x, int y)
 	red = x * 255 / data->width;
 	green = y * 255 / data->height;
 	blue = 0;
-	color = (red << 16) + (green << 8) + blue;
-	if (x >= 0 && x < data->width && y >= 0 && y < data->height)
-		mlx_put_pixel(data->img, x, y, color);
+	color = (red << 24) + (green << 16) + (blue << 8) + 255;
+	mlx_put_pixel(data->img, x, y, color);
 }
 
 void	draw(t_data *data)
@@ -33,11 +32,11 @@ void	draw(t_data *data)
 	int		y;
 
 	x = -1;
+	mlx_image_to_window(data->mlx, data->img, 0, 0);
 	while (++x < data->width)
 	{
 		y = -1;
 		while (++y < data->height)
 			set_pixel(data, x, y);
 	}
-	mlx_image_to_window(data->mlx, data->img, 0, 0);
 }
