@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/04 19:56:50 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/05 12:01:36 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef struct s_vector3
 	float y;
 	float z;
 } t_vector3;
-
 
 typedef struct s_ray
 {
@@ -56,14 +55,13 @@ t_ray *create_rays(int width, int height, float distance)
 	return (rays);
 }
 
-t_camera *create_camera(int width, int height, float distance)
+t_camera create_camera(int width, int height, float distance)
 {
-	t_camera *cam;
+	t_camera cam;
 
-	cam = ft_calloc(1, sizeof(t_camera));
-	cam->distance = distance;
-	cam->width = width;
-	cam->height = height;
-	cam->rays = create_rays(width, height, distance);
+	cam.distance = distance;
+	cam.width = width;
+	cam.height = height;
+	cam.rays = create_rays(width, height, distance);
 	return (cam);
 }
