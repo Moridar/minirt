@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 01:43:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:52:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	testdata_init(t_data *d)
 	ft_printf("light created\n");
 	sphere = create_sphere((t_vector3){10, 10, 0}, 2, 0xFF0000);
 	ft_printf("sphere created\n");
-	add_hitable(d->hitables, sphere);
+	add_hitable(&d->hitables, sphere);
 	ft_printf("sphere added\n");
 }
 

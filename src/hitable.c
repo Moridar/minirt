@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 01:43:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:51:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, int diameter, int hei
 	return (hit);
 }
 
-void	add_hitable(t_hitable *list, t_hitable hit)
+void	add_hitable(t_hitable **list, t_hitable hit)
 {
 	t_hitable	*new;
 	t_hitable	*tmp;
 
 	new = ft_calloc(1, sizeof(t_hitable));
 	*new = hit;
-	if (!list)
+	if (!*list)
 	{
-		list = new;
+		*list = new;
 		return ;
 	}
-	tmp = list;
+	tmp = *list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;

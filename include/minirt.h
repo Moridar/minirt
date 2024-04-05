@@ -81,7 +81,7 @@ typedef struct s_data
 t_camera	create_camera(t_data *data, t_vector3 pos, t_vector3 normal, int FOV);
 t_ambient	create_ambient(double brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, double brightness);
-void		add_hitable(t_hitable *list, t_hitable hit);
+void		add_hitable(t_hitable **list, t_hitable hit);
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
 t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, int diameter, int height, unsigned int color);
