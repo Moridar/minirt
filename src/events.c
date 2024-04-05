@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 01:33:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 02:09:29 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	destroy(t_data *data)
 {
 	t_hitable	*tmp;
 
+	if (!data)
+		exit(1);
 	while (data->hitables)
 	{
 		tmp = data->hitables;
@@ -24,8 +26,6 @@ int	destroy(t_data *data)
 	}
 	if (data->camera.rays)
 		free(data->camera.rays);
-	if (!data)
-		exit(1);
 	if (data->mlx)
 		mlx_terminate(data->mlx);
 	exit(0);

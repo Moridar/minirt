@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 01:52:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 02:09:46 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	data_init(t_data *data)
 	data->width = 800;
 	data->height = 600;
 	data->hitables = NULL;
+	data->camera.rays = NULL;
 	data->mlx = mlx_init(data->width, data->height, "MiniRT", 1);
 	if (!data->mlx)
 		exit(print_msg(4));
