@@ -5,7 +5,7 @@
 
 NAME = minirt
 
-SRCS = main.c camera.c draw.c events.c
+SRCS = main.c camera.c draw.c events.c hitable.c light.c
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRCS))
 
@@ -16,7 +16,7 @@ MLX42 = MLX42/build/libmlx42.a
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
 
-CFLAGS = -Wall -Wextra -Werror -I MLX42/include/ -I libft/ -I include/
+CFLAGS = -Wall -Wextra -Werror -IMLX42/include -Ilibft -Iinclude
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm  

@@ -6,17 +6,28 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/05 15:54:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:33:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include <minirt.h>
 
 int	destroy(t_data *data)
 {
+	t_hitable	*tmp;
+
+	while (data->hitables)
+	{
+		tmp = data->hitables;
+		data->hitables = data->hitables->next;
+		free(tmp);
+	}
+	if (data->camera.rays)
+		free(data->camera.rays);
 	if (!data)
 		exit(1);
-	mlx_terminate(data->mlx);
+	if (data->mlx)
+		mlx_terminate(data->mlx);
 	exit(0);
 	return (0);
 }

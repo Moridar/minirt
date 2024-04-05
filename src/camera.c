@@ -6,39 +6,18 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/05 15:52:30 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:34:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include <stdio.h>
 
-typedef struct s_vector3
+t_ray	*create_rays(int width, int height, float distance)
 {
-	float x;
-	float y;
-	float z;
-} t_vector3;
-
-
-typedef struct s_ray
-{
-	t_vector3 dir;
-} t_ray;
-
-typedef struct s_camera
-{
-	int width;
-	int height;
-	float distance;
-	t_ray *rays;
-}	t_camera;
-
-t_ray *create_rays(int width, int height, float distance)
-{
-	t_ray *rays;
-	int x;
-	int y;
+	t_ray	*rays;
+	int		x;
+	int		y;
 
 	rays = ft_calloc(width * height, sizeof(t_ray));
 	y = 0;
@@ -48,22 +27,22 @@ t_ray *create_rays(int width, int height, float distance)
 		while (x < width)
 		{
 			rays[y * width + x].dir = (t_vector3){x - width / 2.0f, y - height / 2.0f, distance};
-			printf("%f %f %f\n", x - width / 2.0f, y - height / 2.0f, distance);
+			//printf("%f %f %f\n", x - width / 2.0f, y - height / 2.0f, distance);
 			x++;
 		}
 		y++;
 	}
+	printf("rays created\n");
 	return (rays);
 }
 
-t_camera *create_camera(int width, int height, float distance)
+t_camera	create_camera(t_data *data, t_vector3 pos, t_vector3 normal, int FOV)
 {
-	t_camera *cam;
+	t_camera	camera;
 
-	cam = ft_calloc(1, sizeof(t_camera));
-	cam->distance = distance;
-	cam->width = width;
-	cam->height = height;
-	cam->rays = create_rays(width, height, distance);
-	return (cam);
+	camera.pos = pos;
+	camera.normal = normal;
+	camera.degree = FOV;
+	camera.rays = create_rays(data->width, data->height, 1.0f);
+	return (camera);
 }
