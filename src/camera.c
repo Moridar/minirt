@@ -6,11 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/05 14:07:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:52:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
+#include "minirt.h"
 #include <stdio.h>
 
 typedef struct s_vector3

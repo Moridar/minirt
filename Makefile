@@ -16,10 +16,10 @@ MLX42 = MLX42/build/libmlx42.a
 OBJ_DIR = obj/
 OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
 
-CFLAGS = -Wall -Wextra -Werror -I MLX42/include/
+CFLAGS = -Wall -Wextra -Werror -I MLX42/include/ -I libft/ -I include/
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
-WSLFLAGS = -L$(LIBFTDIR) -lft -Iinclude -ldl -lglfw -pthread -lm  
+WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm  
 
 all: $(NAME)
 
