@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 01:36:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:43:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	testdata_init(t_data *d)
 
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 1}, 90);
 	ft_printf("camera created\n");
-	d->ambient = create_ambient(0.2);
+	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
 	ft_printf("ambient created\n");
 	d->light = create_light((t_vector3){0, 0, 0}, 0.8);
 	ft_printf("light created\n");

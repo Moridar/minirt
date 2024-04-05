@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 01:32:22 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 01:43:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_hitable	create_sphere(t_vector3 pos, float diameter, int color)
+t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color)
 {
 	t_hitable	hit;
 
@@ -24,7 +24,7 @@ t_hitable	create_sphere(t_vector3 pos, float diameter, int color)
 	return (hit);
 }
 
-t_hitable	create_plane(t_vector3 pos, t_vector3 normal, int color)
+t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color)
 {
 	t_hitable	hit;
 
@@ -36,7 +36,7 @@ t_hitable	create_plane(t_vector3 pos, t_vector3 normal, int color)
 	return (hit);
 }
 
-t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, int diameter, int height, int color)
+t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, int diameter, int height, unsigned int color)
 {
 	t_hitable	hit;
 
