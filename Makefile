@@ -5,23 +5,29 @@
 
 NAME = minirt
 
+SRCS = main.c camera.c draw.c events.c
 SRC_DIR = src/
-SRC = $(addprefix $(SRC_DIR), main.c camera.c)
+SRC = $(addprefix $(SRC_DIR), $(SRCS))
 
+LIBFTDIR = libft/
 LIBFT = libft/libft.a
 MLX42 = MLX42/build/libmlx42.a
 
 OBJ_DIR = obj/
-OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRC:.c=.o)))
+OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRCS:.c=.o)))
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I MLX42/include -I . -Ofast
+CFLAGS = -Wall -Wextra -Werror -I MLX42/include/
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+WSLFLAGS = -L$(LIBFTDIR) -lft -Iinclude -ldl -lglfw -pthread -lm  
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJ) $(MLX42) $(LIBFT)
+$(NAME): $(MLX42) $(LIBFT) $(OBJ_DIR) $(OBJ)
 	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
+
+wsl: $(MLX42) $(LIBFT) $(OBJ_DIR) $(OBJ)
+	cc $(CFLAGS) $(OBJ) MLX42/build/libmlx42.a $(WSLFLAGS) -o $(NAME)
 
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
