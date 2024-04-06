@@ -20,6 +20,7 @@
 
 typedef struct s_ray
 {
+	t_vector3	origin;
 	t_vector3	dir;
 }	t_ray;
 

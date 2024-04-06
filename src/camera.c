@@ -6,12 +6,19 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/06 02:06:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/06 14:59:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include <stdio.h>
+
+t_vector3	ray_at(t_ray *ray, float t)
+{
+	return (vec3_add(ray->origin, vec3_scale(ray->dir, t)));
+}
+
+
 
 t_ray	*create_rays(int width, int height, float distance)
 {
