@@ -14,16 +14,9 @@
 # define MINIRT_H
 
 # include "libft.h"
+# include "vec3.h"
+# include <math.h>
 # include <MLX42/MLX42.h>
-
-
-typedef struct s_vector3
-{
-	float	x;
-	float	y;
-	float	z;
-}	t_vector3;
-
 
 typedef struct s_ray
 {
