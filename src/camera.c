@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/07 22:53:12 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/07 23:30:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ t_camera	create_camera(t_data *data, t_vector3 pos,
 	camera.pos = pos;
 	camera.normal = normal;
 	camera.degree = FOV;
-	camera.rays = create_rays(data, 1.0f);
+	camera.rays = create_rays(data, 100.0f);
 	return (camera);
 }
