@@ -9,7 +9,7 @@ LIBFTDIR = libft/
 LIBFT = libft/libft.a
 MLX42 = MLX42/build/libmlx42.a
 
-SRCS = main.c camera.c draw.c events.c hitable.c light.c
+SRCS = main.c camera.c draw.c events.c hitable_create.c light.c hitable_hit.c
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRCS))
 

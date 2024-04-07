@@ -17,10 +17,11 @@
 # include "vec3.h"
 # include <math.h>
 # include <MLX42/MLX42.h>
+# include <stdio.h>
 
 typedef struct s_ray
 {
-	t_vector3	origin;
+	t_vector3	*origin;
 	t_vector3	dir;
 }	t_ray;
 
@@ -59,7 +60,6 @@ typedef struct s_ambient
 	unsigned int	color;
 }	t_ambient;
 
-
 typedef struct s_data
 {
 	mlx_t		*mlx;
@@ -72,13 +72,20 @@ typedef struct s_data
 	t_camera	camera;
 }				t_data;
 
-t_camera	create_camera(t_data *data, t_vector3 pos, t_vector3 normal, int FOV);
+// Creates
+t_camera	create_camera(t_data *data, t_vector3 pos,
+				t_vector3 normal, int FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, float brightness);
 void		add_hitable(t_hitable **list, t_hitable hit);
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
-t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter, float height, unsigned int color);
+t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
+				float height, unsigned int color);
+
+// Check hit
+int			hit_hitable(t_hitable *list, t_ray ray);
+
 void		draw(t_data *data);
 void		keydown(void *data);
 void		mouse_hook(void *data);

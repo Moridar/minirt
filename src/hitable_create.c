@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 02:05:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/07 22:20:24 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color)
 	return (hit);
 }
 
-t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter, float height, unsigned int color)
+t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
+				float height, unsigned int color)
 {
 	t_hitable	hit;
 

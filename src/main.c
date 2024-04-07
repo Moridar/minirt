@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 02:09:46 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/07 23:05:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void	testdata_init(t_data *d)
 {
 	t_hitable	sphere;
 
-	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 1}, 90);
+	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
 	ft_printf("camera created\n");
 	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
 	ft_printf("ambient created\n");
 	d->light = create_light((t_vector3){0, 0, 0}, 0.8);
 	ft_printf("light created\n");
-	sphere = create_sphere((t_vector3){10, 10, 0}, 2, 0xFF0000);
+	sphere = create_sphere((t_vector3){0, -0.5, 10}, 9.999f, 0x0000FFFF);
 	ft_printf("sphere created\n");
 	add_hitable(&d->hitables, sphere);
 	ft_printf("sphere added\n");
@@ -63,6 +63,7 @@ int	main(int argc, char *argv[])
 		ft_printf("MiniRT\n");
 	data_init(&data);
 	testdata_init((&data));
+	ft_printf("Window: [%d, %d]\n", data.width, data.height);
 	draw(&data);
 	mlx_loop(data.mlx);
 	destroy(&data);
