@@ -14,8 +14,13 @@ SRCS = 	main.c \
 		draw.c \
 		events.c \
 		utils.c \
-		hitable_create.c hitable_hit.c \
-		validator.c validator_parse_hitable.c validator_parse_utils.c validator_validate.c
+		hitable_create.c \
+		hitable_hit.c \
+		validator.c \
+		validator_parse_hitable.c \
+		validator_parse_other.c \
+		validator_parse_utils.c \
+		validator_validate.c
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRCS))
