@@ -19,10 +19,6 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 
-
-// after we can just take the hit.color from each ray or if we dont want to store it we can just put it to screen immediately
-// this is just another function we need to add to the objects. if we give it a point on the surface what the normalvector there is
-
 typedef struct s_hitpoint
 {
 	t_vector3	pos;
@@ -30,14 +26,6 @@ typedef struct s_hitpoint
 	unsigned int	color;
 }	t_hitpoint;
 
-// we can get all the possible hits for each ray, and calc the distance after all the hits are created, and take the shortest.
-//but we dont know if they hit the same object, 1 ray can hit 1 object once, yeah i just wonder if it doesnt hit anything, we just put the color to be black
-//also after we start the ray towards the light the distance also has an impact, i dont thnik the distance matter, i would, it does, since the plane shpuld be infinite
-
-// we can worry about this later, if something is off, same would be true for the plane, the angle changes, so i am wrong with the distance thing.
-// we can just check if the hit is behind the light, if it is we dont need to check the light, we can just return the color of the hit object	
-
-// I will fix camera, and then start the surface normals, they arent that bad, just the cylinder one is annoying
 typedef struct s_ray
 {
 	t_vector3	*origin;
@@ -111,11 +99,19 @@ void		free_array(char **array);
 int			array_len(char **array);
 
 //Parsing
+int			load_file(char *file, t_data *data);
 t_vector3	parse_vector3(char *str);
 int			parse_color(char *str);
 int			parse_sphere(char *line, t_data *data);
 int			parse_plane(char *line, t_data *data);
 int			parse_cylinder(char *line, t_data *data);
+
+// Validator
+int			is_vector3(char *str);
+int			is_normal3(char *str);
+int			is_color3(char *str);
+int			is_float(char *str);
+int			is_fov(char *str);
 
 // MLX utils
 void		draw(t_data *data);

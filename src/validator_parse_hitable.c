@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 14:03:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:49:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	parse_sphere(char *line, t_data *data)
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
-	if (array_len(split) != 4)
+	if (array_len(split) != 4 || !is_vector3(split[1]) || !is_float(split[2])
+		|| !is_color3(split[3]))
 	{
 		free_array(split);
 		return (-1);
