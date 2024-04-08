@@ -21,9 +21,10 @@
 
 typedef struct s_hitpoint
 {
-	t_vector3	pos;
-	t_vector3	surface_normal_of_hittable;
+	t_vector3		pos;
+	t_vector3		surface_normal_of_hittable;
 	unsigned int	color;
+	int				hit;
 }	t_hitpoint;
 
 typedef struct s_ray
