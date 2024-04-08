@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 15:39:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:47:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ static int	parse_line(char *line, t_data *data)
 		return (parse_plane(line, data));
 	if (line[0] == 'c' && line[1] == 'y' && line[2] == ' ')
 		return (parse_cylinder(line, data));
+	if (line[0] == '\0')
+		return (0);
 	return (-1);
 }
 
@@ -118,5 +120,7 @@ int	load_file(char *file, t_data *data)
 			break ;
 	}
 	close(fd);
+	if (ret < 0)
+		ft_printf("Invalid file\n");
 	return (ret);
 }

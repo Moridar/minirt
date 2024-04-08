@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 15:38:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:48:29 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ void	add_hitable(t_hitable **list, t_hitable hit)
 	if (!*list)
 	{
 		*list = new;
-		ft_printf("hitable added to new list\n");
+		ft_printf("^ added to a new list\n");
 		return ;
 	}
 	tmp = *list;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
-	ft_printf("hitable added to existing list\n");
+	ft_printf("^ added to the existing list\n");
 }
