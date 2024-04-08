@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/08 18:10:42 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:11:41 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_ray	*create_rays(t_data *data, float FOV, t_camera camera)
 		while (x < data->width)
 		{
 			rays[y * data->width + x].dir = vec3_unit(
-					vec3_add((t_vector3){x - data->width / 2, y - data->height / 2, dist}
-					camera.normal);
+					vec3_add((t_vector3){x - data->width / 2, y - data->height / 2, dist},
+					camera.normal));
 			rays[y * data->width + x].origin = &data->camera.pos;
 			x++;
 		}
