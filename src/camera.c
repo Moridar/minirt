@@ -6,62 +6,55 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/05 12:01:36 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/08 16:23:36 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include <stdio.h>
+#include "minirt.h"
+#include "vec3.h"
+#include <math.h>
 
-typedef struct s_vector3
+t_vector3	ray_at(t_ray *ray, float t)
 {
-	float x;
-	float y;
-	float z;
-} t_vector3;
+	return (vec3_add(*ray->origin, vec3_scale(ray->dir, t)));
+}
 
-typedef struct s_ray
+t_ray	*create_rays(t_data *data, float FOV)
 {
-	t_vector3 dir;
-} t_ray;
+	t_ray	*rays;
+	int		x;
+	int		y;
+	float	dist;
 
-typedef struct s_camera
-{
-	int width;
-	int height;
-	float distance;
-	t_ray *rays;
-}	t_camera;
-
-t_ray *create_rays(int width, int height, float distance)
-{
-	t_ray *rays;
-	int x;
-	int y;
-
-	rays = ft_calloc(width * height, sizeof(t_ray));
+	rays = ft_calloc(data->width * data->height, sizeof(t_ray));
+	dist = sqrt(pow(data->width / 2, 2) + pow(data->height / 2, 2)
+			+ pow(data->width / sin(FOV / 2), 2));
 	y = 0;
-	while (y < height)
+	while (y < data->height)
 	{
 		x = 0;
-		while (x < width)
+		while (x < data->width)
 		{
-			rays[y * width + x].dir = (t_vector3){x - width / 2.0f, y - height / 2.0f, distance};
-			printf("%f %f %f\n", x - width / 2.0f, y - height / 2.0f, distance);
+			rays[y * data->width + x].dir = vec3_unit(
+					(t_vector3){x - data->width / 2, y - data->height / 2, dist}
+					);
+			rays[y * data->width + x].origin = &data->camera.pos;
 			x++;
 		}
 		y++;
 	}
+	printf("rays created\n");
 	return (rays);
 }
 
-t_camera create_camera(int width, int height, float distance)
+t_camera	create_camera(t_data *data, t_vector3 pos,
+				t_vector3 normal, int FOV)
 {
-	t_camera cam;
+	t_camera	camera;
 
-	cam.distance = distance;
-	cam.width = width;
-	cam.height = height;
-	cam.rays = create_rays(width, height, distance);
-	return (cam);
+	camera.pos = pos;
+	camera.normal = normal;
+	camera.degree = FOV;
+	camera.rays = create_rays(data, FOV);
+	return (camera);
 }

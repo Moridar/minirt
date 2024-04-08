@@ -5,26 +5,40 @@
 
 NAME = minirt
 
-SRC_DIR = src/
-SRC = $(addprefix $(SRC_DIR), main.c camera.c)
-
+LIBFTDIR = libft/
 LIBFT = libft/libft.a
 MLX42 = MLX42/build/libmlx42.a
 
-OBJ_DIR = obj/
-OBJ = $(addprefix $(OBJ_DIR), $(notdir $(SRC:.c=.o)))
+SRCS = main.c camera.c draw.c events.c hitable_create.c light.c hitable_hit.c
+SRC_DIR = src/
+SRC = $(addprefix $(SRC_DIR), $(SRCS))
 
-CFLAGS = -Wall -Wextra -Werror -I includes/ -I MLX42/include -I . -Ofast
+VEC3SRCS = baseoperator.c moreoperators.c
+VEC3_DIR = src/vec3/
+VEC3 = $(addprefix $(VEC3_DIR), $(VEC3SRCS))
+
+OBJ_DIR = obj/
+VEC3OBJ_DIR = obj/vec3/
+OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o)) $(addprefix $(VEC3OBJ_DIR), $(VEC3SRCS:.c=.o))
+
+CFLAGS = -Wall -Wextra -Werror -IMLX42/include -Ilibft -Iinclude
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm  
 
 all: $(NAME)
 
-$(NAME): $(OBJ_DIR) $(OBJ) $(MLX42) $(LIBFT)
+$(NAME): $(MLX42) $(LIBFT) $(OBJ_DIR) $(VEC3OBJ_DIR) $(OBJ)
 	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
+
+wsl: $(MLX42) $(LIBFT) $(OBJ_DIR) $(VEC3OBJ_DIR) $(OBJ)
+	cc $(CFLAGS) $(OBJ) MLX42/build/libmlx42.a $(WSLFLAGS) -o $(NAME)
 
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
+
+$(VEC3OBJ_DIR):
+	mkdir $(VEC3OBJ_DIR)
 
 $(MLX42):
 	cmake MLX42/ -B MLX42/build && make -C MLX42/build -j4
