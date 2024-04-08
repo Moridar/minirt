@@ -9,7 +9,14 @@ LIBFTDIR = libft/
 LIBFT = libft/libft.a
 MLX42 = MLX42/build/libmlx42.a
 
-SRCS = main.c camera.c draw.c events.c hitable_create.c light.c hitable_hit.c
+SRCS = 	main.c \
+		camera.c light.c \
+		draw.c \
+		events.c \
+		utils.c \
+		hitable_create.c hitable_hit.c \
+		validator.c validator_parse_hitable.c validator_parse_utils.c 
+
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRCS))
 
@@ -51,10 +58,11 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	rm -rf $(OBJ_DIR)
-	rm -rf MLX42/build
 
 fclean: clean
 	rm -rf $(NAME)
+	rm -rf MLX42/build
+	rm -rf $(LIBFT)
 
 re: fclean all
 

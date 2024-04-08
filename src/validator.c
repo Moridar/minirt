@@ -6,14 +6,66 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 01:16:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:01:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include <fcntl.h>
 
-int	parse_line(char *line, t_data *data)
+static int	parse_ambient(char *line, t_data *data)
+{
+	char	**split;
+
+	split = ft_split(line, ' ');
+	if (!split)
+		return (-1);
+	if (array_len(split) != 3)
+	{
+		free_array(split);
+		return (-1);
+	}
+	data->ambient = create_ambient(ft_atof(split[1]), parse_color(split[2]));
+	free_array(split);
+	return (0);
+}
+
+static int	parse_light(char *line, t_data *data)
+{
+	char	**split;
+
+	split = ft_split(line, ' ');
+	if (!split)
+		return (-1);
+	if (array_len(split) != 3)
+	{
+		free_array(split);
+		return (-1);
+	}
+	data->light = create_light(parse_vector3(split[1]), ft_atof(split[2]));
+	free_array(split);
+	return (0);
+}
+
+static int	parse_camera(char *line, t_data *data)
+{
+	char	**split;
+
+	split = ft_split(line, ' ');
+	if (!split)
+		return (-1);
+	if (array_len(split) != 4)
+	{
+		free_array(split);
+		return (-1);
+	}
+	data->camera = create_camera(data, parse_vector3(split[1]),
+			parse_vector3(split[2]), ft_atof(split[3]));
+	free_array(split);
+	return (0);
+}
+
+static int	parse_line(char *line, t_data *data)
 {
 	if (line[0] == 'A' && line[1] == ' ')
 		return (parse_ambient(line, data));
@@ -27,7 +79,7 @@ int	parse_line(char *line, t_data *data)
 		return (parse_plane(line, data));
 	if (line[0] == 'c' && line[1] == 'y' && line[2] == ' ')
 		return (parse_cylinder(line, data));
-	return (0);
+	return (1);
 }
 
 int	load_file(char *file, t_data *data)
@@ -36,6 +88,7 @@ int	load_file(char *file, t_data *data)
 	char	*line;
 	int		ret;
 
+	ret = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (0);
@@ -47,7 +100,8 @@ int	load_file(char *file, t_data *data)
 		ret = parse_line(line, data);
 		free(line);
 		if (ret < 0)
-			return (0);
+			break ;
 	}
-	return (1);
+	close(fd);
+	return (ret);
 }
