@@ -17,6 +17,7 @@
 #		get_next_line/get_next_line.h
 
 SRCS = 	ft_atoi.c \
+		ft_atof.c \
 		ft_atod.c \
 		ft_bzero.c \
 		ft_calloc.c \
@@ -110,7 +111,7 @@ printf: $(PRINTF_OBJS)
 
 # Check each _bonus.o and recreate if there is 
 %.o: %.c
-	@cc $(CFLAGS) -c $< -o $@
+	cc $(CFLAGS) -c $< -o $@
 	@ar rc $(NAME)$@
 	@ranlib $(NAME)
 

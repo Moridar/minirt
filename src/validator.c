@@ -6,14 +6,14 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 01:16:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/08 15:50:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include <fcntl.h>
 
-int	parse_line(char *line, t_data *data)
+static int	parse_line(char *line, t_data *data)
 {
 	if (line[0] == 'A' && line[1] == ' ')
 		return (parse_ambient(line, data));
@@ -27,7 +27,9 @@ int	parse_line(char *line, t_data *data)
 		return (parse_plane(line, data));
 	if (line[0] == 'c' && line[1] == 'y' && line[2] == ' ')
 		return (parse_cylinder(line, data));
-	return (0);
+	if (line[0] == '\0')
+		return (0);
+	return (-1);
 }
 
 int	load_file(char *file, t_data *data)
@@ -36,6 +38,7 @@ int	load_file(char *file, t_data *data)
 	char	*line;
 	int		ret;
 
+	ret = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (0);
@@ -44,10 +47,15 @@ int	load_file(char *file, t_data *data)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		ret = parse_line(line, data);
 		free(line);
 		if (ret < 0)
-			return (0);
+			break ;
 	}
-	return (1);
+	close(fd);
+	if (ret < 0)
+		ft_printf("Invalid file\n");
+	return (ret);
 }

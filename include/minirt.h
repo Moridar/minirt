@@ -19,10 +19,18 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 
+typedef struct s_hitpoint
+{
+	t_vector3	pos;
+	t_vector3	surface_normal_of_hittable;
+	unsigned int	color;
+}	t_hitpoint;
+
 typedef struct s_ray
 {
 	t_vector3	*origin;
 	t_vector3	dir;
+	t_hitpoint	hit;
 }	t_ray;
 
 typedef struct s_camera
@@ -86,6 +94,29 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 // Check hit
 int			hit_hitable(t_hitable *list, t_ray ray);
 
+// Array Utils
+void		free_array(char **array);
+int			array_len(char **array);
+
+//Parsing
+int			load_file(char *file, t_data *data);
+t_vector3	parse_vector3(char *str);
+int			parse_color(char *str);
+int			parse_sphere(char *line, t_data *data);
+int			parse_plane(char *line, t_data *data);
+int			parse_cylinder(char *line, t_data *data);
+int			parse_camera(char *line, t_data *data);
+int			parse_light(char *line, t_data *data);
+int			parse_ambient(char *line, t_data *data);
+
+// Validator
+int			is_vector3(char *str);
+int			is_normal3(char *str);
+int			is_color3(char *str);
+int			is_float(char *str);
+int			is_fov(char *str);
+
+// MLX utils
 void		draw(t_data *data);
 void		keydown(void *data);
 void		mouse_hook(void *data);
