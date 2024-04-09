@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 12:33:37 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:19:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ int	is_normal3(char *str)
 		i = 10;
 	while (i < 3)
 	{
-		printf("%d: %s\n", i, split[i]);
 		if (!is_float(split[i]))
 			i = 10;
-		printf("%d: %f\n", i, ft_atof(split[i]));
 		if (ft_atof(split[i]) < -1 || ft_atof(split[i]) > 1)
 			i = 10;
 		i++;

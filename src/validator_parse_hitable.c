@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 12:02:22 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:31:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	parse_sphere(char *line, t_data *data)
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
-	if (array_len(split) != 4 || !is_vector3(split[1]) || !is_float(split[2])
+	if (array_len(split) < 4 || !is_vector3(split[1]) || !is_float(split[2])
 		|| !is_color3(split[3]))
 	{
 		ft_printf("Invalid sphere\n");
@@ -42,7 +42,7 @@ int	parse_cylinder(char *line, t_data *data)
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
-	if (array_len(split) != 6)
+	if (array_len(split) < 6)
 	{
 		ft_printf("Invalid cylinder\n");
 		free_array(split);
@@ -64,7 +64,7 @@ int	parse_plane(char *line, t_data *data)
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
-	if (array_len(split) != 4)
+	if (array_len(split) < 4)
 	{
 		ft_printf("Invalid plane");
 		free_array(split);
