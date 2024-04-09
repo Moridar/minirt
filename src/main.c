@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 14:51:26 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:42:12 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	testdata_init(t_data *d)
 
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
 	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
-	d->light = create_light((t_vector3){0, 0, 0}, 0.8);
+	d->light = create_light((t_vector3){0, 10, 0}, 0.8);
 	ft_printf("light created\n");
 	sphere = create_sphere((t_vector3){0, 0, 10}, 2.0f, 0x0000FFFF);
 	ft_printf("sphere created\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 15:42:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:07:43 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_hitpoint	hit_sphere(t_hitable sphere, t_ray ray)
 	if (dis.discriminant < 0)
 		return (hp);
 	hp.hit = 1;
-	hp.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
+	hp.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
 	hp.color = sphere.color;
 	hp.surface_normal_of_hittable = vec3_unit(vec3_sub(hp.pos, sphere.pos));

@@ -3,31 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 15:37:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:41:52 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-float	ray_to_light(t_vector3* pos, t_vector3 lightpos, t_vector3 normal, t_vector3 inray)
+float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
 {
 	t_ray	light;
 	float	dot;
-	float	dotcam;
 
-	light.dir = vec3_unit(vec3_sub(lightpos, *pos));
-	light.origin = pos;
-	dot = vec3_dot(light.dir, normal);
-	dotcam = vec3_dot(inray, normal);
-	return ((acos(dot) - acos(dotcam) + M_PI) / (M_PI * 2));
-}
-
-unsigned int	scale_color(unsigned int col, float scale)
-{
-	return ((col / 256) * scale * 256 + 255);
+	light.dir = vec3_unit(vec3_sub(lightpos, pos));
+	light.origin = &pos;
+	dot = vec3_dot(light.dir, vec3_unit(normal));
+	printf("%f ", dot);
+	if (dot < 0.3)
+		return (0.3);
+	return (dot);
 }
 
 static int	default_color(t_ray ray)
@@ -49,12 +45,15 @@ static void	set_pixel(t_data *data, int x, int y)
 	t_hitpoint	hp;
 	int			color;
 	t_ray		ray;
+	t_color		c;
 
 	ray = data->camera.rays[x + y * data->width];
 	hp = hit_hitable(data->hitables, ray);
 	if (hp.hit)
 	{
-		color = scale_color(hp.color, ray_to_light(&hp.pos, data->light.pos, hp.surface_normal_of_hittable, ray.dir));
+		c = make_color((unsigned int)hp.color);
+		c = scale_color(c, ray_to_light(hp.pos, data->light.pos, hp.surface_normal_of_hittable));
+		color = get_color(c);
 	}
 	else
 		color = default_color(ray);
