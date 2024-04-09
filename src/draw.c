@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 16:41:52 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:52:12 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
 	light.dir = vec3_unit(vec3_sub(lightpos, pos));
 	light.origin = &pos;
 	dot = vec3_dot(light.dir, vec3_unit(normal));
-	printf("%f ", dot);
 	if (dot < 0.3)
 		return (0.3);
 	return (dot);
