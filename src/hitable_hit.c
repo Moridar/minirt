@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 18:04:56 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:57:15 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,16 @@ int	hit_hitable(t_hitable *list, t_ray ray)
 		if (tmp->type == 's')
 		{
 			if (hit_sphere(*tmp, ray).hit)
+				return (tmp->color);
+		}
+		if (tmp->type == 'c')
+		{
+			if (hit_cylinder(*tmp, ray).hit)
+				return (tmp->color);
+		}
+		if (tmp->type == 'p')
+		{
+			if (hit_plane(*tmp, ray).hit)
 				return (tmp->color);
 		}
 		tmp = tmp->next;

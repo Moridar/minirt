@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/08 15:40:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:48:14 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ t_ray	*create_rays(t_data *data, float FOV)
 	float	dist;
 
 	rays = ft_calloc(data->width * data->height, sizeof(t_ray));
-	dist = sqrt(pow(data->width / 2, 2) + pow(data->height / 2, 2)
-			+ pow(data->width / sin(FOV / 2), 2));
+	dist = (data->width / 2) / tan(FOV / 2);
 	y = 0;
 	while (y < data->height)
 	{
