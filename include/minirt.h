@@ -19,12 +19,22 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 
+typedef struct s_discriminant
+{
+	t_vector3	oc;
+	float		a;
+	float		b;
+	float		c;
+	float		discriminant;
+}	t_discrimininant;
+
 typedef struct s_hitpoint
 {
 	t_vector3		pos;
 	t_vector3		surface_normal_of_hittable;
 	unsigned int	color;
 	int				hit;
+	float			distance;
 }	t_hitpoint;
 
 typedef struct s_ray
@@ -93,7 +103,7 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 				float height, unsigned int color);
 
 // Check hit
-int			hit_hitable(t_hitable *list, t_ray ray);
+t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
 
 // Array Utils
 void		free_array(char **array);

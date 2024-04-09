@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 14:25:45 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:40:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,95 +96,48 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	return (hp);
 }
 
-t_hitpoint hit_sphere(t_hitable sphere, t_ray ray)
+t_hitpoint	hit_sphere(t_hitable sphere, t_ray ray)
 {
-	t_vector3	oc;
-	float		a;
-	float		b;
-	float		c;
-	float		discriminant;
-	t_hitpoint	hp;
-	float		distance;
-	// float		temp;
+	t_discrimininant	dis;
+	t_hitpoint			hp;
 
 	hp.hit = 0;
-	oc = vec3_sub(*ray.origin, sphere.pos);
-	a = vec3_dot(ray.dir, ray.dir);
-	b = 2.0 * vec3_dot(oc, ray.dir);
-	c = vec3_dot(oc, oc) - sphere.diameter * sphere.diameter;
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	dis.oc = vec3_sub(*ray.origin, sphere.pos);
+	dis.a = vec3_dot(ray.dir, ray.dir);
+	dis.b = 2.0 * vec3_dot(dis.oc, ray.dir);
+	dis.c = vec3_dot(dis.oc, dis.oc) - sphere.diameter * sphere.diameter;
+	dis.discriminant = dis.b * dis.b - 4 * dis.a * dis.c;
+	if (dis.discriminant < 0)
 		return (hp);
-	else
-	{
-		hp.hit = 1;
-		distance = (-b + sqrt(discriminant)) / (2 * a);
-		hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, distance));
-		hp.color = sphere.color;
-		hp.surface_normal_of_hittable = vec3_unit(vec3_sub(hp.pos, sphere.pos));
-	}
+	hp.hit = 1;
+	hp.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
+	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
+	hp.color = sphere.color;
+	hp.surface_normal_of_hittable = vec3_unit(vec3_sub(hp.pos, sphere.pos));
 	return (hp);
-	// if (discriminant < 0)
-	// 	return (0);
-	// temp = (-b - sqrt(discriminant)) / (2.0 * a);
-	// if (temp < *t && temp > 0.001)
-	// {
-	// 	*t = temp;
-	// 	return (1);
-	// }
-	// temp = (-b + sqrt(discriminant)) / (2.0 * a);
-	// if (temp < *t && temp > 0.001)
-	// {
-	// 	*t = temp;
-	// 	return (1);
-	// }
-	// return (0);
 }
 
-float	ray_to_light(t_vector3* pos, t_vector3 lightpos, t_vector3 normal, t_vector3 inray)
-{
-	t_ray	light;
-	float	dot;
-	float	dotcam;
-
-	light.dir = vec3_unit(vec3_sub(lightpos, *pos));
-	light.origin = pos;
-	dot = vec3_dot(light.dir, normal);
-	dotcam = vec3_dot(inray, normal);
-	return ((acos(dot) - acos(dotcam) + 3.14) / 6.28);
-}
-
-unsigned int scale_color(unsigned int col, float scale)
-{
-	return ((col / 256) * scale * 256 + 255);
-}
-
-int	hit_hitable(t_hitable *list, t_ray ray)
+t_hitpoint	hit_hitable(t_hitable *list, t_ray ray)
 {
 	t_hitable	*tmp;
 	t_hitpoint	hp;
+	t_hitpoint	tmp_hp;
 
+	hp.distance = 0;
+	hp.hit = 0;
 	tmp = list;
 	while (tmp)
 	{
+		tmp_hp.distance = 0;
 		if (tmp->type == 's')
-		{
-			hp = hit_sphere(*tmp, ray);
-			if (hp.hit)
-				return (scale_color(tmp->color, ray_to_light(&hp.pos, (t_vector3){0,0,0}, hp.surface_normal_of_hittable, ray.dir)));
-				//return (((int)(hp.surface_normal_of_hittable.x * 255) << 24) + (hp.surface_normal_of_hittable.y << 16) + (hp.surface_normal_of_hittable.z << 8) + 255;)
-		}
+			tmp_hp = hit_sphere(*tmp, ray);
 		if (tmp->type == 'c')
-		{
-			if (hit_cylinder(*tmp, ray).hit)
-				return (tmp->color);
-		}
+			tmp_hp = hit_cylinder(*tmp, ray);
 		if (tmp->type == 'p')
-		{
-			if (hit_plane(*tmp, ray).hit)
-				return (tmp->color);
-		}
+			tmp_hp = hit_plane(*tmp, ray);
+		if (tmp_hp.hit && (!hp.hit) || (tmp_hp.distance < hp.distance))
+			hp = tmp_hp;
 		tmp = tmp->next;
 	}
-	return (0);
+	return (hp);
 }

@@ -6,31 +6,58 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 14:55:38 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:37:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static void	set_pixel(t_data *data, int x, int y)
+float	ray_to_light(t_vector3* pos, t_vector3 lightpos, t_vector3 normal, t_vector3 inray)
 {
-	int		color;
-	int		red;
-	int		green;
-	int		blue;
-	float	a;
+	t_ray	light;
+	float	dot;
+	float	dotcam;
 
-	color = hit_hitable(data->hitables, data->camera.rays[x + y * data->width]);
-	if (color)
-	{
-		mlx_put_pixel(data->img, x, y, color);
-		return ;
-	}
-	a = 0.5 * (vec3_unit(data->camera.rays[x + y * data->width].dir).y + 1.0);
+	light.dir = vec3_unit(vec3_sub(lightpos, *pos));
+	light.origin = pos;
+	dot = vec3_dot(light.dir, normal);
+	dotcam = vec3_dot(inray, normal);
+	return ((acos(dot) - acos(dotcam) + M_PI) / (M_PI * 2));
+}
+
+unsigned int	scale_color(unsigned int col, float scale)
+{
+	return ((col / 256) * scale * 256 + 255);
+}
+
+static int	default_color(t_ray ray)
+{
+	int			red;
+	int			green;
+	int			blue;
+	float		a;
+
+	a = 0.5 * (vec3_unit(ray.dir).y + 1.0);
 	red = (1.0 - a) * 255 + a * 255;
 	green = (1.0 - a) * 255 + a * 0.7 * 255;
 	blue = (1.0 - a) * 255 + a * 0.5 * 255;
-	color = (red << 24) + (green << 16) + (blue << 8) + 255;
+	return ((red << 24) + (green << 16) + (blue << 8) + 255);
+}
+
+static void	set_pixel(t_data *data, int x, int y)
+{
+	t_hitpoint	hp;
+	int			color;
+	t_ray		ray;
+
+	ray = data->camera.rays[x + y * data->width];
+	hp = hit_hitable(data->hitables, ray);
+	if (hp.hit)
+	{
+		color = scale_color(hp.color, ray_to_light(&hp.pos, data->light.pos, hp.surface_normal_of_hittable, ray.dir));
+	}
+	else
+		color = default_color(ray);
 	mlx_put_pixel(data->img, x, y, color);
 }
 
