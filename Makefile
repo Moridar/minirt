@@ -20,7 +20,8 @@ SRCS = 	main.c \
 		validator_parse_hitable.c \
 		validator_parse_other.c \
 		validator_parse_utils.c \
-		validator_validate.c
+		validator_validate.c \
+		color.c
 
 SRC_DIR = src/
 SRC = $(addprefix $(SRC_DIR), $(SRCS))
@@ -33,7 +34,7 @@ OBJ_DIR = obj/
 VEC3OBJ_DIR = obj/vec3/
 OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o)) $(addprefix $(VEC3OBJ_DIR), $(VEC3SRCS:.c=.o))
 
-CFLAGS = -Wall -Wextra -Werror -IMLX42/include -Ilibft -Iinclude -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -IMLX42/include -Ilibft -Iinclude
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm  

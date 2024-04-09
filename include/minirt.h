@@ -91,6 +91,13 @@ typedef struct s_data
 	t_camera	camera;
 }				t_data;
 
+typedef struct s_color{
+	int r;
+	int g;
+	int	b;
+	int a;
+}t_color;
+
 // Creates
 t_camera	create_camera(t_data *data, t_vector3 pos,
 				t_vector3 normal, int FOV);
@@ -134,5 +141,8 @@ void		draw(t_data *data);
 void		keydown(mlx_key_data_t keydata, void *params);
 void		mouse_hook(void *data);
 int			destroy(t_data *data);
+int			get_color(t_color c);
+t_color		make_color(int a);
+t_color		scale_color(t_color c, float scale);
 
 #endif
