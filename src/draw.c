@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 11:38:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:55:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,19 @@ void	draw(t_data *data)
 
 	ft_printf("Start drawing...\n");
 	percent = 0;
-	ft_printf("Drawing [%2d%%]\n", percent);
+	ft_printf("Drawing [%2d%%]", percent);
 	x = -1;
 	mlx_image_to_window(data->mlx, data->img, 0, 0);
 	while (++x < data->width)
 	{
 		if (x * 100 / data->width > percent)
 		{
-			ft_printf("Drawing [%2d%%]\n", ++percent);
+			ft_printf("\rDrawing [%2d%%]", ++percent);
+			fflush(stdout);
 		}
 		y = -1;
 		while (++y < data->height)
 			set_pixel(data, x, y);
 	}
-	ft_printf("Drawing [100%%]\n");
+	ft_printf("\rDrawing [100%%]\n");
 }

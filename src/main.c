@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 14:16:42 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:51:26 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ static void	data_init(t_data *data)
 {
 	if (!data)
 		exit(print_msg(3));
-	data->width = 800;
-	data->height = 600;
+	data->width = 1920;
+	data->height = 1080;
 	data->hitables = NULL;
 	data->camera.rays = NULL;
-	data->mlx = mlx_init(data->width, data->height, "MiniRT", 1);
+	data->mlx = mlx_init(data->width, data->height, "MiniRT", 0);
 	if (!data->mlx)
 		exit(print_msg(4));
 	data->img = mlx_new_image(data->mlx, data->width, data->height);

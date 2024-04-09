@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/09 12:19:47 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:46:44 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,27 @@ t_vector3	ray_at(t_ray *ray, float t)
 
 t_ray	*create_rays(t_data *data, float FOV, t_camera camera)
 {
-	t_ray	*rays;
-	int		x;
-	int		y;
-	float	dist;
+	t_ray		*rays;
+	int			x;
+	int			y;
+	float		dist;
+	t_vector3	vec;
 
 	rays = ft_calloc(data->width * data->height, sizeof(t_ray));
-  dist = (data->width / 2) / tan(FOV / 360 * 3.14);
-	y = 0;
-	while (y < data->height)
+	dist = (data->width / 2) / tan(FOV / 360 * M_PI);
+	y = -1;
+	while (++y < data->height)
 	{
-		x = 0;
-		while (x < data->width)
+		x = -1;
+		while (++x < data->width)
 		{
+			vec.x = x - data->width / 2;
+			vec.y = 0 - (y - data->height / 2);
+			vec.z = dist;
 			rays[y * data->width + x].dir = vec3_unit(
-					vec3_add((t_vector3){x - data->width / 2, y - data->height / 2, dist},
-					camera.normal));
+					vec3_add(vec, camera.normal));
 			rays[y * data->width + x].origin = &data->camera.pos;
-			x++;
 		}
-		y++;
 	}
 	printf("rays created\n");
 	return (rays);
