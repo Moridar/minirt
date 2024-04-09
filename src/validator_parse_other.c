@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 15:52:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:02:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	parse_ambient(char *line, t_data *data)
 		return (-1);
 	if (array_len(split) != 3 || !is_float(split[1]) || !is_color3(split[2]))
 	{
+		ft_printf("Invaliid ambient\n");
 		free_array(split);
 		return (-1);
 	}
@@ -35,12 +36,12 @@ int	parse_light(char *line, t_data *data)
 {
 	char	**split;
 
-	ft_printf("parsing light\n");
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
 	if (array_len(split) != 4 || !is_vector3(split[1]) || !is_float(split[2]))
 	{
+		ft_printf("Invalid light\n");
 		free_array(split);
 		return (-1);
 	}
@@ -68,6 +69,7 @@ int	parse_camera(char *line, t_data *data)
 	}
 	if (!is_vector3(split[1]) || !is_normal3(split[2]) || !is_fov(split[3]))
 	{
+		ft_printf("Invalid camera\n");
 		free_array(split);
 		return (-1);
 	}

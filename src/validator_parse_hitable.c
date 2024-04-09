@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 14:49:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:02:22 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	parse_sphere(char *line, t_data *data)
 	if (array_len(split) != 4 || !is_vector3(split[1]) || !is_float(split[2])
 		|| !is_color3(split[3]))
 	{
+		ft_printf("Invalid sphere\n");
 		free_array(split);
 		return (-1);
 	}
@@ -43,6 +44,7 @@ int	parse_cylinder(char *line, t_data *data)
 		return (-1);
 	if (array_len(split) != 6)
 	{
+		ft_printf("Invalid cylinder\n");
 		free_array(split);
 		return (-1);
 	}
@@ -64,6 +66,7 @@ int	parse_plane(char *line, t_data *data)
 		return (-1);
 	if (array_len(split) != 4)
 	{
+		ft_printf("Invalid plane");
 		free_array(split);
 		return (-1);
 	}

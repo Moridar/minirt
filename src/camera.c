@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/08 18:11:41 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:07:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ t_ray	*create_rays(t_data *data, float FOV, t_camera camera)
 	float	dist;
 
 	rays = ft_calloc(data->width * data->height, sizeof(t_ray));
-	dist = sqrt(pow(data->width / 2, 2) + pow(data->height / 2, 2)
-			+ pow(data->width / sin(FOV / 2), 2));
+	dist = (data->width/2)/tan(FOV / 360 * 3.14);
 	y = 0;
 	while (y < data->height)
 	{
