@@ -98,6 +98,7 @@ int			hit_hitable(t_hitable *list, t_ray ray);
 // Array Utils
 void		free_array(char **array);
 int			array_len(char **array);
+void		replace_whitespace_to_space(char *str);
 
 //Parsing
 int			load_file(char *file, t_data *data);
@@ -109,6 +110,7 @@ int			parse_cylinder(char *line, t_data *data);
 int			parse_camera(char *line, t_data *data);
 int			parse_light(char *line, t_data *data);
 int			parse_ambient(char *line, t_data *data);
+
 
 // Validator
 int			is_vector3(char *str);
