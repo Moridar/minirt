@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 11:47:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:16:42 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,18 @@ static int	print_msg(int msgno)
 static void	testdata_init(t_data *d)
 {
 	t_hitable	sphere;
+	t_hitable	cyl;
+	t_hitable	plane;
 
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
 	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
 	d->light = create_light((t_vector3){0, 0, 0}, 0.8);
-	sphere = create_sphere((t_vector3){0, 0, 10}, 2.0, 0x0000FFFF);
+	ft_printf("light created\n");
+	sphere = create_sphere((t_vector3){0, 0, 10}, 2.0f, 0x0000FFFF);
+	ft_printf("sphere created\n");
+	cyl = create_cylinder((t_vector3){0, -2, 10}, vec3_unit((t_vector3){0, 1, .3}), 1, 5, 0x0000FFFF);
+	ft_printf("cylinder created\n");
+	plane = create_plane((t_vector3){0, 0, 10}, (t_vector3){0, 0, -1}, 0x00FF00FF);
 	add_hitable(&d->hitables, sphere);
 }
 
