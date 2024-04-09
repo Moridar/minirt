@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
 /*   Updated: 2024/04/09 11:53:51 by dhorvath         ###   ########.fr       */
@@ -53,7 +53,7 @@ static void	data_init(t_data *data)
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (!data->img)
 		destroy(data);
-	mlx_loop_hook(data->mlx, keydown, data);
+	mlx_key_hook(data->mlx, keydown, data);
 	mlx_loop_hook(data->mlx, mouse_hook, data);
 }
 
@@ -64,7 +64,7 @@ int	main(int argc, char *argv[])
 	if (argc && argv[0])
 		ft_printf("MiniRT\n");
 	data_init(&data);
-	if (argc == 1)
+	if (argc == 1 && ft_printf("No file input, loading testdata\n"))
 		testdata_init((&data));
 	else if (load_file(argv[1], &data) == -1)
 		destroy(&data);
