@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 15:40:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:42:07 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_hitpoint	hit_hitable(t_hitable *list, t_ray ray)
 			tmp_hp = hit_cylinder(*tmp, ray);
 		if (tmp->type == 'p')
 			tmp_hp = hit_plane(*tmp, ray);
-		if (tmp_hp.hit && (!hp.hit) || (tmp_hp.distance < hp.distance))
+		if (tmp_hp.hit && (!hp.hit || (tmp_hp.distance < hp.distance)))
 			hp = tmp_hp;
 		tmp = tmp->next;
 	}
