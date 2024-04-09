@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 15:39:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:33:37 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	is_vector3(char *str)
 	}
 	if (!is_float(split[0]) || !is_float(split[1]) || !is_float(split[2]))
 	{
-		free_array(split);
 		ft_printf("2Invalid vector\n");
+		free_array(split);
 		return (0);
 	}
 	free_array(split);
@@ -77,8 +77,10 @@ int	is_normal3(char *str)
 		i = 10;
 	while (i < 3)
 	{
+		printf("%d: %s\n", i, split[i]);
 		if (!is_float(split[i]))
 			i = 10;
+		printf("%d: %f\n", i, ft_atof(split[i]));
 		if (ft_atof(split[i]) < -1 || ft_atof(split[i]) > 1)
 			i = 10;
 		i++;

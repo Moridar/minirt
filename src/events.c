@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 11:56:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:07:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	{
 		ft_printf("button R pressed\n");
 	}
-	if (keydata.key == MLX_KEY_KP_ADD && keydata.action == MLX_PRESS)
+	if (keydata.key == MLX_KEY_KP_ADD)
 	{
 		data->camera.degree += 1;
 		if (data->camera.degree > 180)

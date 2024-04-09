@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 11:33:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 12:50:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	load_file(char *file, t_data *data)
 {
 	int		fd;
 	char	*line;
+	char	*trimmedline;
 	int		ret;
 
 	ft_printf("==Loading %s==\n", file);
@@ -43,17 +44,16 @@ int	load_file(char *file, t_data *data)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (0);
-	while (1)
+	while (ret >= 0)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		ret = parse_line(line, data);
+		replace_whitespace_to_space(line);
+		trimmedline = ft_strtrim(line, " ");
 		free(line);
-		if (ret < 0)
-			break ;
+		ret = parse_line(trimmedline, data);
+		free(trimmedline);
 	}
 	close(fd);
 	if (ret < 0)
