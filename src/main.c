@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 18:06:33 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:47:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static void	testdata_init(t_data *d)
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
 	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
 	d->light = create_light((t_vector3){0, 0, 0}, 0.8);
-	ft_printf("light created\n");
-	sphere = create_sphere((t_vector3){0, 0, 10}, 2.0f, 0x0000FFFF);
-	ft_printf("sphere created\n");
+	sphere = create_sphere((t_vector3){0, 0, 10}, 2.0, 0x0000FFFF);
 	add_hitable(&d->hitables, sphere);
 }
 
@@ -48,7 +46,7 @@ static void	data_init(t_data *data)
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (!data->img)
 		destroy(data);
-	mlx_loop_hook(data->mlx, keydown, data);
+	mlx_key_hook(data->mlx, keydown, data);
 	mlx_loop_hook(data->mlx, mouse_hook, data);
 }
 
@@ -59,7 +57,7 @@ int	main(int argc, char *argv[])
 	if (argc && argv[0])
 		ft_printf("MiniRT\n");
 	data_init(&data);
-	if (argc == 1)
+	if (argc == 1 && ft_printf("No file input, loading testdata\n"))
 		testdata_init((&data));
 	else if (load_file(argv[1], &data) == -1)
 		destroy(&data);

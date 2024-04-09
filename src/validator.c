@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 15:50:38 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:33:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	load_file(char *file, t_data *data)
 	char	*line;
 	int		ret;
 
+	ft_printf("==Loading %s==\n", file);
 	ret = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)

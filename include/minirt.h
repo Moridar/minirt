@@ -119,7 +119,7 @@ int			is_fov(char *str);
 
 // MLX utils
 void		draw(t_data *data);
-void		keydown(void *data);
+void		keydown(mlx_key_data_t keydata, void *params);
 void		mouse_hook(void *data);
 int			destroy(t_data *data);
 
