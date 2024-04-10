@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 16:52:12 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:32:08 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
-{
-	t_ray	light;
-	float	dot;
-
-	light.dir = vec3_unit(vec3_sub(lightpos, pos));
-	light.origin = &pos;
-	dot = vec3_dot(light.dir, vec3_unit(normal));
-	if (dot < 0.3)
-		return (0.3);
-	return (dot);
-}
 
 static int	default_color(t_ray ray)
 {
@@ -39,23 +26,46 @@ static int	default_color(t_ray ray)
 	return ((red << 24) + (green << 16) + (blue << 8) + 255);
 }
 
+float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
+{
+	t_ray	light;
+	float	dot;
+
+	light.dir = vec3_unit(vec3_sub(lightpos, pos));
+	light.origin = &pos;
+	dot = vec3_dot(light.dir, vec3_unit(normal));
+	return (dot);
+}
+
+int	color_add_light(t_hitpoint *hp, t_data *data)
+{
+	int		c;
+	float	dot;
+	float	scale;
+	
+	dot = ray_to_light(hp->pos, data->light.pos, hp->surface_normal_of_hittable);
+	scale = dot * data->light.brightness;
+	if (scale < data->ambient.brightness)
+		scale = data->ambient.brightness;
+	c = scale_color((unsigned int)(hp->color), scale);
+	return (c);
+}
+
 static void	set_pixel(t_data *data, int x, int y)
 {
 	t_hitpoint	hp;
-	int			color;
+	int color;
 	t_ray		ray;
-	t_color		c;
 
 	ray = data->camera.rays[x + y * data->width];
 	hp = hit_hitable(data->hitables, ray);
 	if (hp.hit)
-	{
-		c = make_color((unsigned int)hp.color);
-		c = scale_color(c, ray_to_light(hp.pos, data->light.pos, hp.surface_normal_of_hittable));
-		color = get_color(c);
-	}
+		color = color_add_light(&hp, data);	
 	else
+	{
 		color = default_color(ray);
+		color = 0xFF;
+	}
 	mlx_put_pixel(data->img, x, y, color);
 }
 

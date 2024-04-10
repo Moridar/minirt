@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 12:18:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:32:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ static void	testdata_init(t_data *d)
 	t_hitable	plane;
 
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
-	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
-	d->light = create_light((t_vector3){0, 10, 0}, 0.8);
+	d->ambient = create_ambient(0.0, 0xFFFFFFFF);
+	d->light = create_light((t_vector3){3, 3, 0}, 1.0);
 	ft_printf("light created\n");
 	sphere = create_sphere((t_vector3){-.4, -1, 10}, 1.0f, 0x0000FFFF);
 	ft_printf("sphere created\n");
 	cyl = create_cylinder((t_vector3){0, 1, 10}, vec3_unit((t_vector3){0, 1, 0}), 1.5, 4, 0x0000FFFF);
 	ft_printf("cylinder created\n");
 	plane = create_plane((t_vector3){0, 0, 10}, (t_vector3){0, 0, -1}, 0x00FF00FF);
-	add_hitable(&d->hitables, cyl);
+	add_hitable(&d->hitables, sphere);
 	(void) sphere;
 	(void) plane;
+	(void) cyl;
 }
 
 static void mymlx_init(t_data *data)

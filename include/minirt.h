@@ -147,6 +147,6 @@ void		mouse_hook(void *data);
 int			destroy(t_data *data);
 int			get_color(t_color c);
 t_color		make_color(int a);
-t_color		scale_color(t_color c, float scale);
+int			scale_color(int color, float scale);
 
 #endif
