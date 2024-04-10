@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 14:32:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:51:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	testdata_init(t_data *d)
 	t_hitable	plane;
 
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
-	d->ambient = create_ambient(0.0, 0xFFFFFFFF);
-	d->light = create_light((t_vector3){3, 3, 0}, 1.0);
+	d->ambient = create_ambient(0.1, 0xFFFFFFFF);
+	d->light = create_light((t_vector3){3, 3, 0}, 0.8);
 	ft_printf("light created\n");
 	sphere = create_sphere((t_vector3){-.4, -1, 10}, 1.0f, 0x0000FFFF);
 	ft_printf("sphere created\n");
@@ -61,6 +61,9 @@ static void	data_init(t_data *data)
 	data->hitables = NULL;
 	data->camera.rays = NULL;
 	data->mlx = NULL;
+	ft_bzero(&data->ambient, sizeof(t_ambient));
+	ft_bzero(&data->light, sizeof(t_light));
+	ft_bzero(&data->camera, sizeof(t_camera));
 }
 
 int	main(int argc, char *argv[])

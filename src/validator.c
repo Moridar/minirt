@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 12:33:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:59:42 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int read_file(int fd, t_data *data)
 		trimmedline = ft_strtrim(line, " ");
 		free(line);
 		ret = parse_line(trimmedline, data);
-		printf("%d, %s\n", ret, trimmedline);
 		free(trimmedline);
 	}
 	return (ret);
@@ -64,19 +63,15 @@ int	load_file(char *file, t_data *data)
 	ft_printf("==Loading %s==\n", file);
 	ret = ft_strlen(file);
 	if (ret < 4 || ft_strncmp(file + ret - 3, ".rt", 3))
-	{
-		ft_printf("Error: Not a .rt file: %s\n", file);
-		return (-1);
-	}
+		return (err("Not a .rt file", file));
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		ft_printf("Error: file open: %s\n", file);
-		return (-1);
-	}
+		return (err("file open", file));
 	ret = read_file(fd, data);
 	close(fd);
 	if (ret < 0)
-		ft_printf("Error: Invalid file: %s\n", file);
+		return (err("Invalid file", file));
+	if (data->camera.rays == NULL)
+		return (err("No camera found", NULL));
 	return (ret);
 }

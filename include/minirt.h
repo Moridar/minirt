@@ -116,10 +116,11 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
 
-// Array Utils
+// Utils
 void		free_array(char **array);
 int			array_len(char **array);
 void		replace_whitespace_to_space(char *str);
+int			err(char *msg, char *arg);
 
 //Parsing
 int			load_file(char *file, t_data *data);

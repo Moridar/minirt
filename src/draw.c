@@ -6,24 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 14:38:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:44:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
-{
-	t_ray	light;
-	float	dot;
-
-	light.dir = vec3_unit(vec3_sub(lightpos, pos));
-	light.origin = &pos;
-	dot = vec3_dot(light.dir, vec3_unit(normal));
-	if (dot < 0.3)
-		return (0.3);
-	return (dot);
-}
 
 static int	default_color(t_ray ray)
 {
@@ -39,7 +26,7 @@ static int	default_color(t_ray ray)
 	return ((red << 24) + (green << 16) + (blue << 8) + 255);
 }
 
-float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
+static float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
 {
 	t_ray	light;
 	float	dot;
@@ -50,7 +37,7 @@ float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
 	return (dot);
 }
 
-int	color_add_light(t_hitpoint *hp, t_data *data)
+static int	color_add_light(t_hitpoint *hp, t_data *data)
 {
 	int		c;
 	float	dot;
@@ -60,7 +47,7 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 	scale = dot * data->light.brightness;
 	if (scale < data->ambient.brightness)
 		scale = data->ambient.brightness;
-	c = scale_color((unsigned int)(hp->color), scale);
+	c = scale_color(hp->color, scale);
 	return (c);
 }
 
