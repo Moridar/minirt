@@ -6,13 +6,13 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 16:52:12 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/10 13:28:46 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
+float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal, t_hitable *list)
 {
 	t_ray	light;
 	float	dot;
@@ -20,8 +20,10 @@ float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
 	light.dir = vec3_unit(vec3_sub(lightpos, pos));
 	light.origin = &pos;
 	dot = vec3_dot(light.dir, vec3_unit(normal));
-	if (dot < 0.3)
-		return (0.3);
+	if (hit_hitable(list, light).hit == 1)
+		return (0.1);
+	if (dot < 0.1)
+		return (0.1);
 	return (dot);
 }
 

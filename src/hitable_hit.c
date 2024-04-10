@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 22:18:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/10 13:26:58 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,37 +61,6 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 		hp.surface_normal_of_hittable = vec3_scale(cylinder.normal, -1);
 		mind = d;
 	}
-	/*
-	partialTop = hit_plane((t_hitable){'p', vec3_add(cylinder.pos,
-				vec3_scale(cylinder.normal, cylinder.height / 2)),
-			cylinder.normal, 0, 0, 0, NULL}, ray);
-	if (partialTop.hit && vec3_length(vec3_sub(partialTop.pos, vec3_add(cylinder.pos,
-					vec3_scale(cylinder.normal, cylinder.height / 2))))
-		<= cylinder.diameter / 2)
-	{
-		hp.hit = 1;
-		hp.pos = partialTop.pos;
-		hp.color = cylinder.color;
-		hp.surface_normal_of_hittable = cylinder.normal;
-		mind = vec3_length(vec3_sub(partialTop.pos, *ray.origin));
-	}
-	// other cap
-	partialBot = hit_plane((t_hitable){'p', vec3_add(cylinder.pos,
-				vec3_scale(cylinder.normal, cylinder.height / -2)),
-			vec3_scale(cylinder.normal, -1), 0, 0, 0, NULL}, ray);
-	if (partialBot.hit && vec3_length(vec3_sub(partialBot.pos, vec3_add(cylinder.pos,
-					vec3_scale(cylinder.normal, cylinder.height / -2))))
-		<= cylinder.diameter / 2)
-	{
-		if (mind >= vec3_length(vec3_sub(partialBot.pos, *ray.origin)))
-		{
-			hp.hit = 1;
-			hp.pos = partialBot.pos;
-			hp.color = cylinder.color;
-			hp.surface_normal_of_hittable = vec3_scale(cylinder.normal, -1);
-			mind = vec3_length(vec3_sub(partialBot.pos, *ray.origin));
-		}
-	}*/
 	// side
 	// calc line facing normal
 	t_vector3 b = vec3_sub(cylinder.pos, *ray.origin);
