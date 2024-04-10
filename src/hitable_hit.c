@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 22:18:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/10 12:34:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	d = 0;
 	hp.hit = 0;
 	mind = 214743647;
-	
+
 	t_vector3 center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / 2));
 	d = vec3_dot(center, center) / vec3_dot(center, ray.dir);
 	if (vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f)
@@ -154,19 +154,18 @@ t_hitpoint	hit_hitable(t_hitable *list, t_ray ray)
 	t_hitpoint	hp;
 	t_hitpoint	tmp_hp;
 
-	hp.distance = 0;
 	hp.hit = 0;
 	tmp = list;
 	while (tmp)
 	{
-		tmp_hp.distance = 0;
+		tmp_hp.hit = 0;
 		if (tmp->type == 's')
 			tmp_hp = hit_sphere(*tmp, ray);
 		if (tmp->type == 'c')
 			tmp_hp = hit_cylinder(*tmp, ray);
 		if (tmp->type == 'p')
 			tmp_hp = hit_plane(*tmp, ray);
-		if (tmp_hp.hit && (!hp.hit || (tmp_hp.distance < hp.distance)))
+		if (tmp_hp.hit && (!hp.hit || tmp_hp.distance < hp.distance))
 			hp = tmp_hp;
 		tmp = tmp->next;
 	}
