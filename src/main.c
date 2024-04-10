@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 15:43:14 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:51:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	testdata_init(t_data *d)
 	t_hitable	plane;
 
 	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
-	d->ambient = create_ambient(0.2, 0xFFFFFFFF);
-	d->light = create_light((t_vector3){0, 10, 0}, 0.8);
+	d->ambient = create_ambient(0.1, 0xFFFFFFFF);
+	d->light = create_light((t_vector3){3, 3, 0}, 0.8);
 	ft_printf("light created\n");
 	sphere = create_sphere((t_vector3){0, 5, 5}, 1.0f, 0x0000FFFF);
 	ft_printf("sphere created\n");
@@ -39,16 +39,11 @@ static void	testdata_init(t_data *d)
 	add_hitable(&d->hitables, sphere);
 	add_hitable(&d->hitables, plane);
 	(void) plane;
+	(void) cyl;
 }
 
-static void	data_init(t_data *data)
+static void mymlx_init(t_data *data)
 {
-	if (!data)
-		exit(print_msg(3));
-	data->width = 1920;
-	data->height = 1080;
-	data->hitables = NULL;
-	data->camera.rays = NULL;
 	data->mlx = mlx_init(data->width, data->height, "MiniRT", 0);
 	if (!data->mlx)
 		exit(print_msg(4));
@@ -57,6 +52,18 @@ static void	data_init(t_data *data)
 		destroy(data);
 	mlx_key_hook(data->mlx, keydown, data);
 	mlx_loop_hook(data->mlx, mouse_hook, data);
+}
+
+static void	data_init(t_data *data)
+{
+	data->width = 1920;
+	data->height = 1080;
+	data->hitables = NULL;
+	data->camera.rays = NULL;
+	data->mlx = NULL;
+	ft_bzero(&data->ambient, sizeof(t_ambient));
+	ft_bzero(&data->light, sizeof(t_light));
+	ft_bzero(&data->camera, sizeof(t_camera));
 }
 
 int	main(int argc, char *argv[])
@@ -69,7 +76,8 @@ int	main(int argc, char *argv[])
 	if (argc == 1 && ft_printf("No file input, loading testdata\n"))
 		testdata_init((&data));
 	else if (load_file(argv[1], &data) == -1)
-		destroy(&data);
+		return (destroy(&data));
+	mymlx_init(&data);
 	ft_printf("Window: [%d, %d]\n", data.width, data.height);
 	draw(&data);
 	mlx_loop(data.mlx);

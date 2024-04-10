@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:22:55 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/09 16:40:14 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:27:15 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,6 @@ int	get_color(t_color c)
 {
 	return ((c.r << 24) + (c.g << 16) + (c.b << 8) + c.a);
 }
-
-t_color	scale_color(t_color c, float scale)
-{
-	c.r = (float)c.r * scale;
-	c.g = (float)c.g * scale;
-	c.b = (float)c.b * scale;
-	c.a = c.a;
-	return (c);
-}
-
 t_color	make_color(int a)
 {
 	t_color c;
@@ -36,14 +26,30 @@ t_color	make_color(int a)
 		a = -a;
 	}
 	c.a = a % 256;
-	a -= c.a;
 	a /= 256;
 	c.b = a % 256; 
-	a -= c.b;
 	a /= 256;
 	c.g = a % 256; 
-	a -= c.g;
 	a /= 256;
-	c.r += a % 128;
+	c.r = a % 256;
 	return (c);
 }
+
+int	scale_color(int color, float scale)
+{
+	t_color c;
+
+	c = make_color(color);
+	c.r = (float)c.r * scale;
+	if (c.r > 255)
+		c.r = 255;
+	c.g = (float)c.g * scale;
+	if (c.g > 255)
+		c.g = 255;
+	c.b = (float)c.b * scale;
+	if (c.b > 255)
+		c.b = 255;
+	c.a = c.a;
+	return (get_color(c));
+}
+

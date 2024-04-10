@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
 /*   Updated: 2024/04/10 15:18:38 by dhorvath         ###   ########.fr       */
@@ -127,19 +127,18 @@ t_hitpoint	hit_hitable(t_hitable *list, t_ray ray)
 	t_hitpoint	hp;
 	t_hitpoint	tmp_hp;
 
-	hp.distance = 0;
 	hp.hit = 0;
 	tmp = list;
 	while (tmp)
 	{
-		tmp_hp.distance = 0;
+		tmp_hp.hit = 0;
 		if (tmp->type == 's')
 			tmp_hp = hit_sphere(*tmp, ray);
 		if (tmp->type == 'c')
 			tmp_hp = hit_cylinder(*tmp, ray);
 		if (tmp->type == 'p')
 			tmp_hp = hit_plane(*tmp, ray);
-		if (tmp_hp.hit && (!hp.hit || (tmp_hp.distance < hp.distance)))
+		if (tmp_hp.hit && (!hp.hit || tmp_hp.distance < hp.distance))
 			hp = tmp_hp;
 		tmp = tmp->next;
 	}

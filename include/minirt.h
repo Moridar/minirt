@@ -19,6 +19,10 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 
+# ifndef M_PI
+# define M_PI 3.14159265358979323846
+# endif
+
 typedef struct s_discriminant
 {
 	t_vector3	oc;
@@ -112,10 +116,11 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
 
-// Array Utils
+// Utils
 void		free_array(char **array);
 int			array_len(char **array);
 void		replace_whitespace_to_space(char *str);
+int			err(char *msg, char *arg);
 
 //Parsing
 int			load_file(char *file, t_data *data);
@@ -143,6 +148,6 @@ void		mouse_hook(void *data);
 int			destroy(t_data *data);
 int			get_color(t_color c);
 t_color		make_color(int a);
-t_color		scale_color(t_color c, float scale);
+int			scale_color(int color, float scale);
 
 #endif
