@@ -31,13 +31,13 @@ static void	testdata_init(t_data *d)
 	d->ambient = create_ambient(0.1, 0xFFFFFFFF);
 	d->light = create_light((t_vector3){3, 3, 0}, 0.8);
 	ft_printf("light created\n");
-	sphere = create_sphere((t_vector3){-.4, -1, 10}, 1.0f, 0x0000FFFF);
+	sphere = create_sphere((t_vector3){0, 5, 5}, 1.0f, 0x0000FFFF);
 	ft_printf("sphere created\n");
-	cyl = create_cylinder((t_vector3){0, 1, 10}, vec3_unit((t_vector3){0, 1, 0}), 1.5, 4, 0x0000FFFF);
+	cyl = create_cylinder((t_vector3){0, 1, 20}, vec3_unit((t_vector3){0, 1, 0}), 1.5, 4, 0x0000FFFF);
 	ft_printf("cylinder created\n");
-	plane = create_plane((t_vector3){0, 0, 10}, (t_vector3){0, 0, -1}, 0x00FF00FF);
+	plane = create_plane((t_vector3){0, 0, 20}, (t_vector3){0, 0, -1}, 0x00FF00FF);
 	add_hitable(&d->hitables, sphere);
-	(void) sphere;
+	add_hitable(&d->hitables, plane);
 	(void) plane;
 	(void) cyl;
 }
