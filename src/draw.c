@@ -6,11 +6,24 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 14:32:08 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:38:51 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
+{
+	t_ray	light;
+	float	dot;
+
+	light.dir = vec3_unit(vec3_sub(lightpos, pos));
+	light.origin = &pos;
+	dot = vec3_dot(light.dir, vec3_unit(normal));
+	if (dot < 0.3)
+		return (0.3);
+	return (dot);
+}
 
 static int	default_color(t_ray ray)
 {

@@ -41,7 +41,7 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	d = 0;
 	hp.hit = 0;
 	mind = 214743647;
-
+	
 	t_vector3 center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / 2));
 	d = vec3_dot(center, center) / vec3_dot(center, ray.dir);
 	if (vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f)
@@ -61,37 +61,6 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 		hp.surface_normal_of_hittable = vec3_scale(cylinder.normal, -1);
 		mind = d;
 	}
-	/*
-	partialTop = hit_plane((t_hitable){'p', vec3_add(cylinder.pos,
-				vec3_scale(cylinder.normal, cylinder.height / 2)),
-			cylinder.normal, 0, 0, 0, NULL}, ray);
-	if (partialTop.hit && vec3_length(vec3_sub(partialTop.pos, vec3_add(cylinder.pos,
-					vec3_scale(cylinder.normal, cylinder.height / 2))))
-		<= cylinder.diameter / 2)
-	{
-		hp.hit = 1;
-		hp.pos = partialTop.pos;
-		hp.color = cylinder.color;
-		hp.surface_normal_of_hittable = cylinder.normal;
-		mind = vec3_length(vec3_sub(partialTop.pos, *ray.origin));
-	}
-	// other cap
-	partialBot = hit_plane((t_hitable){'p', vec3_add(cylinder.pos,
-				vec3_scale(cylinder.normal, cylinder.height / -2)),
-			vec3_scale(cylinder.normal, -1), 0, 0, 0, NULL}, ray);
-	if (partialBot.hit && vec3_length(vec3_sub(partialBot.pos, vec3_add(cylinder.pos,
-					vec3_scale(cylinder.normal, cylinder.height / -2))))
-		<= cylinder.diameter / 2)
-	{
-		if (mind >= vec3_length(vec3_sub(partialBot.pos, *ray.origin)))
-		{
-			hp.hit = 1;
-			hp.pos = partialBot.pos;
-			hp.color = cylinder.color;
-			hp.surface_normal_of_hittable = vec3_scale(cylinder.normal, -1);
-			mind = vec3_length(vec3_sub(partialBot.pos, *ray.origin));
-		}
-	}*/
 	// side
 	// calc line facing normal
 	t_vector3 b = vec3_sub(cylinder.pos, *ray.origin);
