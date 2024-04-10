@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 13:28:46 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:43:32 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal, t_hitabl
 	light.dir = vec3_unit(vec3_sub(lightpos, pos));
 	light.origin = &pos;
 	dot = vec3_dot(light.dir, vec3_unit(normal));
-	if (hit_hitable(list, light).hit == 1)
-		return (0.1);
+	if (hit_hitable(list, light).hit == 1 && hit_hitable(list, light).distance > 0
+		&& hit_hitable(list, light).distance < vec3_length(vec3_sub(pos, lightpos)))
+	{
+		return (0.3);
+	}
 	if (dot < 0.1)
 		return (0.1);
 	return (dot);
@@ -53,7 +56,7 @@ static void	set_pixel(t_data *data, int x, int y)
 	if (hp.hit)
 	{
 		c = make_color((unsigned int)hp.color);
-		c = scale_color(c, ray_to_light(hp.pos, data->light.pos, hp.surface_normal_of_hittable));
+		c = scale_color(c, ray_to_light(hp.pos, data->light.pos, hp.surface_normal_of_hittable, data->hitables));
 		color = get_color(c);
 	}
 	else
