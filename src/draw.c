@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 16:16:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:20:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal, t_hitabl
 	distance_to_light = vec3_length(vec3_sub(pos, lightpos));
 	eclipse = hit_hitable(list, light);
 	if (eclipse.hit == 1 && eclipse.distance > 0
-		&& eclipse.distance < distance_to_light);
+		&& eclipse.distance < distance_to_light)
 		return (0);
 	dot = vec3_dot(light.dir, vec3_unit(normal));
 	return (dot);

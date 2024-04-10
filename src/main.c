@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 14:51:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:19:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	testdata_init(t_data *d)
 	ft_printf("light created\n");
 	sphere = create_sphere((t_vector3){0, 5, 5}, 1.0f, 0x0000FFFF);
 	ft_printf("sphere created\n");
-	cyl = create_cylinder((t_vector3){0, 1, 20}, vec3_unit((t_vector3){0, 1, 0}), 1.5, 4, 0x0000FFFF);
+	cyl = create_cylinder((t_vector3){0, 1, 20}, vec3_unit((t_vector3){0, 1, 0}), 1.5, 4, 0xFF0000FF);
 	ft_printf("cylinder created\n");
 	plane = create_plane((t_vector3){0, 0, 20}, (t_vector3){0, 0, -1}, 0x00FF00FF);
 	add_hitable(&d->hitables, sphere);
