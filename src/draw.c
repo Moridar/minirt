@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 15:43:32 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:20:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal, t_hitabl
 {
 	t_ray	light;
 	float	dot;
+	float	distance_to_light;
+	t_hitpoint eclipse;
 
 	light.dir = vec3_unit(vec3_sub(lightpos, pos));
 	light.origin = &pos;
+	distance_to_light = vec3_length(vec3_sub(pos, lightpos));
+	eclipse = hit_hitable(list, light);
+	if (eclipse.hit == 1 && eclipse.distance > 0
+		&& eclipse.distance < distance_to_light)
+		return (0);
 	dot = vec3_dot(light.dir, vec3_unit(normal));
-	if (hit_hitable(list, light).hit == 1 && hit_hitable(list, light).distance > 0
-		&& hit_hitable(list, light).distance < vec3_length(vec3_sub(pos, lightpos)))
-	{
-		return (0.3);
-	}
-	if (dot < 0.1)
-		return (0.1);
 	return (dot);
 }
 static int	default_color(t_ray ray)
@@ -44,24 +44,13 @@ static int	default_color(t_ray ray)
 	return ((red << 24) + (green << 16) + (blue << 8) + 255);
 }
 
-static float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal)
-{
-	t_ray	light;
-	float	dot;
-
-	light.dir = vec3_unit(vec3_sub(lightpos, pos));
-	light.origin = &pos;
-	dot = vec3_dot(light.dir, vec3_unit(normal));
-	return (dot);
-}
-
 static int	color_add_light(t_hitpoint *hp, t_data *data)
 {
 	int		c;
 	float	dot;
 	float	scale;
 	
-	dot = ray_to_light(hp->pos, data->light.pos, hp->surface_normal_of_hittable);
+	dot = ray_to_light(hp->pos, data->light.pos, hp->surface_normal_of_hittable, data->hitables);
 	scale = dot * data->light.brightness;
 	if (scale < data->ambient.brightness)
 		scale = data->ambient.brightness;
@@ -78,11 +67,7 @@ static void	set_pixel(t_data *data, int x, int y)
 	ray = data->camera.rays[x + y * data->width];
 	hp = hit_hitable(data->hitables, ray);
 	if (hp.hit)
-	{
-		c = make_color((unsigned int)hp.color);
-		c = scale_color(c, ray_to_light(hp.pos, data->light.pos, hp.surface_normal_of_hittable, data->hitables));
-		color = get_color(c);
-	}
+		color = color_add_light(&hp, data);
 	else
 	{
 		color = default_color(ray);
