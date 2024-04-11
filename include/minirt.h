@@ -72,9 +72,9 @@ typedef struct s_hitable
 
 typedef struct s_light
 {
-	t_vector3	pos;
-	float		brightness;
-	//unsigned int			color;
+	t_vector3		pos;
+	float			brightness;
+	unsigned int	color;
 }	t_light;
 
 typedef struct s_ambient
@@ -122,6 +122,14 @@ int			array_len(char **array);
 void		replace_whitespace_to_space(char *str);
 int			err(char *msg, char *arg);
 
+// Colors
+int			color_add_light(t_hitpoint *hp, t_data *data);
+int			get_color(t_color c);
+t_color		make_color(unsigned int a);
+int			scale_color(int color, float scale);
+int 		color_add(int a, int b, int c);
+int 		color_multiply(int a, int b);
+
 //Parsing
 int			load_file(char *file, t_data *data);
 t_vector3	parse_vector3(char *str);
@@ -146,9 +154,5 @@ void		draw(t_data *data);
 void		keydown(mlx_key_data_t keydata, void *params);
 void		mouse_hook(void *data);
 int			destroy(t_data *data);
-int			get_color(t_color c);
-t_color		make_color(unsigned int a);
-int			scale_color(int color, float scale);
-int			color_add_light(t_hitpoint *hp, t_data *data);
 
 #endif

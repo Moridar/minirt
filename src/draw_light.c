@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 12:50:21 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:19:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_ray	ray_to_light(t_vector3 pos, t_vector3 lightpos)
 
 	return (light);
 }
-static float get_diffuse_scale(t_data *data, t_hitpoint *hp)
+static int get_diffuse_color(t_data *data, t_hitpoint *hp)
 {
 	t_ray		light;
 	t_hitpoint	eclipse;
@@ -37,17 +37,34 @@ static float get_diffuse_scale(t_data *data, t_hitpoint *hp)
 	dot = vec3_dot(light.dir, vec3_unit(hp->surface_normal_of_hittable));
 	if (dot < 0)
 		dot = 0;
-	return (dot * data->light.brightness);
+	return (scale_color(data->light.color, dot));
+}
+static int get_specular_color(t_data *data, t_hitpoint *hp)
+{
+	t_vector3 viewDir;
+	t_vector3 reflectDir;
+	t_ray		light;
+	float		spec;
+
+	light = ray_to_light(hp->pos, data->light.pos);
+	light.dir = vec3_scale(light.dir, -1);
+	viewDir = vec3_unit(vec3_sub(data->camera.pos, hp->pos));
+	reflectDir = vec3_reflect(light.dir, hp->surface_normal_of_hittable);
+	spec = pow(fmax(vec3_dot(viewDir, reflectDir), 0.0), 32);
+	return (scale_color(data->light.color, spec * data->light.brightness));
 }
 
 int	color_add_light(t_hitpoint *hp, t_data *data)
 {
 	int		c;
-	float	scale;
+	int		diffuse;
+	int		specular;
+	int		ambient;
 	
-	scale = get_diffuse_scale(data, hp);
-	if (scale < data->ambient.brightness)
-		scale = data->ambient.brightness;
-	c = scale_color(hp->color, scale);
+	ambient = scale_color(data->ambient.color, data->ambient.brightness);
+	diffuse = get_diffuse_color(data, hp);
+	specular = get_specular_color(data, hp);
+	specular = 0;
+	c = color_multiply(color_add(ambient, diffuse, specular), hp->color);
 	return (c);
 }

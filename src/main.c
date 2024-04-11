@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 13:08:26 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/11 15:31:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ static void	testdata_init(t_data *d)
 	plane = create_plane((t_vector3){0, 0, 20}, (t_vector3){0, 0, -1}, 0x00FF00FF);
 	add_hitable(&d->hitables, cyl);
 	add_hitable(&d->hitables, plane);
-	add_hitable(&d->hitables, cyl);
-	(void) plane;
+	add_hitable(&d->hitables, sphere);
+	(void) plane;	
 	(void) cyl;
+	(void) sphere;
 }
 
 static void mymlx_init(t_data *data)
