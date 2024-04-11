@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 15:18:38 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:10:47 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	// hit caps
 	d = 0;
 	hp.hit = 0;
-	mind = 214743647;
-	
+	mind = 214743647;	
 	t_vector3 center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / 2));
-	d = vec3_dot(center, center) / vec3_dot(center, ray.dir);
+	d = vec3_dot(cylinder.normal, center) / vec3_dot(cylinder.normal, ray.dir);
 	if (vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f)
 	{
 		hp.hit = 1;
@@ -54,7 +53,7 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	}
 
 	center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / -2));
-	d = vec3_dot(center, center) / vec3_dot(center, ray.dir);
+	d = vec3_dot(vec3_scale(cylinder.normal, -1), center) / vec3_dot(cylinder.normal, ray.dir);
 	if (vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f && mind > d)
 	{
 		hp.hit = 1;
