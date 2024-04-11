@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 15:19:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:01:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ static int get_specular_color(t_data *data, t_hitpoint *hp)
 {
 	t_vector3 viewDir;
 	t_vector3 reflectDir;
-	t_ray		light;
+	t_vector3 lightDir;
 	float		spec;
 
-	light = ray_to_light(hp->pos, data->light.pos);
-	light.dir = vec3_scale(light.dir, -1);
+	lightDir = vec3_unit(vec3_sub(data->light.pos, hp->pos));
 	viewDir = vec3_unit(vec3_sub(data->camera.pos, hp->pos));
-	reflectDir = vec3_reflect(light.dir, hp->surface_normal_of_hittable);
+	reflectDir = vec3_reflect(lightDir, hp->surface_normal_of_hittable);
 	spec = pow(fmax(vec3_dot(viewDir, reflectDir), 0.0), 32);
 	return (scale_color(data->light.color, spec * data->light.brightness));
 }
