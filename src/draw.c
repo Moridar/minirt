@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 16:20:30 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:04:09 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static int	color_add_light(t_hitpoint *hp, t_data *data)
 	
 	dot = ray_to_light(hp->pos, data->light.pos, hp->surface_normal_of_hittable, data->hitables);
 	scale = dot * data->light.brightness;
-	if (scale < data->ambient.brightness)
-		scale = data->ambient.brightness;
+	scale += data->ambient.brightness;
 	c = scale_color(hp->color, scale);
 	return (c);
 }
