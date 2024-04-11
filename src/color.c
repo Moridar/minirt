@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:22:55 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/11 12:47:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:50:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_color	make_color(unsigned int a)
 	a /= 256;
 	c.g = a % 256; 
 	a /= 256;
-	c.r += a;
+	c.r = a;
 	return (c);
 }
 

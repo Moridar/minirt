@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 12:44:04 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:50:21 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_ray	ray_to_light(t_vector3 pos, t_vector3 lightpos)
 	t_ray	light;
 
 	light.dir = vec3_unit(vec3_sub(lightpos, pos));
-	light.origin = &lightpos;
+	light.origin = &pos;
 
 	return (light);
 }
