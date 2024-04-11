@@ -12,6 +12,7 @@ MLX42 = MLX42/build/libmlx42.a
 SRCS = 	main.c \
 		camera.c light.c \
 		draw.c \
+		draw_light.c \
 		events.c \
 		utils.c \
 		hitable_create.c \

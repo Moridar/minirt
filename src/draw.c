@@ -6,30 +6,12 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 13:04:09 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:08:07 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-
-float	ray_to_light(t_vector3 pos, t_vector3 lightpos, t_vector3 normal, t_hitable *list)
-{
-	t_ray	light;
-	float	dot;
-	float	distance_to_light;
-	t_hitpoint eclipse;
-
-	light.dir = vec3_unit(vec3_sub(lightpos, pos));
-	light.origin = &pos;
-	distance_to_light = vec3_length(vec3_sub(pos, lightpos));
-	eclipse = hit_hitable(list, light);
-	if (eclipse.hit == 1 && eclipse.distance > 0
-		&& eclipse.distance < distance_to_light)
-		return (0);
-	dot = vec3_dot(light.dir, vec3_unit(normal));
-	return (dot);
-}
 static int	default_color(t_ray ray)
 {
 	int			red;
@@ -42,19 +24,6 @@ static int	default_color(t_ray ray)
 	green = (1.0 - a) * 255 + a * 0.7 * 255;
 	blue = (1.0 - a) * 255 + a * 0.5 * 255;
 	return ((red << 24) + (green << 16) + (blue << 8) + 255);
-}
-
-static int	color_add_light(t_hitpoint *hp, t_data *data)
-{
-	int		c;
-	float	dot;
-	float	scale;
-	
-	dot = ray_to_light(hp->pos, data->light.pos, hp->surface_normal_of_hittable, data->hitables);
-	scale = dot * data->light.brightness;
-	scale += data->ambient.brightness;
-	c = scale_color(hp->color, scale);
-	return (c);
 }
 
 static void	set_pixel(t_data *data, int x, int y)

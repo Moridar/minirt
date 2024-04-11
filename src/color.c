@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:22:55 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/10 14:27:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:47:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,17 @@ int	get_color(t_color c)
 {
 	return ((c.r << 24) + (c.g << 16) + (c.b << 8) + c.a);
 }
-t_color	make_color(int a)
+t_color	make_color(unsigned int a)
 {
 	t_color c;
 
-	if (a < 0)
-	{
-		c.r = 128;
-		a = -a;
-	}
 	c.a = a % 256;
 	a /= 256;
 	c.b = a % 256; 
 	a /= 256;
 	c.g = a % 256; 
 	a /= 256;
-	c.r = a % 256;
+	c.r += a;
 	return (c);
 }
 

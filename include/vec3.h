@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:13:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/06 14:26:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:21:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ t_vector3	vec3_cross(t_vector3 a, t_vector3 b);
 float		vec3_dot(t_vector3 a, t_vector3 b);
 float		vec3_length(t_vector3 a);
 t_vector3	vec3_unit(t_vector3 a);
+float		vec3_distance(t_vector3 pos_a, t_vector3 pos_b);
 
 #endif
