@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 10:45:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:45:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color)
 
 	hit.type = 'p';
 	hit.pos = pos;
-	hit.normal = normal;
+	hit.normal = vec3_unit(normal);
 	hit.color = color;
 	hit.next = NULL;
 	ft_printf("plane created: %d, %d, %d\n", color >> 24, (color >> 16) % 256, (color >> 8) % 256);
@@ -45,7 +45,7 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 
 	hit.type = 'c';
 	hit.pos = pos;
-	hit.normal = normal;
+	hit.normal = vec3_unit(normal);
 	hit.diameter = diameter;
 	hit.height = height;
 	hit.color = color;

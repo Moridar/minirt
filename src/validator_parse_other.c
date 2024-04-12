@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 11:47:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:42:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	parse_light(char *line, t_data *data)
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
-	if (array_len(split) != 4 || !is_vector3(split[1]) || !is_float(split[2]))
+	if (array_len(split) < 3 || !is_vector3(split[1]) || !is_float(split[2]))
 	{
 		ft_printf("Invalid light\n");
 		free_array(split);

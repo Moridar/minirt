@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/12 11:46:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:45:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	create_camera(t_data *data, t_vector3 pos,
 {
 	ft_printf("camera created\n");
 	data->camera.pos = pos;
-	data->camera.normal = normal;
+	data->camera.normal = vec3_unit(normal);
 	data->camera.degree = FOV;
 	data->camera.rays = create_rays(data, FOV);
 }
