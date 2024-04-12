@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 15:15:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/13 00:32:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	}
 	if (keydata.key == MLX_KEY_KP_ENTER && keydata.action == MLX_PRESS)
 	{
+		if (data->camera.rays)
+			free(data->camera.rays);
 		create_camera(data, data->camera.pos, data->camera.normal, data->camera.degree);
 		ft_printf("Redrawing\n");
 		draw(data);
@@ -87,8 +89,5 @@ void mlx_resize(int32_t width, int32_t height, void *param)
 	data = (t_data *)param;
 	data->width = width;
 	data->height = height;
-	if (data->camera.rays)
-		free(data->camera.rays);
-	data->camera.rays = create_rays(data, data->camera.degree);
-	draw(data);
+	printf("Windows resized to: [%d, %d] - Press KP_Enter to re-render\n", width, height);
 }

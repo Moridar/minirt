@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/12 12:59:49 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/13 01:16:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,19 @@
 t_vector3	ray_at(t_ray *ray, float t)
 {
 	return (vec3_add(*ray->origin, vec3_scale(ray->dir, t)));
+}
+
+t_vector3 rotate_vector(t_vector3 vec, t_vector3 axis, float angle)
+{
+    t_vector3 rotated_vec;
+    float cos_theta = cos(angle);
+    float sin_theta = sin(angle);
+
+    rotated_vec.x = cos_theta * vec.x + sin_theta * (axis.y * vec.z - axis.z * vec.y);
+    rotated_vec.y = cos_theta * vec.y + sin_theta * (axis.z * vec.x - axis.x * vec.z);
+    rotated_vec.z = cos_theta * vec.z + sin_theta * (axis.x * vec.y - axis.y * vec.x);
+
+    return rotated_vec;
 }
 
 t_ray	*create_rays(t_data *data, float FOV)
@@ -38,9 +51,9 @@ t_ray	*create_rays(t_data *data, float FOV)
 			vec.x = x - data->width / 2;
 			vec.y = 0 - (y - data->height / 2);
 			vec.z = dist;
-			vec = vec3_unit(vec);
-			rays[y * data->width + x].dir = 
-					vec3_unit(vec3_add(vec, data->camera.normal));
+			vec = rotate_vector(vec3_unit(vec), vec3_cross((t_vector3){0,0,1}, data->camera.normal), acos(vec3_dot((t_vector3){0,0,1}, data->camera.normal)));
+			rays[y * data->width + x].dir = vec;
+					// vec3_unit(vec3_add(vec, data->camera.normal));
 			rays[y * data->width + x].origin = &data->camera.pos;
 		}
 	}
