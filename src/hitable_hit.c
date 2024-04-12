@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 12:20:58 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 13:26:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,23 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 	float		d;
 
 	hp.hit = 0;
+	// if (plane.color == 0x00FF00FF)
+	// 	printf("==Green Plane==\n");
+	// if (plane.color == 0xFF0000FF)
+	// 	printf("==Red Plane==\n");
+	// printf("plane normal: %f, %f, %f\n", plane.normal.x, plane.normal.y, plane.normal.z);
+	// printf("plane pos: %f, %f, %f\n", plane.pos.x, plane.pos.y, plane.pos.z);
+	// printf("ray dir: %f, %f, %f\n", ray.dir.x, ray.dir.y, ray.dir.z);
+	// printf("ray origin: %f, %f, %f\n", ray.origin->x, ray.origin->y, ray.origin->z);
 	if (vec3_dot(plane.normal, ray.dir) == 0
 		|| vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal) == 0)
+	{
+		// printf("==no hit==\n");
 		return (hp);
+	}
 	d = vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal)
 		/ vec3_dot(ray.dir, plane.normal);
+	// printf("==distance: %f==\n", d);
 	hp.hit = 1;
 	hp.surface_normal_of_hittable = plane.normal;
 	hp.color = plane.color;
