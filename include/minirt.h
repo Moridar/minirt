@@ -103,7 +103,7 @@ typedef struct s_color{
 }t_color;
 
 // Creates
-t_camera	create_camera(t_data *data, t_vector3 pos,
+void	create_camera(t_data *data, t_vector3 pos,
 				t_vector3 normal, int FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, float brightness);

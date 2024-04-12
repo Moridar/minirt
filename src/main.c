@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 15:31:25 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:45:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	testdata_init(t_data *d)
 	t_hitable	cyl;
 	t_hitable	plane;
 
-	d->camera = create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 0}, 90);
+	create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 1}, 90);
 	d->ambient = create_ambient(0.1, 0xFFFFFFFF);
 	d->light = create_light((t_vector3){3, 15, 15}, 0.8);
 	sphere = create_sphere((t_vector3){0, 0, 15}, 1.0f, 0x0000FFFF);

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 15:00:04 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:47:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	parse_camera(char *line, t_data *data)
 		free_array(split);
 		return (-1);
 	}
-	data->camera = create_camera(data, parse_vector3(split[1]),
+	create_camera(data, parse_vector3(split[1]),
 			parse_vector3(split[2]), ft_atof(split[3]));
 	free_array(split);
 	return (0);

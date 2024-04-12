@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/10 16:00:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 11:46:55 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_vector3	ray_at(t_ray *ray, float t)
 	return (vec3_add(*ray->origin, vec3_scale(ray->dir, t)));
 }
 
-t_ray	*create_rays(t_data *data, float FOV, t_camera camera)
+t_ray	*create_rays(t_data *data, float FOV)
 {
 	t_ray		*rays;
 	int			x;
@@ -39,7 +39,7 @@ t_ray	*create_rays(t_data *data, float FOV, t_camera camera)
 			vec.y = 0 - (y - data->height / 2);
 			vec.z = dist;
 			rays[y * data->width + x].dir = 
-					vec3_add(vec3_unit(vec), camera.normal);
+					vec3_add(vec3_unit(vec), data->camera.normal);
 			rays[y * data->width + x].origin = &data->camera.pos;
 		}
 	}
@@ -47,15 +47,12 @@ t_ray	*create_rays(t_data *data, float FOV, t_camera camera)
 	return (rays);
 }
 
-t_camera	create_camera(t_data *data, t_vector3 pos,
+void	create_camera(t_data *data, t_vector3 pos,
 				t_vector3 normal, int FOV)
 {
-	t_camera	camera;
-
 	ft_printf("camera created\n");
-	camera.pos = pos;
-	camera.normal = normal;
-	camera.degree = FOV;
-	camera.rays = create_rays(data, FOV, camera);
-	return (camera);
+	data->camera.pos = pos;
+	data->camera.normal = normal;
+	data->camera.degree = FOV;
+	data->camera.rays = create_rays(data, FOV);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/08 15:48:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 10:45:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color)
 	hit.diameter = diameter;
 	hit.color = color;
 	hit.next = NULL;
-	ft_printf("sphere created\n");
+	ft_printf("sphere created, color: %d, %d, %d\n", color >> 24, color >> 16, color >> 8);
 	return (hit);
 }
 
@@ -34,7 +34,7 @@ t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color)
 	hit.normal = normal;
 	hit.color = color;
 	hit.next = NULL;
-	ft_printf("plane created\n");
+	ft_printf("plane created: %d, %d, %d\n", color >> 24, (color >> 16) % 256, (color >> 8) % 256);
 	return (hit);
 }
 
