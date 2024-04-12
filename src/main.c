@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 11:45:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:13:16 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static void mymlx_init(t_data *data)
 		destroy(data);
 	mlx_key_hook(data->mlx, keydown, data);
 	mlx_loop_hook(data->mlx, mouse_hook, data);
+	mlx_resize_hook(data->mlx, mlx_resize, data);
 }
 
 static void	data_init(t_data *data)

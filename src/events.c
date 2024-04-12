@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 12:12:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:15:59 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,17 @@ void	mouse_hook(void *params)
 	{
 		ft_printf("Mouse 2 clicked\n");
 	}
+}
+
+void mlx_resize(int32_t width, int32_t height, void *param)
+{
+	t_data	*data;
+
+	data = (t_data *)param;
+	data->width = width;
+	data->height = height;
+	if (data->camera.rays)
+		free(data->camera.rays);
+	data->camera.rays = create_rays(data, data->camera.degree);
+	draw(data);
 }

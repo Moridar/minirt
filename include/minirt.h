@@ -105,6 +105,7 @@ typedef struct s_color{
 // Creates
 void	create_camera(t_data *data, t_vector3 pos,
 				t_vector3 normal, int FOV);
+t_ray	*create_rays(t_data *data, float FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, float brightness);
 void		add_hitable(t_hitable **list, t_hitable hit);
@@ -152,5 +153,6 @@ void		draw(t_data *data);
 void		keydown(mlx_key_data_t keydata, void *params);
 void		mouse_hook(void *data);
 int			destroy(t_data *data);
+void		mlx_resize(int32_t width, int32_t height, void *param);
 
 #endif
