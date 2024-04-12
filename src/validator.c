@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 15:55:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:05:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	parse_line(char *line, t_data *data, int declared[3])
 		return (0);
 	if (line[0] == '\0')
 		return (0);
+	if (line[0] == 'R' && line[1] == ' ')
+		return (parse_resolution(line, data));
 	if (line[0] == 'A' && line[1] == ' ' && ++declared[0] == 1)
 		return (parse_ambient(line, data));
 	if (line[0] == 'C' && line[1] == ' ' && ++declared[1] == 1)

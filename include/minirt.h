@@ -139,6 +139,7 @@ int			parse_cylinder(char *line, t_data *data);
 int			parse_camera(char *line, t_data *data);
 int			parse_light(char *line, t_data *data);
 int			parse_ambient(char *line, t_data *data);
+int			parse_resolution(char *line, t_data *data);
 
 
 // Validator
@@ -146,7 +147,7 @@ int			is_vector3(char *str);
 int			is_normal3(char *str);
 int			is_color3(char *str);
 int			is_float(char *str);
-int			is_fov(char *str);
+int			str_is_int(char *str, int min, int max);
 
 // MLX utils
 void		draw(t_data *data);

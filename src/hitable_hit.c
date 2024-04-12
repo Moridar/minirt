@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 14:45:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:38:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 	// printf("ray dir: %f, %f, %f\n", ray.dir.x, ray.dir.y, ray.dir.z);
 	// printf("ray origin: %f, %f, %f\n", ray.origin->x, ray.origin->y, ray.origin->z);
 	if (vec3_dot(plane.normal, ray.dir) == 0
-		|| vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal) == 0)
+		|| vec3_dot(vec3_unit(vec3_sub(plane.pos, *ray.origin)), plane.normal) == 0)
 	{
 		// printf("==no hit==\n");
 		return (hp);
@@ -38,7 +38,7 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 	d = vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal)
 		/ vec3_dot(ray.dir, plane.normal);
 	// printf("==distance: %f==\n", d);
-	if (d <= 0.00001)
+	if (d <= 0.001)
 		return (hp);
 	hp.hit = 1;
 	hp.surface_normal_of_hittable = plane.normal;
@@ -125,7 +125,7 @@ t_hitpoint	hit_sphere(t_hitable sphere, t_ray ray)
 	dis.oc = vec3_sub(*ray.origin, sphere.pos);
 	dis.a = vec3_dot(ray.dir, ray.dir);
 	dis.b = 2.0 * vec3_dot(dis.oc, ray.dir);
-	dis.c = vec3_dot(dis.oc, dis.oc) - sphere.diameter * sphere.diameter;
+	dis.c = vec3_dot(dis.oc, dis.oc) - sphere.diameter / 2 * sphere.diameter / 2;
 	dis.discriminant = dis.b * dis.b - 4 * dis.a * dis.c;
 	if (dis.discriminant < 0)
 		return (hp);

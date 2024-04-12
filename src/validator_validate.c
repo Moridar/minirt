@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/09 14:19:54 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:13:12 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,25 @@ int	is_color3(char *str)
 	return (0);
 }
 
-int	is_fov(char *str)
+int	str_is_int(char *str, int min, int max)
 {
-	if (!is_float(str) || ft_atof(str) < 0 || ft_atof(str) > 180)
+	int i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
 	{
-		printf("Invalid FOV\n");
+		if (!ft_isdigit(str[i]))
+		{
+			printf("Invalid number\n");
+			return (0);
+		}
+		i++;
+	}
+	if (ft_atoi(str) < min || ft_atoi(str) > max)
+	{
+		printf("Number outside of range\n");
 		return (0);
 	}
 	return (1);

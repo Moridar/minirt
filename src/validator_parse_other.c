@@ -6,11 +6,31 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 12:42:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 23:14:07 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int parse_resolution(char *line, t_data *data)
+{
+	char	**split;
+
+	split = ft_split(line, ' ');
+	if (!split)
+		return (-1);
+	if (array_len(split) != 3 || !str_is_int(split[1], 1, 3000) || !str_is_int(split[2], 1, 3000))
+	{
+		ft_printf("Invalid resolution\n");
+		free_array(split);
+		return (-1);
+	}
+	data->width = ft_atoi(split[1]);
+	data->height = ft_atoi(split[2]);
+	free_array(split);
+	return (0);
+
+}
 
 int	parse_ambient(char *line, t_data *data)
 {
@@ -67,7 +87,7 @@ int	parse_camera(char *line, t_data *data)
 		free_array(split);
 		return (-1);
 	}
-	if (!is_vector3(split[1]) || !is_normal3(split[2]) || !is_fov(split[3]))
+	if (!is_vector3(split[1]) || !is_normal3(split[2]) || !str_is_int(split[3], 0, 180))
 	{
 		ft_printf("Invalid camera\n");
 		free_array(split);
