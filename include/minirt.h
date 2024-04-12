@@ -124,11 +124,9 @@ int			err(char *msg, char *arg);
 
 // Colors
 int			color_add_light(t_hitpoint *hp, t_data *data);
-int			get_color(t_color c);
-t_color		make_color(unsigned int a);
 int			scale_color(int color, float scale);
 int 		color_add(int a, int b, int c);
-int 		color_multiply(int a, int b);
+unsigned int 		color_multiply(int a, int b);
 
 //Parsing
 int			load_file(char *file, t_data *data);

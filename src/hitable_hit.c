@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 13:26:54 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:45:15 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 		// printf("==no hit==\n");
 		return (hp);
 	}
+	d = vec3_dot(ray.dir, plane.normal);
+	if (d > 0)
+		plane.normal = vec3_scale(plane.normal, -1);
 	d = vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal)
 		/ vec3_dot(ray.dir, plane.normal);
 	// printf("==distance: %f==\n", d);
+	if (d <= 0.00001)
+		return (hp);
 	hp.hit = 1;
 	hp.surface_normal_of_hittable = plane.normal;
 	hp.color = plane.color;
@@ -152,7 +157,7 @@ t_hitpoint	hit_hitable(t_hitable *list, t_ray ray)
 			tmp_hp = hit_cylinder(*tmp, ray);
 		if (tmp->type == 'p')
 			tmp_hp = hit_plane(*tmp, ray);
-		if (tmp_hp.hit && (!hp.hit || tmp_hp.distance < hp.distance))
+		if (tmp_hp.hit && tmp_hp.distance > 0 && (!hp.hit || tmp_hp.distance < hp.distance))
 			hp = tmp_hp;
 		tmp = tmp->next;
 	}

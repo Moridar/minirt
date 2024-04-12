@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 13:26:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:48:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int check_eclipse(t_hitpoint *hp, t_data *data)
 
 int	color_add_light(t_hitpoint *hp, t_data *data)
 {
-	int		c;
+	unsigned int		c;
 	int		diffuse;
 	int		specular;
 	int		ambient;
@@ -75,5 +75,6 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 	diffuse = get_diffuse_color(data, hp);
 	specular = get_specular_color(data, hp);
 	c = color_multiply(color_add(ambient, diffuse, specular), hp->color);
+	// printf("color: %d, %d, %d\n", c >> 24, (c >> 16) % 256, (c >> 8) % 256);
 	return (c);
 }

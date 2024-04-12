@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:22:55 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/11 15:23:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 14:46:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	get_color(t_color c)
+unsigned int	get_color(t_color c)
 {
 	return ((c.r << 24) + (c.g << 16) + (c.b << 8) + c.a);
 }
@@ -72,7 +72,7 @@ int color_add(int a, int b, int c)
 	return (get_color(color));
 }
 
-int color_multiply(int a, int b)
+unsigned int color_multiply(int a, int b)
 {
 	t_color color;
 	t_color color2;
