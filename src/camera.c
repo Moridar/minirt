@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/12 12:45:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:59:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ t_ray	*create_rays(t_data *data, float FOV)
 			vec.x = x - data->width / 2;
 			vec.y = 0 - (y - data->height / 2);
 			vec.z = dist;
+			vec = vec3_unit(vec);
 			rays[y * data->width + x].dir = 
-					vec3_add(vec3_unit(vec), data->camera.normal);
+					vec3_unit(vec3_add(vec, data->camera.normal));
 			rays[y * data->width + x].origin = &data->camera.pos;
 		}
 	}
