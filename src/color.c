@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:22:55 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/12 14:46:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:37:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,13 @@ int	scale_color(int color, float scale)
 	t_color c;
 
 	c = make_color(color);
+	if (scale > 1)
+		scale = 1;
+	if (scale < 0)
+		scale = 0;
 	c.r = (float)c.r * scale;
-	if (c.r > 255)
-		c.r = 255;
 	c.g = (float)c.g * scale;
-	if (c.g > 255)
-		c.g = 255;
 	c.b = (float)c.b * scale;
-	if (c.b > 255)
-		c.b = 255;
-	c.a = c.a;
 	return (get_color(c));
 }
 

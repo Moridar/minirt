@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:15:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 11:25:24 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:31:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_vector3	vec3_unit(t_vector3 a)
 	return (vec3_scale(a, 1 / vec3_length(a)));
 }
 
-#include <stdio.h>
 t_vector3	vec3_reflect(t_vector3 light, t_vector3 normal)
 {
 	float dot;
