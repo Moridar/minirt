@@ -107,7 +107,7 @@ void	create_camera(t_data *data, t_vector3 pos,
 				t_vector3 normal, int FOV);
 t_ray	*create_rays(t_data *data, float FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
-t_light		create_light(t_vector3 pos, float brightness);
+t_light		create_light(t_vector3 pos, float brightness, unsigned int color);
 void		add_hitable(t_hitable **list, t_hitable hit);
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
