@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 23:38:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:12:25 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	mind = 214743647;	
 	t_vector3 center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / 2));
 	d = vec3_dot(cylinder.normal, center) / vec3_dot(cylinder.normal, ray.dir);
-	if (vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f)
+	if (vec3_dot(cylinder.normal, ray.dir) >= 0.001 && vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f)
 	{
 		hp.hit = 1;
 		hp.color = cylinder.color;
@@ -70,8 +70,8 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 	}
 
 	center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / -2));
-	d = vec3_dot(vec3_scale(cylinder.normal, -1), center) / vec3_dot(cylinder.normal, ray.dir);
-	if (vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f && mind > d)
+	d = vec3_dot(vec3_scale(cylinder.normal, -1), center) / vec3_dot(vec3_scale(cylinder.normal, -1), ray.dir);
+	if (vec3_dot(cylinder.normal, ray.dir) > 0.001 && vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f && mind > d)
 	{
 		hp.hit = 1;
 		hp.color = cylinder.color;
@@ -120,21 +120,26 @@ t_hitpoint	hit_sphere(t_hitable sphere, t_ray ray)
 {
 	t_discrimininant	dis;
 	t_hitpoint			hp;
-
+	float				distance;
+	
 	hp.hit = 0;
 	dis.oc = vec3_sub(*ray.origin, sphere.pos);
 	dis.a = vec3_dot(ray.dir, ray.dir);
 	dis.b = 2.0 * vec3_dot(dis.oc, ray.dir);
 	dis.c = vec3_dot(dis.oc, dis.oc) - sphere.diameter / 2 * sphere.diameter / 2;
 	dis.discriminant = dis.b * dis.b - 4 * dis.a * dis.c;
-	if (dis.discriminant < 0)
+	hp.distance = -dis.b / (2 * dis.a);
+	if (dis.discriminant > 0.0001)
+	{
+		hp.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
+		distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
+		if (distance > 0 && distance < hp.distance)
+			hp.distance = distance;
+	}
+	if (dis.discriminant < 0 || hp.distance < 0)
 		return (hp);
 	hp.hit = 1;
-	hp.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
-	// printf("ray.orgin: %f, %f, %f\n", ray.origin->x, ray.origin->y, ray.origin->z);
-	// printf("hit sphere on: %f, %f, %f\n", hp.pos.x, hp.pos.y, hp.pos.z);
-	// printf("distance: %f\n", hp.distance);
 	hp.color = sphere.color;
 	hp.surface_normal_of_hittable = vec3_unit(vec3_sub(hp.pos, sphere.pos));
 	return (hp);
