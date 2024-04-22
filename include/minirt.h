@@ -118,6 +118,7 @@ t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
 
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
+t_hitpoint	hit_cone(t_hitable cone, t_ray ray);
 
 // Utils
 void		free_array(char **array);

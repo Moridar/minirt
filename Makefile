@@ -17,6 +17,7 @@ SRCS = 	main.c \
 		utils.c \
 		hitable_create.c \
 		hitable_hit.c \
+		hitable_hit_cone.c \
 		validator.c \
 		validator_parse_hitable.c \
 		validator_parse_other.c \
