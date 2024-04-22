@@ -113,6 +113,8 @@ t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
 t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 				float height, unsigned int color);
+t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
+				float height, unsigned int color);
 
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
@@ -136,6 +138,7 @@ int			parse_color(char *str);
 int			parse_sphere(char *line, t_data *data);
 int			parse_plane(char *line, t_data *data);
 int			parse_cylinder(char *line, t_data *data);
+int			parse_cone(char *line, t_data *data);
 int			parse_camera(char *line, t_data *data);
 int			parse_light(char *line, t_data *data);
 int			parse_ambient(char *line, t_data *data);

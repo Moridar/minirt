@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:15:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/19 12:31:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:10:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,4 @@ float	vec3_distance(t_vector3 pos_a, t_vector3 pos_b)
 t_vector3	vec3_unit(t_vector3 a)
 {
 	return (vec3_scale(a, 1 / vec3_length(a)));
-}
-
-t_vector3	vec3_reflect(t_vector3 light, t_vector3 normal)
-{
-	float dot;
-
-	dot = vec3_dot(light, normal);
-	return (vec3_unit(vec3_sub(light, vec3_scale(normal, 2.0f * dot))));
 }

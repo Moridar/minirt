@@ -6,11 +6,27 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 12:45:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 01:30:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
+				float height, unsigned int color)
+{
+	t_hitable	hit;
+
+	hit.type = 'o';
+	hit.pos = pos;
+	hit.normal = vec3_unit(normal);
+	hit.diameter = diameter;
+	hit.height = height;
+	hit.color = color;
+	hit.next = NULL;
+	ft_printf("cone created\n");
+	return (hit);
+}
 
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color)
 {

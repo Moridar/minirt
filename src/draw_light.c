@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 14:48:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:19:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static int get_diffuse_color(t_data *data, t_hitpoint *hp)
 	
 	lightInDir = vec3_unit(vec3_sub(data->light.pos, hp->pos));
 	dot = vec3_dot(lightInDir, hp->surface_normal_of_hittable);
-	if (dot < 0)
-		dot = 0;
 	return (scale_color(data->light.color, dot));
 }
 static int get_specular_color(t_data *data, t_hitpoint *hp)
@@ -39,10 +37,12 @@ static int get_specular_color(t_data *data, t_hitpoint *hp)
 	t_vector3 reflectDir;
 	t_vector3 lightInDir;
 	float		spec;
+	float		dot;
 	
 	lightInDir = vec3_unit(vec3_sub(data->light.pos, hp->pos));
 	viewDir = vec3_unit(vec3_sub(hp->pos, data->camera.pos));
-	reflectDir = vec3_reflect(lightInDir, hp->surface_normal_of_hittable);
+	dot = vec3_dot(lightInDir, hp->surface_normal_of_hittable);
+	reflectDir = vec3_unit(vec3_sub(lightInDir, vec3_scale(hp->surface_normal_of_hittable, 2.0f * dot)));
 	spec = pow(fmax(vec3_dot(viewDir, reflectDir), 0.0), 32);
 	return (scale_color(data->light.color, spec * data->light.brightness));
 }

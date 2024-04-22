@@ -6,11 +6,34 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/19 13:40:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 01:31:29 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int	parse_cone(char *line, t_data *data)
+{
+	t_hitable	cone;
+	char		**split;
+
+	split = ft_split(line, ' ');
+	if (!split)
+		return (-1);
+	if (array_len(split) < 6 || !is_vector3(split[1]) || !is_normal3(split[2])
+		|| !is_float(split[3]) || !is_float(split[4]) || !is_color3(split[5]))
+	{
+		ft_printf("Invalid cone\n");
+		free_array(split);
+		return (-1);
+	}
+	cone = create_cone(parse_vector3(split[1]),
+			parse_vector3(split[2]), ft_atof(split[3]),
+			ft_atof(split[4]), parse_color(split[5]));
+	free_array(split);
+	add_hitable(&data->hitables, cone);
+	return (0);
+}
 
 int	parse_sphere(char *line, t_data *data)
 {
