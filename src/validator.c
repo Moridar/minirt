@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 23:05:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 01:39:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	parse_line(char *line, t_data *data, int declared[3])
 		return (parse_plane(line, data));
 	if (line[0] == 'c' && line[1] == 'y' && line[2] == ' ')
 		return (parse_cylinder(line, data));
+	if (line[0] == 'c' && line[1] == 'o' && line[2] == ' ')
+		return(parse_cone(line, data));
 	return (-1);
 }
 

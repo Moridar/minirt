@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:13:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/11 14:55:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:20:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ float		vec3_dot(t_vector3 a, t_vector3 b);
 float		vec3_length(t_vector3 a);
 t_vector3	vec3_unit(t_vector3 a);
 float		vec3_distance(t_vector3 pos_a, t_vector3 pos_b);
-t_vector3	vec3_reflect(t_vector3 view, t_vector3 normal);
 
 #endif
