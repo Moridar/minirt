@@ -6,11 +6,14 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 11:18:33 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:27:17 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "printf/ft_printf_bonus.h"
+#include "vec3.h"
+#include <stdio.h>
 
 t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 {
@@ -85,46 +88,32 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 	return (hp);
 }
 
-t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
+t_hitpoint	hit_circle(t_hitable plane, t_ray ray, float radius)
 {
-	t_hitpoint	hp;
-	float		d;
-	float		mind;
+	t_hitpoint hp;
 
-	// hit caps
-	d = 0;
+	hp = hit_plane(plane, ray);
+	hp.color = 0x0000ffff;
+	if (hp.hit && vec3_distance(hp.pos, plane.pos) <= radius)
+		return (hp);
 	hp.hit = 0;
-	mind = 214743647;	
-	t_vector3 center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / 2));
-	d = vec3_dot(cylinder.normal, center) / vec3_dot(cylinder.normal, ray.dir);
-	if (vec3_dot(cylinder.normal, ray.dir) >= 0.001 && vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f)
-	{
-		hp.hit = 1;
-		hp.color = cylinder.color;
-		hp.surface_normal_of_hittable = cylinder.normal;
-		hp.distance = d;
-		mind = d;
-	}
+	return (hp);
+}
 
-	center = vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / -2));
-	d = vec3_dot(vec3_scale(cylinder.normal, -1), center) / vec3_dot(vec3_scale(cylinder.normal, -1), ray.dir);
-	if (vec3_dot(cylinder.normal, ray.dir) > 0.001 && vec3_length(vec3_scale(ray.dir, d)) < cylinder.diameter / 2.0f && mind > d)
-	{
-		hp.hit = 1;
-		hp.color = cylinder.color;
-		hp.surface_normal_of_hittable = vec3_scale(cylinder.normal, -1);
-		hp.distance = d;
-		mind = d;
-	}
-	// side
-	// calc line facing normal
+t_hitpoint	hit_cylinder_side(t_hitable cylinder, t_ray ray)
+{
+	float d;
+	t_hitpoint hp;
 	t_vector3 b = vec3_sub(cylinder.pos, *ray.origin);
 	float disc = vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(ray.dir, cylinder.normal)) * pow(cylinder.diameter / 2, 2) - pow(vec3_dot(b, vec3_cross(ray.dir, cylinder.normal)), 2); 
+
+	hp.hit = 0;
+	float mind = 69420;
 	if (disc >= 0)
 	{
-		d = vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(b, cylinder.normal)) + sqrt(disc);
+		d = (vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(b, cylinder.normal)) + sqrt(disc)) / vec3_dot(vec3_cross(cylinder.normal, ray.dir), vec3_cross(cylinder.normal, ray.dir));
 		float t = vec3_dot(vec3_sub(vec3_add(vec3_scale(ray.dir, d), *ray.origin), cylinder.pos), cylinder.normal);
-		if (t <= cylinder.height / 2 && t >= cylinder.height / -2)
+		if (t <= cylinder.height / 2 && t >= cylinder.height / -2 && d > 0)
 		{
 			if (mind > d)
 			{
@@ -136,10 +125,10 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 				hp.distance = d;
 			}
 		}
-		d = vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(b, cylinder.normal)) - sqrt(disc);
-		if (mind > d)
+		d = (vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(b, cylinder.normal)) -  sqrt(disc)) / vec3_dot(vec3_cross(cylinder.normal, ray.dir), vec3_cross(cylinder.normal, ray.dir));
+		if (mind > d && d > 0)
 		{
-			t = vec3_dot(vec3_sub(vec3_add(vec3_scale(ray.dir, d), *ray.origin), cylinder.pos), cylinder.normal);
+			t = vec3_dot(vec3_sub(vec3_add(vec3_scale(ray.dir, d), *ray.origin), cylinder.pos), vec3_scale(cylinder.normal, -1));
 			if (t <= cylinder.height / 2 && t >= cylinder.height / -2)
 			{
 				hp.hit = 1;
@@ -150,6 +139,32 @@ t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
 			}
 		}
 	}
+	return (hp);
+}
+
+t_hitpoint	hit_cylinder(t_hitable cylinder, t_ray ray)
+{
+	t_hitpoint	hit_side;
+	t_hitpoint	hit_cap1;
+	t_hitpoint	hit_cap2;
+	t_hitpoint	hp;
+
+	hit_side = hit_cylinder_side(cylinder, ray);
+	hit_cap2 = hit_circle((t_hitable){
+			'p', vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / 2)),
+			cylinder.normal, 1, 1, cylinder.color, NULL	}, ray, cylinder.diameter / 2);	
+	hit_cap1 = hit_circle((t_hitable){
+			'p', vec3_add(cylinder.pos, vec3_scale(cylinder.normal, cylinder.height / -2)),
+			vec3_scale(cylinder.normal, -1), 1, 1, cylinder.color, NULL	}, ray, cylinder.diameter / 2);
+	hp.distance = 100000;
+	hp.hit = 0;
+	if (hit_cap1.hit && hp.distance > hit_cap1.distance)
+		hp = hit_cap1;
+	if (hit_cap2.hit && hp.distance > hit_cap2.distance)
+		hp = hit_cap2;
+	if (hit_side.hit && hp.distance > hit_side.distance)
+		hp = hit_side;
+	
 	return (hp);
 }
 
