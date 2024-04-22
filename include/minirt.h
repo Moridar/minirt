@@ -23,6 +23,8 @@
 # define M_PI 3.14159265358979323846
 # endif
 
+# define EPSILON 1e-6
+
 typedef struct s_discriminant
 {
 	t_vector3	oc;
