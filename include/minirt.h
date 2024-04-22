@@ -23,6 +23,8 @@
 # define M_PI 3.14159265358979323846
 # endif
 
+# define EPSILON 1e-6
+
 typedef struct s_discriminant
 {
 	t_vector3	oc;
@@ -118,6 +120,7 @@ t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
 
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
+t_hitpoint	hit_cone(t_hitable cone, t_ray ray);
 
 // Utils
 void		free_array(char **array);

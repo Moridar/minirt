@@ -6,18 +6,18 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 11:19:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:42:37 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_ray	ray_to_light(t_vector3 *pos, t_vector3 lightpos)
+static t_ray	create_ray(t_vector3 to, t_vector3 *from)
 {
 	t_ray	light;
 
-	light.dir = vec3_unit(vec3_sub(lightpos, *pos));
-	light.origin = pos;
+	light.dir = vec3_unit(vec3_sub(to, *from));
+	light.origin = from;
 	// printf("light orign: %f %f %f\n", light.origin->x, light.origin->y, light.origin->z);
 
 	return (light);
@@ -53,11 +53,10 @@ static int check_eclipse(t_hitpoint *hp, t_data *data)
 	t_hitpoint eclipse;
 	float distance_to_light;
 
-	light = ray_to_light(&hp->pos, data->light.pos);
+	light = create_ray(hp->pos, &data->light.pos);
 	distance_to_light = vec3_distance(hp->pos, data->light.pos);
 	eclipse = hit_hitable(data->hitables, light);
-	if (eclipse.hit == 1 && eclipse.distance > 0
-		&& eclipse.distance < distance_to_light)
+	if (eclipse.hit && eclipse.distance + 0.01 < distance_to_light)
 		return (1);
 	return (0);
 }
