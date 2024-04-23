@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 11:19:14 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:32:01 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int get_diffuse_color(t_data *data, t_hitpoint *hp)
 	
 	lightInDir = vec3_unit(vec3_sub(data->light.pos, hp->pos));
 	dot = vec3_dot(lightInDir, hp->surface_normal_of_hittable);
+	if (dot < 0)
+		dot = 0;
 	return (scale_color(data->light.color, dot));
 }
 static int get_specular_color(t_data *data, t_hitpoint *hp)
@@ -56,7 +58,7 @@ static int check_eclipse(t_hitpoint *hp, t_data *data)
 	light = ray_to_light(&hp->pos, data->light.pos);
 	distance_to_light = vec3_distance(hp->pos, data->light.pos);
 	eclipse = hit_hitable(data->hitables, light);
-	if (eclipse.hit == 1 && eclipse.distance > 0
+	if (eclipse.hit == 1 && eclipse.distance > 0.01
 		&& eclipse.distance < distance_to_light)
 		return (1);
 	return (0);
