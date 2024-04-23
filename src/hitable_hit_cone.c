@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 15:52:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:03:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,29 @@ int	calc_vertex_normal(t_hitable cone, t_ray ray, t_hitpoint *hp, float angle)
 		return (0);
 	return (1);
 }
+int is_point_inside_cone(t_vector3 point, t_hitable cone) {
+    // Calculate the vector from the cone's vertex to the point
+    t_vector3 v = vec3_sub(point, cone.pos);
+
+    // Calculate the dot product of this vector and the cone's direction vector
+    float dot = vec3_dot(v, cone.normal);
+
+    // If the dot product is negative, the point is not inside the cone
+    if (dot < 0) {
+        return 0;
+    }
+
+    // Calculate the squared distance from the point to the line along the cone's direction vector
+    float dist_sq = vec3_dot(v, v) - dot * dot;
+
+    // Calculate the radius of the cone at the height of the point
+    float radius_at_height = (dot / cone.height) * (cone.diameter / 2);
+
+    // If the squared distance is less than the squared radius, the point is inside the cone
+    if (dist_sq < radius_at_height * radius_at_height)
+        return 1;
+    return 0;
+}
 
 t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 {
@@ -43,7 +66,7 @@ t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 	t_hitpoint			hpb;
 	t_discrimininant	dis;
 	float				angle;
-	// int					ray_from_inside;
+	int					ray_from_inside;
 
 	hpa.hit = 0;
 	hpb.hit = 0;
@@ -55,16 +78,13 @@ t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 	hpb.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
 	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
 	hpb.hit = calc_vertex_normal(cone, ray, &hpb, angle);
-	// ray_from_inside = vec3_dot(ray.dir, hpb.surface_normal_of_hittable) > 0;
-	// if (hpb.hit && ray_from_inside)
-		hpb.surface_normal_of_hittable = vec3_scale(hpb.surface_normal_of_hittable, -1);
-	// ray_from_inside = vec3_dot(ray.dir, hpa.surface_normal_of_hittable) > 0;
-	// if (hpa.hit && ray_from_inside)
-	// 	hpa.surface_normal_of_hittable = vec3_scale(hpa.surface_normal_of_hittable, -1);
 	if (hpa.hit == 0 && hpb.hit == 0)
 		return (hpa);
 	if (hpa.hit == 0 || (hpb.hit && hpa.distance > hpb.distance))
 		hpa = hpb;	
 	hpa.color = cone.color;
+	ray_from_inside = is_point_inside_cone(*ray.origin, cone);
+	if (hpa.hit && ray_from_inside && printf("hit from inside"))
+		hpa.surface_normal_of_hittable = vec3_scale(hpa.surface_normal_of_hittable, -1);
 	return (hpa);
 }
