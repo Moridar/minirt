@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 22:36:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 23:51:32 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void		free_array(char **array);
 int			array_len(char **array);
 void		replace_whitespace_to_space(char *str);
 int			err(char *msg, char *arg);
+int			calc_vertex_normal(t_hitable cone, t_ray ray, t_hitpoint *hp, float angle);
 
 // Colors
 int			color_add_light(t_hitpoint *hp, t_data *data);
