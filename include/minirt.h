@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                          :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/04 13:10:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 22:36:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # ifndef M_PI
 # define M_PI 3.14159265358979323846
 # endif
+
+# define EPSILON 1e-6
 
 typedef struct s_discriminant
 {
@@ -75,6 +77,7 @@ typedef struct s_light
 	t_vector3		pos;
 	float			brightness;
 	unsigned int	color;
+	struct s_light	*next;
 }	t_light;
 
 typedef struct s_ambient
@@ -90,7 +93,7 @@ typedef struct s_data
 	int			width;
 	int			height;
 	t_hitable	*hitables;
-	t_light		light;
+	t_light		*light;
 	t_ambient	ambient;
 	t_camera	camera;
 }				t_data;
@@ -109,6 +112,7 @@ t_ray	*create_rays(t_data *data, float FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, float brightness, unsigned int color);
 void		add_hitable(t_hitable **list, t_hitable hit);
+void		add_light(t_light **lightlist, t_light light);
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
 t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
@@ -118,6 +122,7 @@ t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
 
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
+t_hitpoint	hit_cone(t_hitable cone, t_ray ray);
 
 // Utils
 void		free_array(char **array);

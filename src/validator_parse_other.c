@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/19 11:47:29 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 22:36:54 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	parse_ambient(char *line, t_data *data)
 int	parse_light(char *line, t_data *data)
 {
 	char	**split;
+	t_light	light;
 
 	split = ft_split(line, ' ');
 	if (!split)
@@ -65,13 +66,14 @@ int	parse_light(char *line, t_data *data)
 		free_array(split);
 		return (-1);
 	}
-	data->light = create_light(parse_vector3(split[1]), ft_atof(split[2]), parse_color(split[3]));
+	light = create_light(parse_vector3(split[1]), ft_atof(split[2]), parse_color(split[3]));
 	free_array(split);
-	if (data->light.brightness < 0 || data->light.brightness > 1)
+	if (light.brightness < 0 || light.brightness > 1)
 	{
 		ft_printf("Invalid light brightness\n");
 		return (-1);
 	}
+	add_light(&data->light, light);
 	return (0);
 }
 

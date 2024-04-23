@@ -10,7 +10,7 @@ pl	0,100,0			0,1,0			64,64,64	spc:0.2,20 mir:0.5
 # bottom wall
 pl	0,0,150			0,0,1			96,96,96	spc:0.2,20 mir:0.5
 # front wall
-pl	0,0,0			0,0,1			96,96,96	spc:0.2,20 mir:0.5
+# pl	0,0,0			0,0,1			96,96,96	spc:0.2,20 mir:0.5
 # right wall
 pl	110,0,0			-1,0,0			96,96,96    spc:0.2,20 mir:0.5
 # left wall
