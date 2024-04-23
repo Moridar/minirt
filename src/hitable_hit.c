@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 01:04:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 01:58:07 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,18 @@ t_hitpoint	hit_cylinder_side(t_hitable cylinder, t_ray ray)
 	float d;
 	t_hitpoint hp;
 	t_vector3 b = vec3_sub(cylinder.pos, *ray.origin);
-	float disc = vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(ray.dir, cylinder.normal)) * pow(cylinder.diameter / 2, 2) - pow(vec3_dot(b, vec3_cross(ray.dir, cylinder.normal)), 2); 
+	t_vector3 cross = vec3_cross(ray.dir, cylinder.normal);
+	t_vector3 cross1 = vec3_cross(cylinder.normal, ray.dir);
+	t_vector3 crossbcnormal = vec3_cross(b, cylinder.normal);
+	float disc = vec3_dot(cross, cross) * pow(cylinder.diameter / 2, 2) - pow(vec3_dot(b, cross), 2); 
 
 	hp.hit = 0;
 	if (disc < 0)
 		return (hp);
-	hp.distance = (vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(b, cylinder.normal)) + sqrt(disc)) / vec3_dot(vec3_cross(cylinder.normal, ray.dir), vec3_cross(cylinder.normal, ray.dir));
+	hp.distance = (vec3_dot(cross, crossbcnormal) - sqrt(disc)) / vec3_dot(cross1, cross1);
 	if (hp.distance > 0)
 		hp.hit = calc_vertex_normal(cylinder, ray, &hp, atan((cylinder.diameter / 2) / cylinder.height));
-	d = (vec3_dot(vec3_cross(ray.dir, cylinder.normal), vec3_cross(b, cylinder.normal)) -  sqrt(disc)) / vec3_dot(vec3_cross(cylinder.normal, ray.dir), vec3_cross(cylinder.normal, ray.dir));
+	d = (vec3_dot(cross, crossbcnormal) + sqrt(disc)) / vec3_dot(cross1, cross1);
 	if (hp.distance > d && d > 0)
 	{
 		hp.distance = d;
