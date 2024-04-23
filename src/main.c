@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/19 11:43:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:39:56 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,24 @@ static void	testdata_init(t_data *d)
 	t_hitable	sphere;
 	t_hitable	cyl;
 	t_hitable	plane;
+	t_light		l1;
+	t_light		l2;
 
 	create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 1}, 90);
 	d->ambient = create_ambient(0.1, 0xFFFFFFFF);
-	d->light = create_light((t_vector3){3, 15, 15}, 0.8, 0xFFFFFFFF);
+	d->light = NULL;
+	l1 = create_light((t_vector3){0, 15, 0}, 0.8, 0xFFFFFFFF);
+	//l2 = create_light((t_vector3){0, -15, 0}, 0.8, 0xFFFFFFFF);
 	sphere = create_sphere((t_vector3){0, 0, 15}, 1.0f, 0x0000FFFF);
 	cyl = create_cylinder((t_vector3){0, 1, 19}, vec3_unit((t_vector3){0, 1, 0.5}), 3, 7, 0xFF0000FF);
 	plane = create_plane((t_vector3){0, 0, 20}, (t_vector3){0, 0, -1}, 0x00FF00FF);
 	add_hitable(&d->hitables, cyl);
 	add_hitable(&d->hitables, plane);
 	add_hitable(&d->hitables, sphere);
+	add_light(&d->light, &l1);
+//	add_light(&d->light, &l2);
+	(void) l1;
+	(void) l2;
 	(void) plane;	
 	(void) cyl;
 	(void) sphere;
