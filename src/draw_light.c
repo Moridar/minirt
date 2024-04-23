@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 15:42:37 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:29:20 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static t_ray	create_ray(t_vector3 to, t_vector3 *from)
 
 	light.dir = vec3_unit(vec3_sub(to, *from));
 	light.origin = from;
-	// printf("light orign: %f %f %f\n", light.origin->x, light.origin->y, light.origin->z);
-
 	return (light);
 }
 static int get_diffuse_color(t_data *data, t_hitpoint *hp)
@@ -58,6 +56,16 @@ static int check_eclipse(t_hitpoint *hp, t_data *data)
 	eclipse = hit_hitable(data->hitables, light);
 	if (eclipse.hit && eclipse.distance + 0.01 < distance_to_light)
 		return (1);
+	// if (eclipse.hit && distance_to_light - eclipse.distance > -0.015f)
+	// {
+	// 	if (distance_to_light - eclipse.distance <= 0.01f)
+	// 	{
+	// 		if (vec3_dot(eclipse.surface_normal_of_hittable, hp->surface_normal_of_hittable) < 0)
+	// 			return (1);
+	// 		return (0);
+	// 	}
+	// 	return (1);
+	// }
 	return (0);
 }
 
@@ -74,6 +82,5 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 	diffuse = get_diffuse_color(data, hp);
 	specular = get_specular_color(data, hp);
 	c = color_multiply(color_add(ambient, diffuse, specular), hp->color);
-	// printf("color: %d, %d, %d\n", c >> 24, (c >> 16) % 256, (c >> 8) % 256);
 	return (c);
 }
