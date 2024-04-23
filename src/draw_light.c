@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 18:45:43 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/23 22:42:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,23 +71,18 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 	
 	ambient = scale_color(data->ambient.color, data->ambient.brightness);
 	current = data->light;
-	c = 0;
+	c = ambient;
 	while (current)
 	{
-		if (check_eclipse(hp, data, current))
-		{
-			diffuse = 0x000000ff;
-			specular = 0x000000ff;
-		}
-		else
+		if (!check_eclipse(hp, data, current))
 		{
 			diffuse = get_diffuse_color(hp, current);
 			specular = get_specular_color(data, hp, current);
+			c = color_add(c, diffuse, specular);
 		}
-		c = color_add(c, diffuse, specular);
 		current = current->next;
 	}
-	c = color_multiply(hp->color, color_add(ambient, c, 0));
+	c = color_multiply(hp->color, c);
 	// printf("color: %d, %d, %d\n", c >> 24, (c >> 16) % 256, (c >> 8) % 256);
 	return (c);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 18:39:56 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/23 22:38:14 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	testdata_init(t_data *d)
 	add_hitable(&d->hitables, cyl);
 	add_hitable(&d->hitables, plane);
 	add_hitable(&d->hitables, sphere);
-	add_light(&d->light, &l1);
+	add_light(&d->light, l1);
 //	add_light(&d->light, &l2);
 	(void) l1;
 	(void) l2;
@@ -67,6 +67,7 @@ static void	data_init(t_data *data)
 	data->width = 1920;
 	data->height = 1080;
 	data->hitables = NULL;
+	data->light = NULL;
 	data->camera.rays = NULL;
 	data->mlx = NULL;
 	ft_bzero(&data->ambient, sizeof(t_ambient));

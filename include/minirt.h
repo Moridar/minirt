@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 18:39:59 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/23 22:36:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_ray	*create_rays(t_data *data, float FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, float brightness, unsigned int color);
 void		add_hitable(t_hitable **list, t_hitable hit);
-void		add_light(t_light **lightlist, t_light *new);
+void		add_light(t_light **lightlist, t_light light);
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
 t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
