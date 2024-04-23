@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 22:49:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/23 23:24:13 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,26 +71,23 @@ static int check_eclipse(t_hitpoint *hp, t_data *data, t_light *target)
 
 int	color_add_light(t_hitpoint *hp, t_data *data)
 {
-	unsigned int	c;
+	unsigned int	total_color;
 	int				diffuse;
 	int				specular;
-	int				ambient;
-	t_light			*current;
+	t_light			*lightptr;
 	
-	ambient = scale_color(data->ambient.color, data->ambient.brightness);
-	current = data->light;
-	c = ambient;
-	while (current)
+	lightptr = data->light;
+	total_color = scale_color(data->ambient.color, data->ambient.brightness);
+	while (lightptr)
 	{
-		if (!check_eclipse(hp, data, current))
+		if (!check_eclipse(hp, data, lightptr))
 		{
-			diffuse = get_diffuse_color(hp, current);
-			specular = get_specular_color(data, hp, current);
-			c = color_add(c, diffuse, specular);
+			diffuse = get_diffuse_color(hp, lightptr);
+			specular = get_specular_color(data, hp, lightptr);
+			total_color = color_add(total_color, diffuse, specular);
 		}
-		current = current->next;
+		lightptr = lightptr->next;
 	}
-	c = color_multiply(hp->color, c);
-	// printf("color: %d, %d, %d\n", c >> 24, (c >> 16) % 256, (c >> 8) % 256);
-	return (c);
+	total_color = color_multiply(hp->color, total_color);
+	return (total_color);
 }
