@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:28:39 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:20:57 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	{
 		if (data->camera.rays)
 			free(data->camera.rays);
-		create_camera(data, data->camera.pos, data->camera.normal, data->camera.degree);
+		create_camera(data, data->camera.pos,
+			data->camera.normal, data->camera.degree);
 		ft_printf("Redrawing\n");
 		draw(data);
 	}

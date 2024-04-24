@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 23:51:32 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:26:58 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 
-# ifndef M_PI
 # define M_PI 3.14159265358979323846
-# endif
-
 # define EPSILON 1e-6
 
 typedef struct s_discriminant
@@ -98,17 +95,18 @@ typedef struct s_data
 	t_camera	camera;
 }				t_data;
 
-typedef struct s_color{
-	int r;
-	int g;
+typedef struct s_color
+{
+	int	r;
+	int	g;
 	int	b;
-	int a;
-}t_color;
+	int	a;
+}	t_color;
 
 // Creates
-void	create_camera(t_data *data, t_vector3 pos,
+void		create_camera(t_data *data, t_vector3 pos,
 				t_vector3 normal, int FOV);
-t_ray	*create_rays(t_data *data, float FOV);
+void		create_rays(t_data *data, float FOV);
 t_ambient	create_ambient(float brightness, unsigned int color);
 t_light		create_light(t_vector3 pos, float brightness, unsigned int color);
 void		add_hitable(t_hitable **list, t_hitable hit);
@@ -116,9 +114,9 @@ void		add_light(t_light **lightlist, t_light light);
 t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color);
 t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color);
 t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
-				float height, unsigned int color);
+				float height);
 t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
-				float height, unsigned int color);
+				float height);
 
 // Check hit
 t_hitpoint	hit_hitable(t_hitable *list, t_ray ray);
@@ -129,13 +127,14 @@ void		free_array(char **array);
 int			array_len(char **array);
 void		replace_whitespace_to_space(char *str);
 int			err(char *msg, char *arg);
-int			calc_vertex_normal(t_hitable cone, t_ray ray, t_hitpoint *hp, float angle);
-
+int			calc_vertex_normal(t_hitable cone, t_ray ray,
+				t_hitpoint *hp, float angle);
+// new
 // Colors
-int			color_add_light(t_hitpoint *hp, t_data *data);
-int			scale_color(int color, float scale);
-int 		color_add(int a, int b, int c);
-unsigned int 		color_multiply(int a, int b);
+int				color_add_light(t_hitpoint *hp, t_data *data);
+int				scale_color(int color, float scale);
+int				color_add(int a, int b, int c);
+unsigned int	color_multiply(int a, int b);
 
 //Parsing
 int			load_file(char *file, t_data *data);
@@ -149,7 +148,6 @@ int			parse_camera(char *line, t_data *data);
 int			parse_light(char *line, t_data *data);
 int			parse_ambient(char *line, t_data *data);
 int			parse_resolution(char *line, t_data *data);
-
 
 // Validator
 int			is_vector3(char *str);

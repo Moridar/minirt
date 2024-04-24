@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/24 23:12:22 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 01:00:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ t_vector3	ray_at(t_ray *ray, float t)
 	return (vec3_add(*ray->origin, vec3_scale(ray->dir, t)));
 }
 
-t_vector3	rotate_vector(t_vector3 vec, t_vector3 axis, float angle)
+t_vector3	rotate_vector(t_vector3 vec, t_vector3 axis, float theta[2])
 {
 	t_vector3	rotated_vec;
 	float		cos_theta;
 	float		sin_theta;
 
-	cos_theta = cos(angle);
-	sin_theta = sin(angle);
+	cos_theta = theta[0];
+	sin_theta = theta[1];
 	rotated_vec.x = cos_theta * vec.x
 		+ sin_theta * (axis.y * vec.z - axis.z * vec.y);
 	rotated_vec.y = cos_theta * vec.y
@@ -36,28 +36,28 @@ t_vector3	rotate_vector(t_vector3 vec, t_vector3 axis, float angle)
 	return (rotated_vec);
 }
 
-void	*create_rays(t_data *data, float FOV)
+void	create_rays(t_data *data, float FOV)
 {
 	int			x;
 	int			y;
-	float		dist;
 	t_vector3	vec;
+	t_vector3	axis;
+	float		cossin_theta[2];
 
 	data->camera.rays = ft_calloc(data->width * data->height, sizeof(t_ray));
-	dist = (data->width / 2) / tan(FOV * M_PI / 360);
+	axis = vec3_cross((t_vector3){0, 0, 1}, data->camera.normal);
+	cossin_theta[0] = vec3_dot((t_vector3){0, 0, 1}, data->camera.normal);
+	cossin_theta[1] = sin(acos(cossin_theta[0]));
+	vec.z = (data->width / 2) / tan(FOV * M_PI / 360);
 	y = -1;
-	while (++y < data->height)
 	{
 		x = -1;
 		while (++x < data->width)
 		{
 			vec.x = x - data->width / 2;
 			vec.y = 0 - (y - data->height / 2);
-			vec.z = dist;
-			vec = rotate_vector(vec, vec3_cross((t_vector3){0, 0, 1},
-						data->camera.normal),
-					acos(vec3_dot((t_vector3){0, 0, 1}, data->camera.normal)));
-			data->camera.rays[y * data->width + x].dir = vec3_unit(vec);
+			data->camera.rays[y * data->width + x].dir
+				= vec3_unit(rotate_vector(vec, axis, cossin_theta));
 			data->camera.rays[y * data->width + x].origin = &data->camera.pos;
 		}
 	}
@@ -71,5 +71,5 @@ void	create_camera(t_data *data, t_vector3 pos,
 	data->camera.pos = pos;
 	data->camera.normal = vec3_unit(normal);
 	data->camera.degree = FOV;
-	data->camera.rays = create_rays(data, FOV);
+	create_rays(data, FOV);
 }

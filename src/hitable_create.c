@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:46:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:27:48 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
 	hit.normal = vec3_unit(normal);
 	hit.diameter = diameter;
 	hit.height = height;
-	hit.color = color;
 	hit.next = NULL;
 	ft_printf("cone created\n");
 	return (hit);
@@ -64,7 +63,6 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 	hit.normal = vec3_unit(normal);
 	hit.diameter = diameter;
 	hit.height = height;
-	hit.color = color;
 	hit.next = NULL;
 	ft_printf("cylinder created\n");
 	return (hit);
