@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/25 01:00:35 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 01:45:30 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	create_rays(t_data *data, float FOV)
 	t_vector3	axis;
 	float		cossin_theta[2];
 
-	data->camera.rays = ft_calloc(data->width * data->height, sizeof(t_ray));
 	axis = vec3_cross((t_vector3){0, 0, 1}, data->camera.normal);
 	cossin_theta[0] = vec3_dot((t_vector3){0, 0, 1}, data->camera.normal);
 	cossin_theta[1] = sin(acos(cossin_theta[0]));
 	vec.z = (data->width / 2) / tan(FOV * M_PI / 360);
 	y = -1;
+	while (++y < data->height)
 	{
 		x = -1;
 		while (++x < data->width)
@@ -71,5 +71,8 @@ void	create_camera(t_data *data, t_vector3 pos,
 	data->camera.pos = pos;
 	data->camera.normal = vec3_unit(normal);
 	data->camera.degree = FOV;
+	data->camera.rays = ft_calloc(data->width * data->height, sizeof(t_ray));
+	if (!data->camera.rays && destroy(data))
+		printf("Fatal: malloc fail\n");
 	create_rays(data, FOV);
 }
