@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 23:48:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:50:12 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,52 +20,45 @@ static t_ray	create_ray(t_vector3 to, t_vector3 *from)
 	light.origin = from;
 	return (light);
 }
-static int get_diffuse_color(t_hitpoint *hp, t_light *target)
+
+static int	get_diffuse_color(t_hitpoint *hp, t_light *target)
 {
 	float		dot;
-	t_vector3 lightInDir;
-	
-	lightInDir = vec3_unit(vec3_sub(target->pos, hp->pos));
-	dot = vec3_dot(lightInDir, hp->surface_normal_of_hittable);
+	t_vector3	lightdir;
+
+	lightdir = vec3_unit(vec3_sub(target->pos, hp->pos));
+	dot = vec3_dot(lightdir, hp->surface_normal_of_hittable);
 	return (scale_color(target->color, dot));
 }
-static int get_specular_color(t_data *data, t_hitpoint *hp, t_light *target)
+
+static int	get_specular_color(t_data *data, t_hitpoint *hp, t_light *target)
 {
-	t_vector3 viewDir;
-	t_vector3 reflectDir;
-	t_vector3 lightInDir;
+	t_vector3	view_dir;
+	t_vector3	reflect_dir;
+	t_vector3	light_dir;
 	float		spec;
 	float		dot;
-	
-	lightInDir = vec3_unit(vec3_sub(target->pos, hp->pos));
-	viewDir = vec3_unit(vec3_sub(hp->pos, data->camera.pos));
-	dot = vec3_dot(lightInDir, hp->surface_normal_of_hittable);
-	reflectDir = vec3_unit(vec3_sub(lightInDir, vec3_scale(hp->surface_normal_of_hittable, 2.0f * dot)));
-	spec = pow(fmax(vec3_dot(viewDir, reflectDir), 0.0), 32);
+
+	light_dir = vec3_unit(vec3_sub(target->pos, hp->pos));
+	view_dir = vec3_unit(vec3_sub(hp->pos, data->camera.pos));
+	dot = vec3_dot(light_dir, hp->surface_normal_of_hittable);
+	reflect_dir = vec3_unit(vec3_sub(light_dir,
+				vec3_scale(hp->surface_normal_of_hittable, 2.0f * dot)));
+	spec = pow(fmax(vec3_dot(view_dir, reflect_dir), 0.0), 32);
 	return (scale_color(target->color, spec * target->brightness));
 }
 
-static int check_eclipse(t_hitpoint *hp, t_data *data, t_light *target)
+static int	check_eclipse(t_hitpoint *hp, t_data *data, t_light *target)
 {
-	t_ray light;
-	t_hitpoint eclipse;
-	float distance_to_light;
+	t_ray		light;
+	t_hitpoint	eclipse;
+	float		distance_to_light;
 
 	light = create_ray(hp->pos, &target->pos);
 	distance_to_light = vec3_distance(hp->pos, target->pos);
 	eclipse = hit_hitable(data->hitables, light);
 	if (eclipse.hit && eclipse.distance + 0.01 < distance_to_light)
 		return (1);
-	// if (eclipse.hit && distance_to_light - eclipse.distance > -0.015f)
-	// {
-	// 	if (distance_to_light - eclipse.distance <= 0.01f)
-	// 	{
-	// 		if (vec3_dot(eclipse.surface_normal_of_hittable, hp->surface_normal_of_hittable) < 0)
-	// 			return (1);
-	// 		return (0);
-	// 	}
-	// 	return (1);
-	// }
 	return (0);
 }
 
@@ -75,7 +68,7 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 	int				diffuse;
 	int				specular;
 	t_light			*lightptr;
-	
+
 	lightptr = data->light;
 	total_color = scale_color(data->ambient.color, data->ambient.brightness);
 	while (lightptr)

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 23:50:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:50:56 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,7 @@ static int	print_msg(int msgno)
 	return (msgno);
 }
 
-static void	testdata_init(t_data *d)
-{
-	t_hitable	sphere;
-	t_hitable	cyl;
-	t_hitable	plane;
-	t_light		l1;
-	t_light		l2;
-
-	(void) plane;	
-	(void) cyl;
-	(void) sphere;
-	create_camera(d, (t_vector3){0, 0, 0}, (t_vector3){0, 0, 1}, 90);
-	d->ambient = create_ambient(0.1, 0xFFFFFFFF);
-	d->light = NULL;
-	l1 = create_light((t_vector3){0, 15, 0}, 0.8, 0xFFFFFFFF);
-	//l2 = create_light((t_vector3){0, -15, 0}, 0.8, 0xFFFFFFFF);
-	sphere = create_sphere((t_vector3){0, 0, 15}, 1.0f, 0x0000FFFF);
-		cyl = create_cylinder((t_vector3){0, 0, 10}, vec3_unit((t_vector3){1, 1, 0}), 3, 2, 0xFF0000FF);
-	plane = create_plane((t_vector3){0, 0, 20}, (t_vector3){0, 0, -1}, 0x00FF00FF);
-	add_hitable(&d->hitables, cyl);
-	add_hitable(&d->hitables, plane);
-	add_hitable(&d->hitables, sphere);
-	add_light(&d->light, l1);
-//	add_light(&d->light, &l2);
-	(void) l1;
-	(void) l2;
-	(void) plane;	
-	(void) cyl;
-	(void) sphere;
-}
-
-static void mymlx_init(t_data *data)
+static void	mymlx_init(t_data *data)
 {
 	data->mlx = mlx_init(data->width, data->height, "MiniRT", 0);
 	if (!data->mlx)
@@ -85,9 +54,9 @@ int	main(int argc, char *argv[])
 	if (argc && argv[0])
 		ft_printf("MiniRT\n");
 	data_init(&data);
-	if (argc == 1 && ft_printf("No file input, loading testdata\n"))
-		testdata_init((&data));
-	else if (load_file(argv[1], &data) == -1)
+	if (argc == 1)
+		return (err("No file input", NULL));
+	if (load_file(argv[1], &data) == -1)
 		return (destroy(&data));
 	mymlx_init(&data);
 	ft_printf("Window: [%d, %d]\n", data.width, data.height);

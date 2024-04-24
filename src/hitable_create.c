@@ -6,14 +6,14 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 15:06:59 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:46:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
 t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
-				float height, unsigned int color)
+				float height)
 {
 	t_hitable	hit;
 
@@ -37,7 +37,7 @@ t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color)
 	hit.diameter = diameter;
 	hit.color = color;
 	hit.next = NULL;
-	ft_printf("sphere created, color: %d, %d, %d\n", color >> 24, color >> 16, color >> 8);
+	ft_printf("sphere created\n");
 	return (hit);
 }
 
@@ -50,12 +50,12 @@ t_hitable	create_plane(t_vector3 pos, t_vector3 normal, unsigned int color)
 	hit.normal = vec3_unit(normal);
 	hit.color = color;
 	hit.next = NULL;
-	ft_printf("plane created: %d, %d, %d\n", color >> 24, (color >> 16) % 256, (color >> 8) % 256);
+	ft_printf("plane created\n");
 	return (hit);
 }
 
 t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
-				float height, unsigned int color)
+				float height)
 {
 	t_hitable	hit;
 

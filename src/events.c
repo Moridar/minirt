@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/13 00:32:58 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:28:39 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	destroy(t_data *data)
 {
-	t_hitable	*tmp;
+	void	*tmp;
 
 	if (!data)
 		exit(1);
@@ -22,6 +22,12 @@ int	destroy(t_data *data)
 	{
 		tmp = data->hitables;
 		data->hitables = data->hitables->next;
+		free(tmp);
+	}
+	while (data->light)
+	{
+		tmp = data->light;
+		data->light = data->light->next;
 		free(tmp);
 	}
 	if (data->camera.rays)
@@ -40,21 +46,15 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(data->mlx);
 	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
-	{
 		ft_printf("button R pressed\n");
-	}
 	if (keydata.key == MLX_KEY_KP_ADD)
 	{
-		data->camera.degree += 1;
-		if (data->camera.degree > 180)
-			data->camera.degree = 180;
+		data->camera.degree = fmin(180, data->camera.degree + 1);
 		ft_printf("Camera.FOV increased to %d\n", data->camera.degree);
 	}
 	if (keydata.key == MLX_KEY_KP_SUBTRACT)
 	{
-		data->camera.degree -= 1;
-		if (data->camera.degree < 0)
-			data->camera.degree = 0;
+		data->camera.degree = fmax(0, data->camera.degree - 1);
 		ft_printf("Camera.FOV decreased to %d\n", data->camera.degree);
 	}
 	if (keydata.key == MLX_KEY_KP_ENTER && keydata.action == MLX_PRESS)
@@ -82,7 +82,7 @@ void	mouse_hook(void *params)
 	}
 }
 
-void mlx_resize(int32_t width, int32_t height, void *param)
+void	mlx_resize(int32_t width, int32_t height, void *param)
 {
 	t_data	*data;
 

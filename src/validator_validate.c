@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/12 23:13:12 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:37:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	is_float(char *str)
 
 	i = 0;
 	dot = 0;
-
 	if (str[i] == '-')
 		i++;
 	while (str[i] && dot < 2)
@@ -118,7 +117,7 @@ int	is_color3(char *str)
 
 int	str_is_int(char *str, int min, int max)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')

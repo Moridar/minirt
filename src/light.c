@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:04:27 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 22:41:16 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:30:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_light	create_light(t_vector3 pos, float brightness, unsigned int color)
 void	add_light(t_light **lightlist, t_light light)
 {
 	t_light	*l;
-	t_light *new;
+	t_light	*new;
 
 	new = ft_calloc(1, sizeof(t_light));
 	if (!new)

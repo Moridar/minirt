@@ -6,14 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:13:55 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/10 14:56:51 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:47:45 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-
-int err(char *msg, char *arg)
+int	err(char *msg, char *arg)
 {
 	ft_printf("Error: %s", msg);
 	if (arg)

@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 17:26:15 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:30:24 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minirt.h>
 
-static t_discrimininant calc_discriminant(t_hitable cone, t_ray ray, float angle)
+static t_discrimininant	calc_discriminant(t_hitable cone, t_ray ray, float angle)
 {
 	t_discrimininant	dis;
 	

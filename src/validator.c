@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 01:04:19 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/23 22:55:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:43:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static int	parse_line(char *line, t_data *data, int declared[2])
 	if (line[0] == 'c' && line[1] == 'y' && line[2] == ' ')
 		return (parse_cylinder(line, data));
 	if (line[0] == 'c' && line[1] == 'o' && line[2] == ' ')
-		return(parse_cone(line, data));
+		return (parse_cone(line, data));
 	return (-1);
 }
 
-static int declared_twice(int declared[2])
+static int	check_unique(int declared[2])
 {
 	if (declared[0] == 2)
 		return (err("Multiple ambient found", NULL));
@@ -49,13 +49,13 @@ static int declared_twice(int declared[2])
 	return (0);
 }
 
-static int read_file(int fd, t_data *data)
+static int	read_file(int fd, t_data *data)
 {
 	char	*line;
 	char	*trimmedline;
 	int		ret;
 	int		declared[2];
-	
+
 	ft_bzero(declared, sizeof(int) * 2);
 	ret = 0;
 	while (ret >= 0)
@@ -69,7 +69,7 @@ static int read_file(int fd, t_data *data)
 		ret = parse_line(trimmedline, data, declared);
 		free(trimmedline);
 	}
-	if (declared_twice(declared))
+	if (check_unique(declared))
 		return (-1);
 	return (ret);
 }
@@ -89,6 +89,6 @@ int	load_file(char *file, t_data *data)
 	ret = read_file(fd, data);
 	close(fd);
 	if (ret < 0)
-		return (err("Invalid file", file));;
+		return (err("Invalid file", file));
 	return (ret);
 }

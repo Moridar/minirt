@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 16:09:42 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/24 23:47:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	parse_cone(char *line, t_data *data)
 		free_array(split);
 		return (-1);
 	}
-	cone = create_cone(parse_vector3(split[1]),
-			parse_vector3(split[2]), ft_atof(split[3]),
-			ft_atof(split[4]), parse_color(split[5]));
+	cone = create_cone(parse_vector3(split[1]), parse_vector3(split[2]),
+			ft_atof(split[3]), ft_atof(split[4]));
+	cone.color = parse_color(split[5]);
 	free_array(split);
 	add_hitable(&data->hitables, cone);
 	return (0);
@@ -72,9 +72,9 @@ int	parse_cylinder(char *line, t_data *data)
 		free_array(split);
 		return (-1);
 	}
-	cylinder = create_cylinder(parse_vector3(split[1]),
-			parse_vector3(split[2]), ft_atof(split[3]),
-			ft_atof(split[4]), parse_color(split[5]));
+	cylinder = create_cylinder(parse_vector3(split[1]), parse_vector3(split[2]),
+			ft_atof(split[3]), ft_atof(split[4]));
+	cylinder.color = parse_color(split[5]);
 	free_array(split);
 	add_hitable(&data->hitables, cylinder);
 	return (0);
