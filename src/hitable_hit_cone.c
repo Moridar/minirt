@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 17:00:24 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:50:27 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,11 @@ int	calc_vertex_normal(t_hitable cone, t_ray ray, t_hitpoint *hp, float angle)
 	t_vector3			normal;
 
 	if (hp->distance < 0)
-	{
 		return (0);
-	}
 	hp->pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp->distance));
 	height = vec3_dot(vec3_sub(hp->pos, cone.pos), cone.normal);
-	if (height < 0 || height > cone.height) //  get the height comparison, but i think it goes here
-	{
+	if (height < 0 || height > cone.height)
 		return (0);
-	}
 	hit_to_vertex = vec3_sub(hp->pos, cone.pos);
 	projection = vec3_scale(cone.normal, vec3_dot(hit_to_vertex, cone.normal)
 			/ vec3_dot(cone.normal, cone.normal));
@@ -80,4 +76,16 @@ t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 	if (hpa.hit == 0 || (hpb.hit && hpa.distance > hpb.distance))
 		hpa = hpb;
 	return (hpa);
+}
+
+t_hitpoint	hit_circle(t_hitable plane, t_ray ray, float radius)
+{
+	t_hitpoint		hp;
+
+	hp = hit_plane(plane, ray);
+	hp.color = scale_color(hp.color, 0.7);
+	if (hp.hit && vec3_distance(hp.pos, plane.pos) <= radius)
+		return (hp);
+	hp.hit = 0;
+	return (hp);
 }
