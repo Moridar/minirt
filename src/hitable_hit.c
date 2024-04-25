@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 01:58:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:13:43 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 
 	hp.hit = 0;
 	if (vec3_dot(plane.normal, ray.dir) == 0
-		|| vec3_dot(vec3_unit(vec3_sub(plane.pos, *ray.origin)), plane.normal) == 0)
+		|| vec3_dot(vec3_unit(vec3_sub(plane.pos, *ray.origin)),
+			plane.normal) == 0)
 		return (hp);
-	if(vec3_dot(ray.dir, plane.normal) > 0)
-		plane.normal = vec3_scale(plane.normal, -1);
 	hp.distance = vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal)
 		/ vec3_dot(ray.dir, plane.normal);
 	if (hp.distance <= 0)
 		return (hp);
+	if (vec3_dot(ray.dir, plane.normal) > 0)
+		plane.normal = vec3_scale(plane.normal, -1);
 	hp.hit = 1;
 	hp.surface_normal_of_hittable = plane.normal;
 	hp.color = plane.color;
@@ -38,7 +39,7 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 
 t_hitpoint	hit_circle(t_hitable plane, t_ray ray, float radius)
 {
-	t_hitpoint hp;
+	t_hitpoint		hp;
 
 	hp = hit_plane(plane, ray);
 	hp.color = scale_color(hp.color, 0.7);
@@ -50,22 +51,22 @@ t_hitpoint	hit_circle(t_hitable plane, t_ray ray, float radius)
 
 t_hitpoint	hit_cylinder_side(t_hitable cylinder, t_ray ray)
 {
-	float d;
-	t_hitpoint hp;
-	t_vector3 b = vec3_sub(cylinder.pos, *ray.origin);
-	t_vector3 cross = vec3_cross(ray.dir, cylinder.normal);
-	t_vector3 cross1 = vec3_cross(cylinder.normal, ray.dir);
-	t_vector3 crossbcnormal = vec3_cross(b, cylinder.normal);
-	float disc = vec3_dot(cross, cross) * pow(cylinder.diameter / 2, 2) - pow(vec3_dot(b, cross), 2); 
+	float 			d;
+	t_hitpoint		hp;
+	const t_vector3 b = vec3_sub(cylinder.pos, *ray.origin);
+	const t_vector3 cross = vec3_cross(ray.dir, cylinder.normal);
+	const t_vector3 cross1 = vec3_cross(cylinder.normal, ray.dir); // this might be 0
+	const t_vector3 crossbcnormal = vec3_cross(b, cylinder.normal);
+	float disc = vec3_dot(cross, cross) * pow(cylinder.diameter / 2, 2) - pow(vec3_dot(b, cross), 2);
 
 	hp.hit = 0;
 	if (disc < 0)
 		return (hp);
 	hp.distance = (vec3_dot(cross, crossbcnormal) - sqrt(disc)) / vec3_dot(cross1, cross1);
-	if (hp.distance > 0)
+	if (hp.distance >= 0.01)
 		hp.hit = calc_vertex_normal(cylinder, ray, &hp, atan((cylinder.diameter / 2) / cylinder.height));
 	d = (vec3_dot(cross, crossbcnormal) + sqrt(disc)) / vec3_dot(cross1, cross1);
-	if (hp.distance > d && d > 0)
+	if (!hp.hit || (hp.distance > d && d >= 0))
 	{
 		hp.distance = d;
 		hp.hit = calc_vertex_normal(cylinder, ray, &hp, atan((cylinder.diameter / 2) / cylinder.height));
