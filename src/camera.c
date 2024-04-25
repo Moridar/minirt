@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/25 01:45:30 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:04:09 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,19 @@ void	create_rays(t_data *data, float FOV)
 	axis = vec3_cross((t_vector3){0, 0, 1}, data->camera.normal);
 	cossin_theta[0] = vec3_dot((t_vector3){0, 0, 1}, data->camera.normal);
 	cossin_theta[1] = sin(acos(cossin_theta[0]));
-	vec.z = (data->width / 2) / tan(FOV * M_PI / 360);
+	vec.z = (data->img->width / 2) / tan(FOV * M_PI / 360);
 	y = -1;
-	while (++y < data->height)
+	while (++y < (int)data->img->height)
 	{
 		x = -1;
-		while (++x < data->width)
+		while (++x < (int)data->img->width)
 		{
-			vec.x = x - data->width / 2;
-			vec.y = 0 - (y - data->height / 2);
-			data->camera.rays[y * data->width + x].dir
+			vec.x = x - (int)data->img->width / 2;
+			vec.y = 0 - (y - (int)data->img->height / 2);
+			data->camera.rays[y * data->img->width + x].dir
 				= vec3_unit(rotate_vector(vec, axis, cossin_theta));
-			data->camera.rays[y * data->width + x].origin = &data->camera.pos;
+			data->camera.rays[y * data->img->width + x].origin
+				= &data->camera.pos;
 		}
 	}
 	printf("rays created\n");
@@ -71,7 +72,8 @@ void	create_camera(t_data *data, t_vector3 pos,
 	data->camera.pos = pos;
 	data->camera.normal = vec3_unit(normal);
 	data->camera.degree = FOV;
-	data->camera.rays = ft_calloc(data->width * data->height, sizeof(t_ray));
+	data->camera.rays
+		= ft_calloc((int)data->img->width * data->img->height, sizeof(t_ray));
 	if (!data->camera.rays && destroy(data))
 		printf("Fatal: malloc fail\n");
 	create_rays(data, FOV);

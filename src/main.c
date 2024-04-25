@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:50:56 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:15:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ static int	print_msg(int msgno)
 
 static void	mymlx_init(t_data *data)
 {
-	data->mlx = mlx_init(data->width, data->height, "MiniRT", 0);
+	data->mlx = mlx_init(data->width, data->height, "MiniRT", 1);
 	if (!data->mlx)
 		exit(print_msg(4));
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (!data->img)
 		destroy(data);
+	mlx_image_to_window(data->mlx, data->img, 0, 0);
 	mlx_key_hook(data->mlx, keydown, data);
 	mlx_loop_hook(data->mlx, mouse_hook, data);
 	mlx_resize_hook(data->mlx, mlx_resize, data);
@@ -56,9 +57,9 @@ int	main(int argc, char *argv[])
 	data_init(&data);
 	if (argc == 1)
 		return (err("No file input", NULL));
+	mymlx_init(&data);
 	if (load_file(argv[1], &data) == -1)
 		return (destroy(&data));
-	mymlx_init(&data);
 	ft_printf("Window: [%d, %d]\n", data.width, data.height);
 	draw(&data);
 	mlx_loop(data.mlx);

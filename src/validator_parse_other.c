@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:44:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:17:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	parse_resolution(char *line, t_data *data)
 	}
 	data->width = ft_atoi(split[1]);
 	data->height = ft_atoi(split[2]);
+	mlx_set_window_size(data->mlx, data->width, data->height);
+	mlx_resize_image(data->img, data->width, data->height);
 	free_array(split);
 	return (0);
 }

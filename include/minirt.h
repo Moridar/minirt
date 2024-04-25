@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 00:26:58 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:04:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <MLX42/MLX42.h>
 # include <stdio.h>
 
+# ifndef M_PI
 # define M_PI 3.14159265358979323846
+# endif
 # define EPSILON 1e-6
 
 typedef struct s_discriminant
@@ -86,13 +88,14 @@ typedef struct s_ambient
 typedef struct s_data
 {
 	mlx_t		*mlx;
-	void		*img;
+	mlx_image_t	*img;
 	int			width;
 	int			height;
 	t_hitable	*hitables;
 	t_light		*light;
 	t_ambient	ambient;
 	t_camera	camera;
+	int			changed;
 }				t_data;
 
 typedef struct s_color
@@ -162,5 +165,7 @@ void		keydown(mlx_key_data_t keydata, void *params);
 void		mouse_hook(void *data);
 int			destroy(t_data *data);
 void		mlx_resize(int32_t width, int32_t height, void *param);
+void		rerender(t_data *data);
+void		reposition(t_data *data);
 
 #endif

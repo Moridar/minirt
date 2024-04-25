@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 00:20:57 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:03:06 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	data = (t_data *)params;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(data->mlx);
-	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
-		ft_printf("button R pressed\n");
 	if (keydata.key == MLX_KEY_KP_ADD)
 	{
 		data->camera.degree = fmin(180, data->camera.degree + 1);
@@ -56,15 +54,6 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	{
 		data->camera.degree = fmax(0, data->camera.degree - 1);
 		ft_printf("Camera.FOV decreased to %d\n", data->camera.degree);
-	}
-	if (keydata.key == MLX_KEY_KP_ENTER && keydata.action == MLX_PRESS)
-	{
-		if (data->camera.rays)
-			free(data->camera.rays);
-		create_camera(data, data->camera.pos,
-			data->camera.normal, data->camera.degree);
-		ft_printf("Redrawing\n");
-		draw(data);
 	}
 }
 
@@ -81,14 +70,35 @@ void	mouse_hook(void *params)
 	{
 		ft_printf("Mouse 2 clicked\n");
 	}
+	if (data->changed)
+		rerender(data);
+	if (data->img->instances[0].x
+		!= (data->mlx->width - (int)data->img->width) / 2
+		|| data->img->instances[0].y
+		!= (data->mlx->height - (int)data->img->height) / 2)
+		reposition(data);
 }
 
 void	mlx_resize(int32_t width, int32_t height, void *param)
 {
 	t_data	*data;
+	float	ratio;
+	float	newratio;
+	int		render;
 
 	data = (t_data *)param;
-	data->width = width;
-	data->height = height;
-	printf("Windows resized to: [%d, %d] - Press KP_Enter to re-render\n", width, height);
+	ratio = (float) data->width / data->height;
+	newratio = (float) width / height;
+	render = 1;
+	if ((height > (int) data->img->height && width == (int) data->img->width)
+		|| (width > (int) data->img->width && height
+			== (int) data->img->height))
+		return ;
+	if (newratio > ratio)
+		width = height * ratio;
+	else
+		height = width / ratio;
+	mlx_resize_image(data->img, width, height);
+	data->changed = 1;
+	printf("Windows resized to: [%d, %d]\n", width, height);
 }
