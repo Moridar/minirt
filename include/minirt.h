@@ -6,23 +6,22 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 10:28:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:51:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
 # include "libft.h"
 # include "vec3.h"
 # include <math.h>
 # include <MLX42/MLX42.h>
 # include <stdio.h>
-
-# ifndef M_PI
-# define M_PI 3.14159265358979323846
-# endif
-# define EPSILON 1e-6
 
 typedef struct s_discriminant
 {
@@ -36,7 +35,7 @@ typedef struct s_discriminant
 typedef struct s_hitpoint
 {
 	t_vector3		pos;
-	t_vector3		surface_normal_of_hittable;
+	t_vector3		normal;
 	unsigned int	color;
 	int				hit;
 	float			distance;
@@ -113,8 +112,6 @@ void			create_rays(t_data *data, float FOV, t_ray *rays);
 t_ambient		create_ambient(float brightness, unsigned int color);
 t_light			create_light(t_vector3 pos, float brightness,
 					unsigned int color);
-void			add_hitable(t_hitable **list, t_hitable hit);
-void			add_light(t_light **lightlist, t_light light);
 t_hitable		create_sphere(t_vector3 pos, float diameter,
 					unsigned int color);
 t_hitable		create_plane(t_vector3 pos, t_vector3 normal,
@@ -123,24 +120,26 @@ t_hitable		create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 					float height);
 t_hitable		create_cone(t_vector3 pos, t_vector3 normal, float diameter,
 					float height);
+void			add_hitable(t_hitable **list, t_hitable hit);
+void			add_light(t_light **lightlist, t_light light);
 
 // Check hit
 t_hitpoint		hit_hitable(t_hitable *list, t_ray ray);
 t_hitpoint		hit_cone(t_hitable cone, t_ray ray);
 t_hitpoint		hit_circle(t_hitable plane, t_ray ray, float radius);
 t_hitpoint		hit_plane(t_hitable plane, t_ray ray);
+int				calc_vertex_normal(t_hitable cone, t_ray ray,
+					t_hitpoint *hp, float angle);
 
 // Utils
 void			free_array(char **array);
 int				array_len(char **array);
 void			replace_whitespace_to_space(char *str);
 int				err(char *msg, char *arg);
-int				calc_vertex_normal(t_hitable cone, t_ray ray,
-					t_hitpoint *hp, float angle);
-// new
+
 // Colors
 int				color_add_light(t_hitpoint *hp, t_data *data);
-int				scale_color(int color, float scale);
+int				color_scale(int color, float scale);
 int				color_add(int a, int b, int c);
 unsigned int	color_multiply(int a, int b);
 
@@ -167,7 +166,7 @@ int				str_is_int(char *str, int min, int max);
 // MLX utils
 void			draw(t_data *data);
 void			keydown(mlx_key_data_t keydata, void *params);
-void			mouse_hook(void *data);
+void			loop_hook(void *data);
 int				destroy(t_data *data);
 void			mlx_resize(int32_t width, int32_t height, void *param);
 void			rerender(t_data *data);

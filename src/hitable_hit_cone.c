@@ -6,11 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 17:59:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:03:11 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minirt.h>
+#include "minirt.h"
 
 static t_discrimininant	discriminant(t_hitable cone, t_ray ray, float angle)
 {
@@ -44,37 +44,32 @@ int	calc_vertex_normal(t_hitable cone, t_ray ray, t_hitpoint *hp, float angle)
 	projection = vec3_scale(cone.normal, vec3_dot(hit_to_vertex, cone.normal)
 			/ vec3_dot(cone.normal, cone.normal));
 	normal = vec3_unit(vec3_sub(hit_to_vertex, projection));
-	hp->surface_normal_of_hittable
+	hp->normal
 		= vec3_unit(vec3_sub(normal, vec3_scale(cone.normal, tan(angle))));
+	if (vec3_dot(ray.dir, hp->normal) > 0)
+		hp->normal = vec3_scale(hp->normal, -1);
 	return (1);
 }
 
 t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 {
 	t_hitpoint			hpa;
-	t_hitpoint			hpb;
 	t_discrimininant	dis;
 	float				angle;
 
 	hpa.hit = 0;
-	hpb.hit = 0;
 	angle = atan((cone.diameter / 2) / cone.height);
 	dis = discriminant(cone, ray, angle);
 	if (dis.discriminant < 0.00)
 		return (hpa);
-	hpa.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
-	hpb.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
-	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
-	hpb.hit = calc_vertex_normal(cone, ray, &hpb, angle);
-	if (hpa.hit == 0 && hpb.hit == 0)
-		return (hpa);
 	hpa.color = cone.color;
-	hpb.color = scale_color(cone.color, 0.87);
-	if (hpa.hit == 0 || (hpb.hit && hpa.distance > hpb.distance))
-		hpa = hpb;
-	if (vec3_dot(ray.dir, hpa.surface_normal_of_hittable) > 0)
-		hpa.surface_normal_of_hittable
-			= vec3_scale(hpa.surface_normal_of_hittable, -1);
+	hpa.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
+	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
+	if (hpa.hit)
+		return (hpa);
+	hpa.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
+	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
+	hpa.color = color_scale(cone.color, 0.87);
 	return (hpa);
 }
 
@@ -83,7 +78,7 @@ t_hitpoint	hit_circle(t_hitable plane, t_ray ray, float radius)
 	t_hitpoint		hp;
 
 	hp = hit_plane(plane, ray);
-	hp.color = scale_color(hp.color, 0.7);
+	hp.color = color_scale(hp.color, 0.7);
 	if (hp.hit && vec3_distance(hp.pos, plane.pos) <= radius)
 		return (hp);
 	hp.hit = 0;

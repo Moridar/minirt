@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 17:50:41 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:31:38 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,14 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 	if (vec3_dot(ray.dir, plane.normal) > 0)
 		plane.normal = vec3_scale(plane.normal, -1);
 	hp.hit = 1;
-	hp.surface_normal_of_hittable = plane.normal;
+	hp.normal = plane.normal;
 	hp.color = plane.color;
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
 	return (hp);
 }
 
-t_hitpoint	hit_cylinder_side(t_hitable cyl, t_ray ray)
+static t_hitpoint	hit_cylinder_side(t_hitable cyl, t_ray ray)
 {
-	float			d;
 	t_hitpoint		hp;
 	const t_vector3	cross = vec3_cross(ray.dir, cyl.normal);
 	const t_vector3	crossbcnormal = vec3_cross(vec3_sub(cyl.pos,
@@ -47,23 +46,21 @@ t_hitpoint	hit_cylinder_side(t_hitable cyl, t_ray ray)
 	hp.hit = 0;
 	if (disc < 0)
 		return (hp);
+	hp.color = cyl.color;
 	hp.distance = (vec3_dot(cross, crossbcnormal) - sqrt(disc))
 		/ vec3_dot(cross, cross);
-	if (hp.distance >= 0.01)
-		hp.hit = calc_vertex_normal(cyl, ray, &hp,
-				atan((cyl.diameter / 2) / cyl.height));
-	d = (vec3_dot(cross, crossbcnormal) + sqrt(disc)) / vec3_dot(cross, cross);
-	if (!hp.hit || (hp.distance > d && d >= 0.01))
-	{
-		hp.distance = d;
-		hp.hit = calc_vertex_normal(cyl, ray, &hp,
-				atan((cyl.diameter / 2) / cyl.height));
-	}
-	hp.color = cyl.color;
+	hp.hit = calc_vertex_normal(cyl, ray, &hp,
+			atan((cyl.diameter / 2) / cyl.height));
+	if (hp.hit)
+		return (hp);
+	hp.distance = (vec3_dot(cross, crossbcnormal) + sqrt(disc))
+		/ vec3_dot(cross, cross);
+	hp.hit = calc_vertex_normal(cyl, ray, &hp,
+			atan((cyl.diameter / 2) / cyl.height));
 	return (hp);
 }
 
-t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
+static t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 {
 	t_hitpoint	hit_side;
 	t_hitpoint	hit_cap1;
@@ -85,7 +82,7 @@ t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 	return (hp);
 }
 
-t_hitpoint	hit_sphere(t_hitable sph, t_ray ray)
+static t_hitpoint	hit_sphere(t_hitable sph, t_ray ray)
 {
 	t_discrimininant	dis;
 	t_hitpoint			hp;
@@ -99,16 +96,15 @@ t_hitpoint	hit_sphere(t_hitable sph, t_ray ray)
 	if (dis.discriminant < 0)
 		return (hp);
 	hp.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
-	if (hp.distance < 0.000001)
+	if (hp.distance <= 0.00001)
 		hp.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
-	if (hp.distance < 0.000001)
+	if (hp.distance <= 0.00001)
 		return (hp);
 	hp.hit = 1;
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
-	hp.surface_normal_of_hittable = vec3_unit(vec3_sub(hp.pos, sph.pos));
-	if (vec3_dot(ray.dir, hp.surface_normal_of_hittable) > 0)
-		hp.surface_normal_of_hittable
-			= vec3_scale(hp.surface_normal_of_hittable, -1);
+	hp.normal = vec3_unit(vec3_sub(hp.pos, sph.pos));
+	if (vec3_dot(ray.dir, hp.normal) > 0)
+		hp.normal = vec3_scale(hp.normal, -1);
 	hp.color = sph.color;
 	return (hp);
 }

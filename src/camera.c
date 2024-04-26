@@ -6,13 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/26 16:17:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:02:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "vec3.h"
-#include <math.h>
 
 static t_vector3	vec3_rotate(t_vector3 vec, t_rotate_vector *rv)
 {

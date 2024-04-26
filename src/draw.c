@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 17:13:38 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:59:37 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ void	draw(t_data *data)
 	int		percent;
 
 	data->changed = 0;
-	ft_printf("Start drawing...\n");
 	percent = 0;
+	ft_printf("Start drawing...\n");
+	printf("Resolution: %u, %u\n", data->img->width, data->img->height);
 	ft_printf("Drawing [%2d%%]", percent);
 	reposition(data);
 	x = -1;

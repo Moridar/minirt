@@ -6,11 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 16:03:06 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:03:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minirt.h>
+#include "minirt.h"
 
 int	destroy(t_data *data)
 {
@@ -45,31 +45,13 @@ void	keydown(mlx_key_data_t keydata, void *params)
 	data = (t_data *)params;
 	if (keydata.key == MLX_KEY_ESCAPE)
 		mlx_close_window(data->mlx);
-	if (keydata.key == MLX_KEY_KP_ADD)
-	{
-		data->camera.degree = fmin(180, data->camera.degree + 1);
-		ft_printf("Camera.FOV increased to %d\n", data->camera.degree);
-	}
-	if (keydata.key == MLX_KEY_KP_SUBTRACT)
-	{
-		data->camera.degree = fmax(0, data->camera.degree - 1);
-		ft_printf("Camera.FOV decreased to %d\n", data->camera.degree);
-	}
 }
 
-void	mouse_hook(void *params)
+void	loop_hook(void *params)
 {
 	t_data	*data;
 
 	data = (t_data *)params;
-	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT))
-	{
-		ft_printf("Mouse 1 clicked\n");
-	}
-	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_RIGHT))
-	{
-		ft_printf("Mouse 2 clicked\n");
-	}
 	if (data->changed)
 		rerender(data);
 	if (data->img->instances[0].x
@@ -100,5 +82,4 @@ void	mlx_resize(int32_t width, int32_t height, void *param)
 		height = width / ratio;
 	mlx_resize_image(data->img, width, height);
 	data->changed = 1;
-	printf("Windows resized to: [%d, %d]\n", width, height);
 }

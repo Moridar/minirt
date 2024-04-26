@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 00:27:48 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:36:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	add_hitable(t_hitable **list, t_hitable hit)
 	t_hitable	*tmp;
 
 	new = ft_calloc(1, sizeof(t_hitable));
+	if (!new)
+		return ;
 	*new = hit;
 	if (!*list)
 	{

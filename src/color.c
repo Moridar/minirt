@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:22:55 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/24 23:51:20 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:55:02 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_color	make_color(unsigned int a)
 	return (c);
 }
 
-int	scale_color(int color, float scale)
+int	color_scale(int color, float scale)
 {
 	t_color	c;
 
