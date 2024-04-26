@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator_parse_other.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 16:44:39 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:12:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	parse_ambient(char *line, t_data *data)
 	free_array(split);
 	if (data->ambient.brightness < 0 || data->ambient.brightness > 1)
 		return (-1);
-	if (data->ambient.brightness == 0)
-		data->ambient.brightness = 0.001;
 	return (0);
 }
 

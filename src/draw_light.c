@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_light.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 16:59:07 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:13:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 
 	lightptr = data->light;
 	total_color = scale_color(data->ambient.color, data->ambient.brightness);
+	total_color = color_add(total_color, scale_color(0xFFFFFFFF, 0.1), 0);
 	while (lightptr)
 	{
 		if (!check_eclipse(hp, data, lightptr))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit_cone.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 17:50:27 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:59:18 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 	hpb.hit = calc_vertex_normal(cone, ray, &hpb, angle);
 	if (hpa.hit == 0 && hpb.hit == 0)
 		return (hpa);
-	if (hpb.hit)
-		hpb.surface_normal_of_hittable
-			= vec3_scale(hpb.surface_normal_of_hittable, -1.0f);
 	hpa.color = cone.color;
 	hpb.color = scale_color(cone.color, 0.87);
 	if (hpa.hit == 0 || (hpb.hit && hpa.distance > hpb.distance))
 		hpa = hpb;
+	if (vec3_dot(ray.dir, hpa.surface_normal_of_hittable) > 0)
+		hpa.surface_normal_of_hittable
+			= vec3_scale(hpa.surface_normal_of_hittable, -1);
 	return (hpa);
 }
 
