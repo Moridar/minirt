@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 16:22:09 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:33:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	mymlx_init(t_data *data)
 
 static void	data_init(t_data *data)
 {
-	data->width = 1080;
-	data->height = 1080;
+	data->width = 640;
+	data->height = 360;
 	data->hitables = NULL;
 	data->light = NULL;
 	data->camera.rays = NULL;

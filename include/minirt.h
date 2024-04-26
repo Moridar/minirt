@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 17:50:00 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 10:28:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_color
 // Creates
 void			create_camera(t_data *data, t_vector3 pos,
 					t_vector3 normal, int FOV);
-void			create_rays(t_data *data, float FOV);
+void			create_rays(t_data *data, float FOV, t_ray *rays);
 t_ambient		create_ambient(float brightness, unsigned int color);
 t_light			create_light(t_vector3 pos, float brightness,
 					unsigned int color);

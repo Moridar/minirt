@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/25 20:04:13 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:17:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,51 @@
 #include "vec3.h"
 #include <math.h>
 
-t_vector3	ray_at(t_ray *ray, float t)
-{
-	return (vec3_add(*ray->origin, vec3_scale(ray->dir, t)));
-}
-
-t_vector3	rotate_vector(t_vector3 vec, t_vector3 axis,
-		float cos_theta, float sin_theta)
+static t_vector3	vec3_rotate(t_vector3 vec, t_rotate_vector *rv)
 {
 	t_vector3	rotated_vec;
-	float		one_minus_cos_theta;
 
-	one_minus_cos_theta = 1.0f - cos_theta;
-	rotated_vec.x = (cos_theta + one_minus_cos_theta * axis.x * axis.x) * vec.x
-		+ (one_minus_cos_theta * axis.x * axis.y - sin_theta * axis.z) * vec.y
-		+ (one_minus_cos_theta * axis.x * axis.z + sin_theta * axis.y) * vec.z;
-	rotated_vec.y = (one_minus_cos_theta * axis.x * axis.y + sin_theta * axis.z)
-		* vec.x + (cos_theta + one_minus_cos_theta * axis.y * axis.y) * vec.y
-		+ (one_minus_cos_theta * axis.y * axis.z - sin_theta * axis.x) * vec.z;
-	rotated_vec.z = (one_minus_cos_theta * axis.x * axis.z - sin_theta * axis.y)
-		* vec.x + (one_minus_cos_theta * axis.y * axis.z + sin_theta * axis.x)
-		* vec.y + (cos_theta + one_minus_cos_theta * axis.z * axis.z) * vec.z;
-	return (vec3_unit(rotated_vec));
+	rotated_vec.x = (rv->cos + rv->invcos * rv->axis.x * rv->axis.x) * vec.x
+		+ (rv->invcos * rv->axis.x * rv->axis.y - rv->sin * rv->axis.z) * vec.y
+		+ (rv->invcos * rv->axis.x * rv->axis.z + rv->sin * rv->axis.y) * vec.z;
+	rotated_vec.y
+		= (rv->invcos * rv->axis.x * rv->axis.y + rv->sin * rv->axis.z) * vec.x
+		+ (rv->cos + rv->invcos * rv->axis.y * rv->axis.y) * vec.y
+		+ (rv->invcos * rv->axis.y * rv->axis.z - rv->sin * rv->axis.x) * vec.z;
+	rotated_vec.z
+		= (rv->invcos * rv->axis.x * rv->axis.z - rv->sin * rv->axis.y) * vec.x
+		+ (rv->invcos * rv->axis.y * rv->axis.z + rv->sin * rv->axis.x) * vec.y
+		+ (rv->cos + rv->invcos * rv->axis.z * rv->axis.z) * vec.z;
+	return (rotated_vec);
+}
+
+void	rv_setdata(t_data *data, t_rotate_vector *yaw, t_rotate_vector *pitch)
+{
+	t_vector3	normal;
+
+	normal = data->camera.normal;
+	normal.y = 0;
+	normal = vec3_unit(normal);
+	yaw->axis = vec3_cross(((t_vector3){0, 0, 1}), normal);
+	yaw->cos = vec3_dot((t_vector3){0, 0, 1}, normal);
+	yaw->sin = sin(acos(yaw->cos));
+	yaw->invcos = 1.0f - yaw->cos;
+	pitch->axis = vec3_cross(normal, (t_vector3){0, 1, 0});
+	pitch->sin = data->camera.normal.y;
+	pitch->cos = cos(asin(pitch->sin));
+	pitch->invcos = 1.0f - pitch->cos;
 }
 
 void	create_rays(t_data *data, float FOV, t_ray *rays)
 {
-	int			x;
-	int			y;
-	t_vector3	vec;
-	t_vector3	axis;
-	float		cossin_theta[2];
+	int				x;
+	int				y;
+	t_vector3		vec;
+	t_rotate_vector	yaw_rv;
+	t_rotate_vector	pitch_rv;
 
+	rv_setdata(data, &yaw_rv, &pitch_rv);
 	vec.z = (data->img->width / 2) / tan(FOV * M_PI / 360);
-	axis = vec3_cross(((t_vector3){0, 0, 1}), data->camera.normal);
-	cossin_theta[0] = vec3_dot((t_vector3){0, 0, 1}, data->camera.normal);
-	cossin_theta[1] = sin(acos(cossin_theta[0]));
 	y = -1;
 	while (++y < (int)data->img->height)
 	{
@@ -61,7 +70,7 @@ void	create_rays(t_data *data, float FOV, t_ray *rays)
 			if (data->camera.normal.z < 0)
 				vec.y *= -1;
 			rays[y * data->img->width + x].dir
-				= rotate_vector(vec, axis, cossin_theta[0], cossin_theta[1]);
+				= vec3_unit(vec3_rotate(vec3_rotate(vec, &yaw_rv), &pitch_rv));
 			rays[y * data->img->width + x].origin = &data->camera.pos;
 		}
 	}

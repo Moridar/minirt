@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 14:13:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/22 11:20:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:07:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ typedef struct s_vector3
 	float	y;
 	float	z;
 }	t_vector3;
+
+typedef struct s_rotatevector3
+{
+	float		cos;
+	float		sin;
+	float		invcos;
+	t_vector3	axis;
+}	t_rotate_vector;
 
 t_vector3	vec3_add(t_vector3 a, t_vector3 b);
 t_vector3	vec3_sub(t_vector3 a, t_vector3 b);
