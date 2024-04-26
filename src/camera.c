@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/26 20:02:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:07:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static t_vector3	vec3_rotate(t_vector3 vec, t_rotate_vector *rv)
 	return (rotated_vec);
 }
 
-void	rv_setdata(t_data *data, t_rotate_vector *yaw, t_rotate_vector *pitch)
+static void	rv_setdata(t_data *data,
+		t_rotate_vector *yaw, t_rotate_vector *pitch)
 {
 	t_vector3	normal;
 
@@ -47,7 +48,7 @@ void	rv_setdata(t_data *data, t_rotate_vector *yaw, t_rotate_vector *pitch)
 	pitch->invcos = 1.0f - pitch->cos;
 }
 
-void	create_rays(t_data *data, float FOV, t_ray *rays)
+static void	create_rays(t_data *data, float FOV, t_ray *rays)
 {
 	int				x;
 	int				y;

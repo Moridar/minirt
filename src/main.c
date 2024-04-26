@@ -6,26 +6,17 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 19:54:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:06:31 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int	print_msg(int msgno)
-{
-	if (msgno == 3)
-		ft_printf("no data\n");
-	if (msgno == 4)
-		ft_printf("%s\n", mlx_strerror(mlx_errno));
-	return (msgno);
-}
-
 static void	mymlx_init(t_data *data)
 {
 	data->mlx = mlx_init(data->width, data->height, "MiniRT", 1);
 	if (!data->mlx)
-		exit(print_msg(4));
+		exit(err(mlx_strerror(mlx_errno), NULL));
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (!data->img)
 		destroy(data);
