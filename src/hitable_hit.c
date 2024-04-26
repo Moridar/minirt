@@ -6,11 +6,33 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 20:59:07 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 01:31:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int	checkerboard_color(t_hitable *obj, t_vector3 pos)
+{
+	int		x;
+	int		y;
+	int		z;
+
+	if (obj->checker_size <= 0)
+		return (obj->color);
+	x = pos.x / obj->checker_size;
+	y = pos.y / obj->checker_size;
+	z = pos.z / obj->checker_size;
+	if (pos.x < 0.001)
+		x++;
+	if (pos.z < 0.001)
+		z++;
+	if (pos.y < 0.001)
+		y++;
+	if ((x + y + z) % 2 == 0)
+		return (obj->color1);
+	return (obj->color);
+}
 
 t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 {
@@ -29,8 +51,8 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 		plane.normal = vec3_scale(plane.normal, -1);
 	hp.hit = 1;
 	hp.normal = plane.normal;
-	hp.color = plane.color;
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
+	hp.color = checkerboard_color(&plane, hp.pos);
 	return (hp);
 }
 
@@ -66,12 +88,11 @@ static t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 	t_hitpoint	hp;
 
 	hit_side = hit_cylinder_side(cyl, ray);
-	hit_cap2 = hit_circle((t_hitable){
-			'p', cyl.pos, cyl.normal, 1, 1, cyl.color, NULL},
-			ray, cyl.diameter / 2);
-	hit_cap1 = hit_circle((t_hitable){'p',
-			vec3_add(cyl.pos, vec3_scale(cyl.normal, cyl.height)), cyl.normal,
-			1, 1, cyl.color, NULL}, ray, cyl.diameter / 2);
+	hit_cap2 = hit_circle((t_hitable){'p', cyl.pos, cyl.normal, 1, 1,
+			cyl.color, 0, 0, NULL}, ray, cyl.diameter / 2);
+	hit_cap1 = hit_circle((t_hitable){'p', vec3_add(cyl.pos,
+				vec3_scale(cyl.normal, cyl.height)), cyl.normal, 1, 1,
+			cyl.color, 0, 0, NULL}, ray, cyl.diameter / 2);
 	hp = hit_side;
 	if (hit_cap1.hit && (!hp.hit || hp.distance > hit_cap1.distance))
 		hp = hit_cap1;

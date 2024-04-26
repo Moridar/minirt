@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:47:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 01:53:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,24 @@ int	parse_plane(char *line, t_data *data)
 {
 	t_hitable	plane;
 	char		**split;
+	int			argc;
 
 	split = ft_split(line, ' ');
 	if (!split)
 		return (-1);
-	if (array_len(split) < 4 || !is_vector3(split[1]) || !is_normal3(split[2])
-		|| !is_color3(split[3]))
+	argc = array_len(split);
+	if (argc < 4 || !is_vector3(split[1]) || !is_normal3(split[2])
+		|| !is_color6(split[3]) || (argc >= 5 && !is_float(split[4])))
 	{
 		ft_printf("Invalid plane");
 		free_array(split);
 		return (-1);
 	}
 	plane = create_plane(parse_vector3(split[1]),
-			parse_vector3(split[2]), parse_color(split[3]));
+			parse_vector3(split[2]));
+	parse_color2(split[3], &plane.color, &plane.color1);
+	if (argc >= 5)
+		plane.checker_size = fmax(0, ft_atof(split[4]));
 	free_array(split);
 	add_hitable(&data->hitables, plane);
 	return (0);

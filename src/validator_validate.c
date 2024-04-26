@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:37:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 01:44:40 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,26 +115,28 @@ int	is_color3(char *str)
 	return (0);
 }
 
-int	str_is_int(char *str, int min, int max)
+int	is_color6(char *str)
 {
-	int	i;
+	char	**split;
+	int		i;
+	int		argc;
 
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-		{
-			printf("Invalid number\n");
-			return (0);
-		}
-		i++;
-	}
-	if (ft_atoi(str) < min || ft_atoi(str) > max)
-	{
-		printf("Number outside of range\n");
+	split = ft_split(str, ';');
+	if (!split)
 		return (0);
+	argc = array_len(split);
+	i = 0;
+	if (argc < 1 || argc > 2)
+		i = 10;
+	while (i < argc)
+	{
+		if (!is_color3(split[i]))
+			i = 10;
+		i++;
 	}
-	return (1);
+	free_array(split);
+	if (i == argc)
+		return (1);
+	ft_printf("Invalid color\n");
+	return (0);
 }

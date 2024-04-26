@@ -23,6 +23,7 @@ SRCS = 	main.c \
 		validator_parse_other.c \
 		validator_parse_utils.c \
 		validator_validate.c \
+		validator_validate_extra.c \
 		color.c
 
 SRC_DIR = src/

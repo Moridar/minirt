@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:36:47 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:50:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:00:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,21 @@ int	parse_color(char *str)
 	color = (red << 24) + (green << 16) + (blue << 8) + 255;
 	free_array(split);
 	return (color);
+}
+
+int	parse_color2(char *str, uint32_t *color, uint32_t *color1)
+{
+	char	**split;
+	int		argc;
+
+	split = ft_split(str, ';');
+	if (!split)
+		return (0);
+	argc = array_len(split);
+	if (argc >= 1)
+		*color = parse_color(split[0]);
+	if (argc == 2)
+		*color1 = parse_color(split[1]);
+	free_array(split);
+	return (1);
 }

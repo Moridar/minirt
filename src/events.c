@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 20:03:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:37:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,10 @@ void	mlx_resize(int32_t width, int32_t height, void *param)
 	t_data	*data;
 	float	ratio;
 	float	newratio;
-	int		render;
 
 	data = (t_data *)param;
 	ratio = (float) data->width / data->height;
 	newratio = (float) width / height;
-	render = 1;
 	if ((height > (int) data->img->height && width == (int) data->img->width)
 		|| (width > (int) data->img->width && height
 			== (int) data->img->height))

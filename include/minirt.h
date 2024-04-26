@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 20:12:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:00:43 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_hitable
 	float			diameter;
 	float			height;
 	unsigned int	color;
+	unsigned int	color1;
+	float			checker_size;
 	void			*next;
 }	t_hitable;
 
@@ -113,8 +115,7 @@ t_light			create_light(t_vector3 pos, float brightness,
 					unsigned int color);
 t_hitable		create_sphere(t_vector3 pos, float diameter,
 					unsigned int color);
-t_hitable		create_plane(t_vector3 pos, t_vector3 normal,
-					unsigned int color);
+t_hitable		create_plane(t_vector3 pos, t_vector3 normal);
 t_hitable		create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 					float height);
 t_hitable		create_cone(t_vector3 pos, t_vector3 normal, float diameter,
@@ -146,6 +147,7 @@ unsigned int	color_multiply(int a, int b);
 int				load_file(char *file, t_data *data);
 t_vector3		parse_vector3(char *str);
 int				parse_color(char *str);
+int				parse_color2(char *str, uint32_t *color, uint32_t *color1);
 int				parse_sphere(char *line, t_data *data);
 int				parse_plane(char *line, t_data *data);
 int				parse_cylinder(char *line, t_data *data);
@@ -159,6 +161,7 @@ int				parse_resolution(char *line, t_data *data);
 int				is_vector3(char *str);
 int				is_normal3(char *str);
 int				is_color3(char *str);
+int				is_color6(char *str);
 int				is_float(char *str);
 int				str_is_int(char *str, int min, int max);
 
