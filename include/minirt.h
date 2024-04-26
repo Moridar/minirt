@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 19:51:18 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/26 20:12:50 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ typedef struct s_color
 // Creates
 void			create_camera(t_data *data, t_vector3 pos,
 					t_vector3 normal, int FOV);
-void			create_rays(t_data *data, float FOV, t_ray *rays);
 t_ambient		create_ambient(float brightness, unsigned int color);
 t_light			create_light(t_vector3 pos, float brightness,
 					unsigned int color);
@@ -135,7 +134,7 @@ int				calc_vertex_normal(t_hitable cone, t_ray ray,
 void			free_array(char **array);
 int				array_len(char **array);
 void			replace_whitespace_to_space(char *str);
-int				err(char *msg, char *arg);
+int				err(const char *msg, char *arg);
 
 // Colors
 int				color_add_light(t_hitpoint *hp, t_data *data);
