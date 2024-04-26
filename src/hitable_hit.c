@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/25 17:51:34 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:50:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "printf/ft_printf_bonus.h"
-#include "vec3.h"
-#include <stdio.h>
 
 t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 {
@@ -102,12 +99,17 @@ t_hitpoint	hit_sphere(t_hitable sph, t_ray ray)
 	if (dis.discriminant < 0)
 		return (hp);
 	hp.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
-	if (hp.distance < 0)
+	if (hp.distance < 0.000001)
+		hp.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
+	if (hp.distance < 0.000001)
 		return (hp);
 	hp.hit = 1;
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
-	hp.color = sph.color;
 	hp.surface_normal_of_hittable = vec3_unit(vec3_sub(hp.pos, sph.pos));
+	if (vec3_dot(ray.dir, hp.surface_normal_of_hittable) > 0)
+		hp.surface_normal_of_hittable
+			= vec3_scale(hp.surface_normal_of_hittable, -1);
+	hp.color = sph.color;
 	return (hp);
 }
 
