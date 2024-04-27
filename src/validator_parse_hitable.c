@@ -6,11 +6,26 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 01:53:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 21:04:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+int	parse_special(t_hitable *hit, char **split)
+{
+	while (*split)
+	{
+		if (ft_strncmp(*split, "chk:", 4) == 0)
+		{
+			if (!is_float(*split + 4))
+				return (-1);
+			hit->checker_size = fmax(0, ft_atof(*split + 4));
+		}
+		split++;
+	}
+	return (1);
+}
 
 int	parse_cone(char *line, t_data *data)
 {
@@ -91,18 +106,20 @@ int	parse_plane(char *line, t_data *data)
 		return (-1);
 	argc = array_len(split);
 	if (argc < 4 || !is_vector3(split[1]) || !is_normal3(split[2])
-		|| !is_color6(split[3]) || (argc >= 5 && !is_float(split[4])))
+		|| !is_color6(split[3]))
+		argc = -1;
+	else
 	{
-		ft_printf("Invalid plane");
-		free_array(split);
-		return (-1);
+		plane = create_plane(parse_vector3(split[1]),
+				parse_vector3(split[2]));
+		parse_color2(split[3], &plane.color, &plane.color1);
 	}
-	plane = create_plane(parse_vector3(split[1]),
-			parse_vector3(split[2]));
-	parse_color2(split[3], &plane.color, &plane.color1);
 	if (argc >= 5)
-		plane.checker_size = fmax(0, ft_atof(split[4]));
+		argc = parse_special(&plane, split + 4);
 	free_array(split);
+	if (argc == -1)
+		return (err("Invalid plane", NULL));
 	add_hitable(&data->hitables, plane);
+	printf("plane color: %d, color1: %d\n", plane.color, plane.color1);
 	return (0);
 }

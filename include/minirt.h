@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 02:52:33 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:03:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ void			keydown(mlx_key_data_t keydata, void *params);
 void			loop_hook(void *data);
 int				destroy(t_data *data);
 void			mlx_resize(int32_t width, int32_t height, void *param);
-void			rerender(t_data *data);
 void			reposition(t_data *data);
 
 #endif
