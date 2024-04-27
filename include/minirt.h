@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 02:00:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:52:33 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,16 @@ typedef struct s_ray
 {
 	t_vector3	*origin;
 	t_vector3	dir;
-	t_hitpoint	hit;
 }	t_ray;
 
 typedef struct s_camera
 {
-	t_vector3	pos;
-	t_vector3	normal;
-	int			degree;
-	int			width;
-	int			height;
-	float		distance;
-	t_ray		*rays;
+	t_vector3		pos;
+	t_vector3		normal;
+	int				degree;
+	int				width;
+	int				height;
+	float			distance;
 }	t_camera;
 
 typedef struct s_hitable
@@ -86,6 +84,21 @@ typedef struct s_ambient
 	unsigned int	color;
 }	t_ambient;
 
+typedef struct s_rotation_vector
+{
+	float		cos;
+	float		sin;
+	float		invcos;
+	t_vector3	axis;
+}	t_vecrotation;
+
+typedef struct s_rayconfig
+{
+	t_vecrotation	yaw;
+	t_vecrotation	pitch;
+	float			vecz;
+}	t_rayconfig;
+
 typedef struct s_data
 {
 	mlx_t		*mlx;
@@ -97,6 +110,7 @@ typedef struct s_data
 	t_ambient	ambient;
 	t_camera	camera;
 	int			changed;
+	t_rayconfig	raycfg;
 }				t_data;
 
 typedef struct s_color
@@ -108,6 +122,7 @@ typedef struct s_color
 }	t_color;
 
 // Creates
+t_ray			create_ray(t_data *data, int x, int y);
 void			create_camera(t_data *data, t_vector3 pos,
 					t_vector3 normal, int FOV);
 t_ambient		create_ambient(float brightness, unsigned int color);

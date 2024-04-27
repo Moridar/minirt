@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:53:17 by dhorvath          #+#    #+#             */
-/*   Updated: 2024/04/26 20:07:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 03:00:49 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_vector3	vec3_rotate(t_vector3 vec, t_rotate_vector *rv)
+static t_vector3	vec3_rotate(t_vector3 vec, t_vecrotation *rv)
 {
 	t_vector3	rotated_vec;
 
@@ -30,49 +30,21 @@ static t_vector3	vec3_rotate(t_vector3 vec, t_rotate_vector *rv)
 	return (rotated_vec);
 }
 
-static void	rv_setdata(t_data *data,
-		t_rotate_vector *yaw, t_rotate_vector *pitch)
+t_ray	create_ray(t_data *data, int x, int y)
 {
-	t_vector3	normal;
-
-	normal = data->camera.normal;
-	normal.y = 0;
-	normal = vec3_unit(normal);
-	yaw->axis = vec3_cross(((t_vector3){0, 0, 1}), normal);
-	yaw->cos = vec3_dot((t_vector3){0, 0, 1}, normal);
-	yaw->sin = sin(acos(yaw->cos));
-	yaw->invcos = 1.0f - yaw->cos;
-	pitch->axis = vec3_cross(normal, (t_vector3){0, 1, 0});
-	pitch->sin = data->camera.normal.y;
-	pitch->cos = cos(asin(pitch->sin));
-	pitch->invcos = 1.0f - pitch->cos;
-}
-
-static void	create_rays(t_data *data, float FOV, t_ray *rays)
-{
-	int				x;
-	int				y;
 	t_vector3		vec;
-	t_rotate_vector	yaw_rv;
-	t_rotate_vector	pitch_rv;
+	t_ray			ray;
 
-	rv_setdata(data, &yaw_rv, &pitch_rv);
-	vec.z = (data->img->width / 2) / tan(FOV * M_PI / 360);
-	y = -1;
-	while (++y < (int)data->img->height)
-	{
-		x = -1;
-		while (++x < (int)data->img->width)
-		{
-			vec.x = x - (int)data->img->width / 2;
-			vec.y = (int)data->img->height / 2 - y;
-			if (data->camera.normal.z < 0)
-				vec.y *= -1;
-			rays[y * data->img->width + x].dir
-				= vec3_unit(vec3_rotate(vec3_rotate(vec, &yaw_rv), &pitch_rv));
-			rays[y * data->img->width + x].origin = &data->camera.pos;
-		}
-	}
+	vec.z = data->raycfg.vecz;
+	vec.x = x - (int) data->img->width / 2;
+	vec.y = (int) data->img->height / 2 - y;
+	if (data->camera.normal.z < 0)
+		vec.y *= -1;
+	vec = vec3_rotate(vec, &data->raycfg.yaw);
+	vec = vec3_rotate(vec, &data->raycfg.pitch);
+	ray.origin = &data->camera.pos;
+	ray.dir = vec3_unit(vec);
+	return (ray);
 }
 
 void	create_camera(t_data *data, t_vector3 pos,
@@ -82,10 +54,4 @@ void	create_camera(t_data *data, t_vector3 pos,
 	data->camera.pos = pos;
 	data->camera.normal = vec3_unit(normal);
 	data->camera.degree = FOV;
-	data->camera.rays
-		= ft_calloc((int)data->img->width * data->img->height, sizeof(t_ray));
-	if (!data->camera.rays && destroy(data))
-		printf("Fatal: malloc fail\n");
-	create_rays(data, FOV, data->camera.rays);
-	printf("rays created\n");
 }

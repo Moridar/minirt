@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 18:58:35 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:59:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_ray	create_ray(t_vector3 to, t_vector3 *from)
+static t_ray	get_ray(t_vector3 to, t_vector3 *from)
 {
 	t_ray	light;
 
@@ -54,7 +54,7 @@ static int	check_eclipse(t_hitpoint *hp, t_data *data, t_light *target)
 	t_hitpoint	eclipse;
 	float		distance_to_light;
 
-	light = create_ray(hp->pos, &target->pos);
+	light = get_ray(hp->pos, &target->pos);
 	distance_to_light = vec3_distance(hp->pos, target->pos);
 	eclipse = hit_hitable(data->hitables, light);
 	if (eclipse.hit && eclipse.distance + 0.01 < distance_to_light)

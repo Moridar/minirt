@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 00:37:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 02:38:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	destroy(t_data *data)
 		data->light = data->light->next;
 		free(tmp);
 	}
-	if (data->camera.rays)
-		free(data->camera.rays);
 	if (data->mlx)
 		mlx_terminate(data->mlx);
 	exit(0);
@@ -53,7 +51,7 @@ void	loop_hook(void *params)
 
 	data = (t_data *)params;
 	if (data->changed)
-		rerender(data);
+		draw(data);
 	if (data->img->instances[0].x
 		!= (data->mlx->width - (int)data->img->width) / 2
 		|| data->img->instances[0].y

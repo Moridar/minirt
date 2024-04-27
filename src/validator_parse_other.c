@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 19:58:55 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 03:04:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	parse_resolution(char *line, t_data *data)
 	data->width = ft_atoi(split[1]);
 	data->height = ft_atoi(split[2]);
 	free_array(split);
-	mlx_set_window_size(data->mlx, data->width, data->height);
-	mlx_resize_image(data->img, data->width, data->height);
 	printf("resolution loaded\n");
 	return (0);
 }

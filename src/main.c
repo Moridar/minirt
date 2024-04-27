@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 20:06:31 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 03:03:35 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	data_init(t_data *data)
 	data->height = 360;
 	data->hitables = NULL;
 	data->light = NULL;
-	data->camera.rays = NULL;
 	data->mlx = NULL;
+	data->changed = 0;
 	ft_bzero(&data->ambient, sizeof(t_ambient));
 	ft_bzero(&data->light, sizeof(t_light));
 	ft_bzero(&data->camera, sizeof(t_camera));
@@ -49,9 +49,9 @@ int	main(int argc, char *argv[])
 	if (argc > 2)
 		return (err("Please only 1 file", NULL));
 	data_init(&data);
-	mymlx_init(&data);
 	if (load_file(argv[1], &data) == -1)
 		return (destroy(&data));
+	mymlx_init(&data);
 	draw(&data);
 	mlx_loop(data.mlx);
 	destroy(&data);
