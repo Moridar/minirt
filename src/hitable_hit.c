@@ -6,13 +6,13 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 01:31:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/28 02:57:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	checkerboard_color(t_hitable *obj, t_vector3 pos)
+int	checkerboard_color(t_hitable *obj, t_hitpoint *hp)
 {
 	int		x;
 	int		y;
@@ -20,14 +20,14 @@ int	checkerboard_color(t_hitable *obj, t_vector3 pos)
 
 	if (obj->checker_size <= 0)
 		return (obj->color);
-	x = pos.x / obj->checker_size;
-	y = pos.y / obj->checker_size;
-	z = pos.z / obj->checker_size;
-	if (pos.x < 0.001)
+	x = (1.00f - fabs(hp->normal.x)) * hp->pos.x / obj->checker_size;
+	z = (1.00f - fabs(hp->normal.z)) * hp->pos.z / obj->checker_size;
+	y = (1.00f - fabs(hp->normal.y)) * hp->pos.y / obj->checker_size;
+	if (hp->pos.x >= -0.0001)
 		x++;
-	if (pos.z < 0.001)
+	if (hp->pos.z >= -.00001)
 		z++;
-	if (pos.y < 0.001)
+	if (hp->pos.y >= -.00001)
 		y++;
 	if ((x + y + z) % 2 == 0)
 		return (obj->color1);
@@ -43,16 +43,16 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 		|| vec3_dot(vec3_unit(vec3_sub(plane.pos, *ray.origin)),
 			plane.normal) == 0)
 		return (hp);
+	if (vec3_dot(ray.dir, plane.normal) > 0)
+		plane.normal = vec3_scale(plane.normal, -1);
 	hp.distance = vec3_dot(vec3_sub(plane.pos, *ray.origin), plane.normal)
 		/ vec3_dot(ray.dir, plane.normal);
 	if (hp.distance <= 0)
 		return (hp);
-	if (vec3_dot(ray.dir, plane.normal) > 0)
-		plane.normal = vec3_scale(plane.normal, -1);
 	hp.hit = 1;
 	hp.normal = plane.normal;
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
-	hp.color = checkerboard_color(&plane, hp.pos);
+	hp.color = checkerboard_color(&plane, &hp);
 	return (hp);
 }
 
@@ -98,7 +98,7 @@ static t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 		hp = hit_cap1;
 	if (hit_cap2.hit && (!hp.hit || hp.distance > hit_cap2.distance))
 		hp = hit_cap2;
-	hp.color = cyl.color;
+	hp.color = checkerboard_color(&cyl, &hp);
 	return (hp);
 }
 
@@ -125,7 +125,7 @@ static t_hitpoint	hit_sphere(t_hitable sph, t_ray ray)
 	hp.normal = vec3_unit(vec3_sub(hp.pos, sph.pos));
 	if (vec3_dot(ray.dir, hp.normal) > 0)
 		hp.normal = vec3_scale(hp.normal, -1);
-	hp.color = sph.color;
+	hp.color = checkerboard_color(&sph, &hp);
 	return (hp);
 }
 

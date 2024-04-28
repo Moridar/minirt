@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 20:03:28 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:13:26 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,7 @@ void			create_camera(t_data *data, t_vector3 pos,
 t_ambient		create_ambient(float brightness, unsigned int color);
 t_light			create_light(t_vector3 pos, float brightness,
 					unsigned int color);
-t_hitable		create_sphere(t_vector3 pos, float diameter,
-					unsigned int color);
+t_hitable		create_sphere(t_vector3 pos, float diameter);
 t_hitable		create_plane(t_vector3 pos, t_vector3 normal);
 t_hitable		create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 					float height);
@@ -145,6 +144,7 @@ t_hitpoint		hit_circle(t_hitable plane, t_ray ray, float radius);
 t_hitpoint		hit_plane(t_hitable plane, t_ray ray);
 int				calc_vertex_normal(t_hitable cone, t_ray ray,
 					t_hitpoint *hp, float angle);
+int				checkerboard_color(t_hitable *obj, t_hitpoint *hp);					
 
 // Utils
 void			free_array(char **array);

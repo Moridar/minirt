@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:06:31 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 21:06:34 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/27 23:10:17 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,23 @@ t_hitable	create_cone(t_vector3 pos, t_vector3 normal, float diameter,
 	hit.normal = vec3_unit(normal);
 	hit.diameter = diameter;
 	hit.height = height;
+	hit.color1 = 0xFF;
+	hit.checker_size = 0;
 	hit.next = NULL;
 	ft_printf("cone created\n");
 	return (hit);
 }
 
-t_hitable	create_sphere(t_vector3 pos, float diameter, unsigned int color)
+t_hitable	create_sphere(t_vector3 pos, float diameter)
 {
 	t_hitable	hit;
 
 	hit.type = 's';
 	hit.pos = pos;
 	hit.diameter = diameter;
-	hit.color = color;
+	hit.color = 0;
+	hit.color1 = 0xFF;
+	hit.checker_size = 0;
 	hit.next = NULL;
 	ft_printf("sphere created\n");
 	return (hit);
@@ -51,7 +55,6 @@ t_hitable	create_plane(t_vector3 pos, t_vector3 normal)
 	hit.color1 = 0xFF;
 	hit.checker_size = 0;
 	hit.next = NULL;
-	hit.checker_size = 0;
 	ft_printf("plane created\n");
 	return (hit);
 }
@@ -66,6 +69,8 @@ t_hitable	create_cylinder(t_vector3 pos, t_vector3 normal, float diameter,
 	hit.normal = vec3_unit(normal);
 	hit.diameter = diameter;
 	hit.height = height;
+	hit.color1 = 0xFF;
+	hit.checker_size = 0;
 	hit.next = NULL;
 	ft_printf("cylinder created\n");
 	return (hit);

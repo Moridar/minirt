@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/26 20:03:11 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:13:37 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 	dis = discriminant(cone, ray, angle);
 	if (dis.discriminant < 0.00)
 		return (hpa);
-	hpa.color = cone.color;
 	hpa.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
 	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
+	hpa.color = checkerboard_color(&cone, &hpa);
 	if (hpa.hit)
 		return (hpa);
 	hpa.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
 	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
-	hpa.color = color_scale(cone.color, 0.87);
+	hpa.color = checkerboard_color(&cone, &hpa);
 	return (hpa);
 }
 
