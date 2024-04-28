@@ -6,33 +6,11 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/28 02:57:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:41:03 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-int	checkerboard_color(t_hitable *obj, t_hitpoint *hp)
-{
-	int		x;
-	int		y;
-	int		z;
-
-	if (obj->checker_size <= 0)
-		return (obj->color);
-	x = (1.00f - fabs(hp->normal.x)) * hp->pos.x / obj->checker_size;
-	z = (1.00f - fabs(hp->normal.z)) * hp->pos.z / obj->checker_size;
-	y = (1.00f - fabs(hp->normal.y)) * hp->pos.y / obj->checker_size;
-	if (hp->pos.x >= -0.0001)
-		x++;
-	if (hp->pos.z >= -.00001)
-		z++;
-	if (hp->pos.y >= -.00001)
-		y++;
-	if ((x + y + z) % 2 == 0)
-		return (obj->color1);
-	return (obj->color);
-}
 
 t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 {
@@ -52,7 +30,7 @@ t_hitpoint	hit_plane(t_hitable plane, t_ray ray)
 	hp.hit = 1;
 	hp.normal = plane.normal;
 	hp.pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp.distance));
-	hp.color = checkerboard_color(&plane, &hp);
+	hp.color = getcolor_plane(&plane, &hp);
 	return (hp);
 }
 
@@ -98,7 +76,7 @@ static t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 		hp = hit_cap1;
 	if (hit_cap2.hit && (!hp.hit || hp.distance > hit_cap2.distance))
 		hp = hit_cap2;
-	hp.color = checkerboard_color(&cyl, &hp);
+	hp.color = getcolor_plane(&cyl, &hp);
 	return (hp);
 }
 
@@ -125,7 +103,7 @@ static t_hitpoint	hit_sphere(t_hitable sph, t_ray ray)
 	hp.normal = vec3_unit(vec3_sub(hp.pos, sph.pos));
 	if (vec3_dot(ray.dir, hp.normal) > 0)
 		hp.normal = vec3_scale(hp.normal, -1);
-	hp.color = checkerboard_color(&sph, &hp);
+	hp.color = getcolor_sphere(&sph, &hp);
 	return (hp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/28 00:13:26 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:39:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,9 @@ t_hitpoint		hit_circle(t_hitable plane, t_ray ray, float radius);
 t_hitpoint		hit_plane(t_hitable plane, t_ray ray);
 int				calc_vertex_normal(t_hitable cone, t_ray ray,
 					t_hitpoint *hp, float angle);
-int				checkerboard_color(t_hitable *obj, t_hitpoint *hp);					
+// Hitcolor
+int				getcolor_sphere(t_hitable *obj, t_hitpoint *hp);
+int				getcolor_plane(t_hitable *obj, t_hitpoint *hp);
 
 // Utils
 void			free_array(char **array);
