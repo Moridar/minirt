@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 02:59:17 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:30:05 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	get_diffuse_color(t_hitpoint *hp, t_light *target)
 
 	lightdir = vec3_unit(vec3_sub(target->pos, hp->pos));
 	dot = vec3_dot(lightdir, hp->normal);
-	return (color_scale(target->color, dot));
+	return (color_scale(target->color, dot * target->brightness));
 }
 
 static int	get_specular_color(t_data *data, t_hitpoint *hp, t_light *target)
