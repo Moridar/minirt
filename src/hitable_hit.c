@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/28 15:41:03 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 06:52:19 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,15 @@ static t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 	t_hitpoint	hp;
 
 	hit_side = hit_cylinder_side(cyl, ray);
-	hit_cap2 = hit_circle((t_hitable){'p', cyl.pos, cyl.normal, 1, 1,
-			cyl.color, 0, 0, NULL}, ray, cyl.diameter / 2);
-	hit_cap1 = hit_circle((t_hitable){'p', vec3_add(cyl.pos,
-				vec3_scale(cyl.normal, cyl.height)), cyl.normal, 1, 1,
-			cyl.color, 0, 0, NULL}, ray, cyl.diameter / 2);
+	hit_side.color = getcolor_sphere(&cyl, &hit_side);
+	hit_cap2 = hit_circle(cyl, ray, cyl.diameter / 2);
+	cyl.pos = vec3_add(cyl.pos, vec3_scale(cyl.normal, cyl.height));
+	hit_cap1 = hit_circle(cyl, ray, cyl.diameter / 2);
 	hp = hit_side;
 	if (hit_cap1.hit && (!hp.hit || hp.distance > hit_cap1.distance))
 		hp = hit_cap1;
 	if (hit_cap2.hit && (!hp.hit || hp.distance > hit_cap2.distance))
 		hp = hit_cap2;
-	hp.color = getcolor_plane(&cyl, &hp);
 	return (hp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/28 15:41:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 06:43:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_hitpoint	hit_circle(t_hitable plane, t_ray ray, float radius)
 	t_hitpoint		hp;
 
 	hp = hit_plane(plane, ray);
-	hp.color = color_scale(hp.color, 0.7);
 	if (hp.hit && vec3_distance(hp.pos, plane.pos) <= radius)
 		return (hp);
 	hp.hit = 0;
