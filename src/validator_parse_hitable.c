@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 21:40:49 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:28:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,5 @@ int	parse_plane(char *line, t_data *data)
 	if (argc == -1)
 		return (err("Invalid plane", NULL));
 	add_hitable(&data->hitables, plane);
-	printf("plane color: %d, color1: %d\n", plane.color, plane.color1);
 	return (0);
 }
