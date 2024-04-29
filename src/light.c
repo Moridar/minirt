@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 01:04:27 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/24 23:30:43 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:36:04 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ t_ambient	create_ambient(float brightness, unsigned int color)
 {
 	t_ambient	ambient;
 
+	if (brightness < 0.1)
+		brightness = 0.1;
 	ambient.brightness = brightness;
 	ambient.color = color;
 	ft_printf("ambient created\n");

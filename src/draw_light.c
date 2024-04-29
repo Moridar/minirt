@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:03:48 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 12:30:05 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:35:36 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	color_add_light(t_hitpoint *hp, t_data *data)
 
 	lightptr = data->light;
 	total_color = color_scale(data->ambient.color, data->ambient.brightness);
-	total_color = color_add(total_color, color_scale(0xFFFFFFFF, 0.1), 0);
 	while (lightptr)
 	{
 		if (!check_eclipse(hp, data, lightptr))
