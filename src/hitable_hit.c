@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 21:50:15 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 06:52:19 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 09:47:17 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_hitpoint	hit_cylinder(t_hitable cyl, t_ray ray)
 	t_hitpoint	hp;
 
 	hit_side = hit_cylinder_side(cyl, ray);
-	hit_side.color = getcolor_sphere(&cyl, &hit_side);
+	hit_side.color = getcolor_cylinder(&cyl, &hit_side);
 	hit_cap2 = hit_circle(cyl, ray, cyl.diameter / 2);
 	cyl.pos = vec3_add(cyl.pos, vec3_scale(cyl.normal, cyl.height));
 	hit_cap1 = hit_circle(cyl, ray, cyl.diameter / 2);

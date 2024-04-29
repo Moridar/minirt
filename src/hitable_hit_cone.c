@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit_cone.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 06:43:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:30:17 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ t_hitpoint	hit_cone(t_hitable cone, t_ray ray)
 		return (hpa);
 	hpa.distance = (-dis.b - sqrt(dis.discriminant)) / (2 * dis.a);
 	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
-	hpa.color = getcolor_plane(&cone, &hpa);
+	if (hpa.hit)
+		hpa.color = getcolor_cylinder(&cone, &hpa);
 	if (hpa.hit)
 		return (hpa);
 	hpa.distance = (-dis.b + sqrt(dis.discriminant)) / (2 * dis.a);
 	hpa.hit = calc_vertex_normal(cone, ray, &hpa, angle);
-	hpa.color = getcolor_plane(&cone, &hpa);
+	if (hpa.hit)
+		hpa.color = getcolor_cylinder(&cone, &hpa);
 	return (hpa);
 }
 

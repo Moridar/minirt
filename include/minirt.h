@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/28 15:39:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 09:47:55 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int				calc_vertex_normal(t_hitable cone, t_ray ray,
 // Hitcolor
 int				getcolor_sphere(t_hitable *obj, t_hitpoint *hp);
 int				getcolor_plane(t_hitable *obj, t_hitpoint *hp);
+int				getcolor_cylinder(t_hitable *obj, t_hitpoint *hp);
 
 // Utils
 void			free_array(char **array);
