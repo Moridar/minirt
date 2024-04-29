@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit_cone.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:13 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 10:30:17 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:26:28 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	calc_vertex_normal(t_hitable cone, t_ray ray, t_hitpoint *hp, float angle)
 		return (0);
 	hp->pos = vec3_add(*ray.origin, vec3_scale(ray.dir, hp->distance));
 	height = vec3_dot(vec3_sub(hp->pos, cone.pos), cone.normal);
-	if (height < 0 || height > cone.height)
+	if (height <= -0.001f || height > cone.height)
 		return (0);
 	hit_to_vertex = vec3_sub(hp->pos, cone.pos);
 	projection = vec3_scale(cone.normal, vec3_dot(hit_to_vertex, cone.normal)
