@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 01:44:40 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:23:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ int	is_normal3(char *str)
 {
 	char	**split;
 	int		i;
+	double	hasvalue;
 
+	hasvalue = 0;
 	split = ft_split(str, ',');
 	if (!split)
 		return (0);
@@ -80,10 +82,11 @@ int	is_normal3(char *str)
 			i = 10;
 		if (ft_atof(split[i]) < -1 || ft_atof(split[i]) > 1)
 			i = 10;
+		hasvalue += fabs(ft_atof(split[i]));
 		i++;
 	}
 	free_array(split);
-	if (i == 3)
+	if (hasvalue != 0 && i == 3)
 		return (1);
 	ft_printf("Invalid normal\n");
 	return (0);
