@@ -6,7 +6,7 @@
 /*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 09:47:55 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:08:14 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
+
+# define MAXPOS 10000
 
 # include "libft.h"
 # include "vec3.h"

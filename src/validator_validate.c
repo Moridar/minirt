@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 11:23:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/13 10:17:15 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ int	is_vector3(char *str)
 	{
 		ft_printf("2Invalid vector\n");
 		free_array(split);
+		return (0);
+	}	
+	if (fabs(atof(split[0])) > MAXPOS ||fabs(atof(split[1])) > MAXPOS
+		|| fabs(atof(split[2])) > MAXPOS)
+	{
+		free_array(split);
+		ft_printf("3Vector out of render range\n");
 		return (0);
 	}
 	free_array(split);
