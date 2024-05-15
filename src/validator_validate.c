@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/15 11:36:50 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:34:27 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	is_float(char *str)
 	while (str[i] && dot < 2)
 	{
 		if (!ft_isdigit(str[i]) && str[i] != '.')
-			return (err("1Invalid float", NULL) + 1);
+			return (err("Invalid float: Non-digits", NULL) + 1);
 		if (str[i] == '.')
 			dot++;
 		i++;
 	}
 	if (dot > 1)
-		return (err("2Invalid float", NULL) + 1);
+		return (err("Invalid float: Multiple dots", NULL) + 1);
 	return (1);
 }
 
@@ -52,11 +52,12 @@ int	is_vector3(char *str)
 		ret = -3;
 	free_array(split);
 	if (ret == -1)
-		return (err("1Invalid vector", NULL) + 1);
+		return (err("Invalid vector: expected x,y,z", NULL) + 1);
 	if (ret == -2)
-		return (err("2Invalid vector", NULL) + 1);
+		return (err("Invalid vector: Illegal values", NULL) + 1);
 	if (ret == -3)
-		return (err("3Vector out of render range", NULL) + 1);
+		return (err("Invalid vector: Each component (x,y,z) "
+				"must not exceed 10.000", NULL) + 1);
 	return (1);
 }
 
@@ -132,7 +133,7 @@ int	is_color6(char *str)
 		i++;
 	}
 	free_array(split);
-	if (i != argc)
+	if (argc < 1 || argc > 2)
 		err("Invalid color", NULL);
 	return (i == argc);
 }

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 01:39:09 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/15 19:21:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,10 @@ int	str_is_int(char *str, int min, int max)
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-		{
-			printf("Invalid number\n");
-			return (0);
-		}
+			return (err("Invalid number: Non-digits", NULL) + 1);
 		i++;
 	}
 	if (ft_atoi(str) < min || ft_atoi(str) > max)
-	{
-		printf("Number outside of range\n");
-		return (0);
-	}
+		return (err("Number outside of range", NULL) + 1);
 	return (1);
 }

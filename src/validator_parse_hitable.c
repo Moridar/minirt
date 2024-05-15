@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/29 11:28:47 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:05:53 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	parse_cone(char *line, t_data *data)
 	if (argc >= 6)
 		argc = parse_special(&cone, split + 6);
 	free_array(split);
-	if (argc == -1)
+	if (argc == -1 || cone.diameter <= 0 || cone.height <= 0)
 		return (err("Invalid cone", NULL));
 	add_hitable(&data->hitables, cone);
 	return (0);
@@ -69,9 +69,8 @@ int	parse_sphere(char *line, t_data *data)
 	if (argc < 4 || !is_vector3(split[1]) || !is_float(split[2])
 		|| !is_color6(split[3]))
 	{
-		ft_printf("Invalid sphere\n");
 		free_array(split);
-		return (-1);
+		return (err("Invalid sphere", NULL));
 	}
 	sphere = create_sphere(parse_vector3(split[1]),
 			ft_atof(split[2]));
@@ -107,7 +106,7 @@ int	parse_cylinder(char *line, t_data *data)
 	if (argc >= 6)
 		argc = parse_special(&cylinder, split + 6);
 	free_array(split);
-	if (argc == -1)
+	if (argc == -1 || cylinder.diameter <= 0 || cylinder.height <= 0)
 		return (err("Invalid cylinder", NULL));
 	add_hitable(&data->hitables, cylinder);
 	return (0);

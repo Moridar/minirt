@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:50:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 03:04:36 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:20:52 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	parse_resolution(char *line, t_data *data)
 	if (array_len(split) != 3 || !str_is_int(split[1], 1, 3000)
 		|| !str_is_int(split[2], 1, 3000))
 	{
-		ft_printf("Invalid resolution\n");
+		err("Invalid resolution", NULL);
 		free_array(split);
 		return (-1);
 	}
@@ -42,9 +42,8 @@ int	parse_ambient(char *line, t_data *data)
 		return (-1);
 	if (array_len(split) != 3 || !is_float(split[1]) || !is_color3(split[2]))
 	{
-		ft_printf("Invaliid ambient\n");
 		free_array(split);
-		return (-1);
+		return (err("Invaliid ambient", NULL));
 	}
 	data->ambient = create_ambient(ft_atof(split[1]), parse_color(split[2]));
 	free_array(split);
