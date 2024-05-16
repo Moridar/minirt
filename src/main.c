@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/16 15:20:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/16 23:21:47 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	main(int argc, char *argv[])
 	if (argc > 2)
 		return (err("Please only 1 file", NULL));
 	data_init(&data);
+	mymlx_init(&data);
 	if (load_file(argv[1], &data) == -1)
 		return (destroy(&data));
-	mymlx_init(&data);
 	draw(&data);
 	mlx_loop(data.mlx);
 	destroy(&data);

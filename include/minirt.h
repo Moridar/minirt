@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/16 11:31:10 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/17 00:42:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_hitable
 	unsigned int	color1;
 	float			checker_size;
 	void			*next;
+	mlx_image_t		*bmp;
 }	t_hitable;
 
 typedef struct s_light

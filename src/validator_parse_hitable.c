@@ -6,14 +6,17 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/16 15:53:01 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/17 00:36:23 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	parse_special(t_hitable *hit, char **split)
+int	parse_special(t_hitable *hit, char **split, t_data *data)
 {
+	mlx_texture_t	*bmp;
+	char			*bmpfile;
+
 	while (*split)
 	{
 		if (ft_strncmp(*split, "chk:", 4) == 0)
@@ -21,6 +24,17 @@ int	parse_special(t_hitable *hit, char **split)
 			if (!is_float(*split + 4))
 				return (-1);
 			hit->checker_size = fmax(0, ft_atof(*split + 4));
+		}
+		if (ft_strncmp(*split, "bmp:", 4) == 0)
+		{
+			bmpfile = ft_strjoin("./bumpmaps/", *split + 4);
+			bmp = mlx_load_png(bmpfile);
+			free(bmpfile);
+			if (!bmp)
+				return (err("texture not found", NULL));
+			hit->bmp = mlx_texture_to_image(data->mlx, bmp);
+			if (!hit->bmp)
+				return (err("text to img fails", NULL));
 		}
 		split++;
 	}
@@ -47,7 +61,7 @@ int	parse_cone(char *line, t_data *data)
 			ft_atof(split[3]), ft_atof(split[4]));
 	parse_color2(split[5], &cone.color, &cone.color1);
 	if (argc >= 6)
-		argc = parse_special(&cone, split + 6);
+		argc = parse_special(&cone, split + 6, data);
 	free_array(split);
 	if (argc == -1 || cone.diameter <= 0 || cone.height <= 0
 		|| !validate_normal(cone.normal))
@@ -76,7 +90,7 @@ int	parse_sphere(char *line, t_data *data)
 			ft_atof(split[2]));
 	parse_color2(split[3], &sphere.color, &sphere.color1);
 	if (argc >= 4)
-		argc = parse_special(&sphere, split + 4);
+		argc = parse_special(&sphere, split + 4, data);
 	free_array(split);
 	if (argc == -1)
 		return (err("Invalid sphere", NULL));
@@ -104,7 +118,7 @@ int	parse_cylinder(char *line, t_data *data)
 			ft_atof(split[3]), ft_atof(split[4]));
 	parse_color2(split[5], &cylinder.color, &cylinder.color1);
 	if (argc >= 6)
-		argc = parse_special(&cylinder, split + 6);
+		argc = parse_special(&cylinder, split + 6, data);
 	free_array(split);
 	if (argc == -1 || cylinder.diameter <= 0 || cylinder.height <= 0
 		|| !validate_normal(cylinder.normal))
@@ -133,7 +147,7 @@ int	parse_plane(char *line, t_data *data)
 		parse_color2(split[3], &plane.color, &plane.color1);
 	}
 	if (argc >= 5)
-		argc = parse_special(&plane, split + 4);
+		argc = parse_special(&plane, split + 4, data);
 	free_array(split);
 	if (argc == -1 || !validate_normal(plane.normal))
 		return (err("Invalid plane", NULL));
