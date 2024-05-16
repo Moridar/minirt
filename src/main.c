@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:49:14 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 03:03:35 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:20:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,14 @@ static void	mymlx_init(t_data *data)
 
 static void	data_init(t_data *data)
 {
+	ft_bzero(data, sizeof(data));
 	data->width = 640;
 	data->height = 360;
 	data->hitables = NULL;
 	data->light = NULL;
 	data->mlx = NULL;
 	data->changed = 0;
-	ft_bzero(&data->ambient, sizeof(t_ambient));
-	ft_bzero(&data->light, sizeof(t_light));
-	ft_bzero(&data->camera, sizeof(t_camera));
+	data->ambient = create_ambient(0, 0xFFFFFFFF);
 }
 
 int	main(int argc, char *argv[])
