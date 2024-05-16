@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/16 14:47:00 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:53:01 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	parse_cone(char *line, t_data *data)
 		|| !is_float(split[3]) || !is_float(split[4]) || !is_color6(split[5]))
 	{
 		free_array(split);
-		return (err("Invalid cone", NULL) + 1);
+		return (err("Invalid cone", NULL));
 	}
 	cone = create_cone(parse_vector3(split[1]), parse_vector3(split[2]),
 			ft_atof(split[3]), ft_atof(split[4]));

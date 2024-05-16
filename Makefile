@@ -38,7 +38,7 @@ OBJ_DIR = obj/
 VEC3OBJ_DIR = obj/vec3/
 OBJ = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o)) $(addprefix $(VEC3OBJ_DIR), $(VEC3SRCS:.c=.o))
 
-CFLAGS = -Wall -Wextra -Werror -IMLX42/include -Ilibft -Iinclude
+CFLAGS = -Wall -Wextra -Werror -IMLX42/include -Ilibft -Iinclude -O3
 
 MLXFLAGS = -framework Cocoa -framework OpenGL -framework IOKit -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm  
@@ -46,7 +46,7 @@ WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm
 all: $(NAME)
 
 $(NAME): $(MLX42) $(LIBFT) $(OBJ_DIR) $(VEC3OBJ_DIR) $(OBJ)
-	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) -O3 libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
+	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
 
 wsl: $(MLX42) $(LIBFT) $(OBJ_DIR) $(VEC3OBJ_DIR) $(OBJ)
 	cc $(CFLAGS) $(OBJ) MLX42/build/libmlx42.a $(WSLFLAGS) -o $(NAME)
