@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:08:41 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/13 10:08:14 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:31:10 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ int				is_color3(char *str);
 int				is_color6(char *str);
 int				is_float(char *str);
 int				str_is_int(char *str, int min, int max);
+int				validate_normal(t_vector3 vec);
 
 // MLX utils
 void			draw(t_data *data);

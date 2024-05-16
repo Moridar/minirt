@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/15 20:05:53 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:32:44 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ int	parse_cone(char *line, t_data *data)
 	if (argc < 6 || !is_vector3(split[1]) || !is_normal3(split[2])
 		|| !is_float(split[3]) || !is_float(split[4]) || !is_color6(split[5]))
 	{
-		ft_printf("Invalid cone\n");
 		free_array(split);
-		return (-1);
+		return (err("Invalid cone", NULL) + 1);
 	}
 	cone = create_cone(parse_vector3(split[1]), parse_vector3(split[2]),
 			ft_atof(split[3]), ft_atof(split[4]));
@@ -50,7 +49,8 @@ int	parse_cone(char *line, t_data *data)
 	if (argc >= 6)
 		argc = parse_special(&cone, split + 6);
 	free_array(split);
-	if (argc == -1 || cone.diameter <= 0 || cone.height <= 0)
+	if (argc == -1 || cone.diameter <= 0 || cone.height <= 0
+		|| !validate_normal(cone.normal))
 		return (err("Invalid cone", NULL));
 	add_hitable(&data->hitables, cone);
 	return (0);
@@ -78,7 +78,7 @@ int	parse_sphere(char *line, t_data *data)
 	if (argc >= 4)
 		argc = parse_special(&sphere, split + 4);
 	free_array(split);
-	if (argc == -1)
+	if (argc == -1 || !validate_normal(sphere.normal))
 		return (err("Invalid sphere", NULL));
 	add_hitable(&data->hitables, sphere);
 	return (0);
@@ -106,7 +106,8 @@ int	parse_cylinder(char *line, t_data *data)
 	if (argc >= 6)
 		argc = parse_special(&cylinder, split + 6);
 	free_array(split);
-	if (argc == -1 || cylinder.diameter <= 0 || cylinder.height <= 0)
+	if (argc == -1 || cylinder.diameter <= 0 || cylinder.height <= 0
+		|| !validate_normal(cylinder.normal))
 		return (err("Invalid cylinder", NULL));
 	add_hitable(&data->hitables, cylinder);
 	return (0);
@@ -134,7 +135,7 @@ int	parse_plane(char *line, t_data *data)
 	if (argc >= 5)
 		argc = parse_special(&plane, split + 4);
 	free_array(split);
-	if (argc == -1)
+	if (argc == -1 || !validate_normal(plane.normal))
 		return (err("Invalid plane", NULL));
 	add_hitable(&data->hitables, plane);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/15 19:21:52 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:30:41 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,20 @@ int	str_is_int(char *str, int min, int max)
 	}
 	if (ft_atoi(str) < min || ft_atoi(str) > max)
 		return (err("Number outside of range", NULL) + 1);
+	return (1);
+}
+
+int	validate_normal(t_vector3 vec)
+{
+	if (isnan(vec.x) || isnan(vec.y) || isnan(vec.z))
+	{
+		err("Invalid normal: nan", NULL);
+		return (0);
+	}
+	if (isinf(vec.x) || isinf(vec.y) || isinf(vec.z))
+	{
+		err("Invalid normal: inf", NULL);
+		return (0);
+	}
 	return (1);
 }
