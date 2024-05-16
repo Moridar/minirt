@@ -6,7 +6,7 @@
 /*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/16 11:32:44 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:47:00 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parse_sphere(char *line, t_data *data)
 	if (argc >= 4)
 		argc = parse_special(&sphere, split + 4);
 	free_array(split);
-	if (argc == -1 || !validate_normal(sphere.normal))
+	if (argc == -1)
 		return (err("Invalid sphere", NULL));
 	add_hitable(&data->hitables, sphere);
 	return (0);

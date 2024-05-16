@@ -46,7 +46,7 @@ WSLFLAGS = -L$(LIBFTDIR) -lft -ldl -lglfw -pthread -lm
 all: $(NAME)
 
 $(NAME): $(MLX42) $(LIBFT) $(OBJ_DIR) $(VEC3OBJ_DIR) $(OBJ)
-	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
+	cc $(CFLAGS) $(MLXFLAGS) $(OBJ) -ofast libft/libft.a MLX42/build/libmlx42.a -o $(NAME)
 
 wsl: $(MLX42) $(LIBFT) $(OBJ_DIR) $(VEC3OBJ_DIR) $(OBJ)
 	cc $(CFLAGS) $(OBJ) MLX42/build/libmlx42.a $(WSLFLAGS) -o $(NAME)
