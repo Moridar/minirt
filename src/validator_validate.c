@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator_validate.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/17 11:02:31 by dhorvath         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:16:29 by bsyvasal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	is_vector3(char *str)
 		return (0);
 	if (array_len(split) != 3)
 		ret = -1;
-	if (!is_float(split[0]) || !is_float(split[1]) || !is_float(split[2]))
+	if (ret == 0
+		&& (!is_float(split[0]) || !is_float(split[1]) || !is_float(split[2])))
 		ret = -2;
 	if (ret == 0 && (fabs(ft_atof(split[0])) > MAXPOS || fabs(ft_atof(split[1]))
 			> MAXPOS || fabs(ft_atof(split[2])) > MAXPOS))
