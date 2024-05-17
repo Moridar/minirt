@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator_validate.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 14:17:29 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/15 19:34:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:02:31 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_float(char *str)
 	int	i;
 	int	dot;
 
+	if (!str)
+		return (err("Invalid float: NULL", NULL) + 1);
 	i = 0;
 	dot = 0;
 	if (str[i] == '-')
@@ -47,8 +49,8 @@ int	is_vector3(char *str)
 		ret = -1;
 	if (!is_float(split[0]) || !is_float(split[1]) || !is_float(split[2]))
 		ret = -2;
-	if (fabs(atof(split[0])) > MAXPOS || fabs(atof(split[1])) > MAXPOS
-		|| fabs(atof(split[2])) > MAXPOS)
+	if (ret == 0 && (fabs(ft_atof(split[0])) > MAXPOS || fabs(ft_atof(split[1]))
+			> MAXPOS || fabs(ft_atof(split[2])) > MAXPOS))
 		ret = -3;
 	free_array(split);
 	if (ret == -1)

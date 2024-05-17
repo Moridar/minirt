@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hitable_hit_getcolor.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 15:37:40 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/17 00:39:27 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:02:05 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	getcolor_sphere(t_hitable *obj, t_hitpoint *hp)
 	u = atan2(hp->normal.z, hp->normal.x) / (2.0 * M_PI) * obj->diameter;
 	v = asin(hp->normal.y) / M_PI * obj->diameter;
 	if (obj->bmp)
-		return (get_pixelcolor(obj->bmp, u, v));
+		return (color_multiply(get_pixelcolor(obj->bmp, u, v), obj->color));
 	x = u / obj->checker_size;
 	y = v / obj->checker_size;
 	if (u < 0)
@@ -70,7 +70,7 @@ int	getcolor_plane(t_hitable *obj, t_hitpoint *hp)
 	e = vec3_unit(vec3_cross(obj->normal, e));
 	v = vec3_dot(hp->pos, e);
 	if (obj->bmp)
-		return (get_pixelcolor(obj->bmp, u, v));
+		return (color_multiply(get_pixelcolor(obj->bmp, u, v), obj->color));
 	x = u / obj->checker_size;
 	y = v / obj->checker_size;
 	if (u < 0)
@@ -98,7 +98,7 @@ int	getcolor_cylinder(t_hitable *obj, t_hitpoint *hp)
 	v = vec3_dot(vec3_sub(hp->pos, obj->pos), obj->normal)
 		/ (1 - vec3_dot(hp->normal, obj->normal));
 	if (obj->bmp)
-		return (get_pixelcolor(obj->bmp, u, v));
+		return (color_multiply(get_pixelcolor(obj->bmp, u, v), obj->color));
 	x = u / obj->checker_size;
 	y = v / obj->checker_size;
 	if ((y + x) % 2 == 0)

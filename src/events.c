@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:48:50 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/04/27 02:38:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:45:06 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	destroy(t_data *data)
 		exit(1);
 	while (data->hitables)
 	{
+		if (data->hitables->bmp)
+			mlx_delete_image(data->mlx, data->hitables->bmp);
 		tmp = data->hitables;
 		data->hitables = data->hitables->next;
 		free(tmp);

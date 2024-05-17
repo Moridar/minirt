@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator_parse_hitable.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsyvasal <bsyvasal@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: dhorvath <dhorvath@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:59:56 by bsyvasal          #+#    #+#             */
-/*   Updated: 2024/05/17 00:36:23 by bsyvasal         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:44:17 by dhorvath         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,26 @@ int	parse_special(t_hitable *hit, char **split, t_data *data)
 	mlx_texture_t	*bmp;
 	char			*bmpfile;
 
-	while (*split)
+	while (*split++)
 	{
-		if (ft_strncmp(*split, "chk:", 4) == 0)
+		if (ft_strncmp(*(split - 1), "chk:", 4) == 0)
 		{
-			if (!is_float(*split + 4))
+			if (!is_float(*(split - 1) + 4))
 				return (-1);
-			hit->checker_size = fmax(0, ft_atof(*split + 4));
+			hit->checker_size = fmax(0, ft_atof(*(split - 1) + 4));
 		}
-		if (ft_strncmp(*split, "bmp:", 4) == 0)
+		if (ft_strncmp(*(split - 1), "bmp:", 4) == 0)
 		{
-			bmpfile = ft_strjoin("./bumpmaps/", *split + 4);
+			bmpfile = ft_strjoin("./bumpmaps/", *(split - 1) + 4);
 			bmp = mlx_load_png(bmpfile);
 			free(bmpfile);
 			if (!bmp)
 				return (err("texture not found", NULL));
 			hit->bmp = mlx_texture_to_image(data->mlx, bmp);
+			mlx_delete_texture(bmp);
 			if (!hit->bmp)
 				return (err("text to img fails", NULL));
 		}
-		split++;
 	}
 	return (1);
 }
